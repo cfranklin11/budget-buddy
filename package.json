@@ -1,0 +1,13 @@
+{
+  "name": "budget-hack-2017",
+  "private": true,
+  "dependencies": {
+    "babel-preset-react": "^6.24.1",
+    "prop-types": "^15.5.8",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.4.5"
+  }
+}
