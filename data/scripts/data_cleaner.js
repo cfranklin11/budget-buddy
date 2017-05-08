@@ -8,9 +8,8 @@
 // Google Script for cleaning <department name>-Output-Performance-Measures-2016-17_.xlsx data.
 // Structure: 1 sheet for cleaned data, 1 sheet of raw data per spreadsheet file.
 var consts = {
-  DOC_URL: 'https://docs.google.com/spreadsheets/d/17fEmwzSN3XfnL8sPxGlHaN27xmIqGvUuVGdDDEbgkM8/edit#gid=0',
+  DOC_URL: 'https://docs.google.com/spreadsheets/d/1LnUhaww03hGO6UPjCqwWEiWMm5GvtGQQ8EAuGYk9MYs/edit#gid=0',
   CLEAN_DATA_SHEET: 'cleaned_data',
-  TYPE_REGEXP: /^Quantity|Quality|Timeliness|Cost$/,
   FIN_YEARS: ['2017-18', '2016-17', '2015-16', '2014-15', '2013-14', '2012-13', '2011-12', '2010-11', '2009-10', '2008-09', '2007-08'],
   HEADERS: ['department_name', 'program_category', 'category_description', 'program_name', 'program_description', 'measure_type', 'deliverable', 'measure_unit', 'measure_target', 'estimate_or_actual', 'year'],
 };
@@ -92,20 +91,74 @@ function writeCleanDataSheet (ss, data) {
   cleanRange.setValues(dataArray);
 }
 
+function isMinTarget (rowArray) {
+  var checkString = rowArray.join();
+
+  return checkString.indexOf('>') !== -1;
+}
+
+function isMaxTarget (rowArray) {
+  var checkString = rowArray.join();
+
+  return checkString.indexOf('<') !== -1;
+}
+
+function cleanNumber (number) {
+  var numberString = typeof number === 'string' ? number.replace(/[\s,><]/g, '') : null;
+  var numberArray;
+  var newNumber;
+
+  if (numberString) {
+    // Some metrics are given as ranges, so average them to make them useable
+    if (numberString.indexOf('-') !== -1) {
+      numberArray = numberString.split(/-/);
+      newNumber = numberArray.length === 2 ? (parseFloat(numberArray[0]) + parseFloat(numberArray[1])) / 2 : NaN;
+
+      return newNumber;
+    }
+
+    return parseFloat(numberString);
+  }
+
+  return number;
+}
+
+function cleanNumbers (rowArray) {
+  var newRow = [];
+  var i;
+
+  // Start at 2 to skip deliverable descriptions & unit labels
+  for (i = 2; i < rowArray.length; i++) {
+    newRow[newRow.length] = cleanNumber(rowArray[i], rowArray[0]);
+  }
+
+  return rowArray.slice(0, 2).concat(newRow);
+}
+
 function getDeliverables (tableRow) {
   var deliverableName = tableRow[0];
   var measureUnit = tableRow[1];
   var finYears = consts.FIN_YEARS;
   var yearsLength = finYears.length;
   var deliverables = [];
+  var cleanedRow = cleanNumbers(tableRow);
   var j;
   var target;
   var actual;
 
+  if (isMaxTarget(tableRow)) {
+    measureUnit += ' (max)';
+  }
+
+  if (isMinTarget(tableRow)) {
+    measureUnit += ' (min)';
+  }
+
   for (j = 0; j < yearsLength; j++) {
     // Each year has 2 columns: 1 for target & 1 for estimate/actual
-    target = 2 + (j * 2) < tableRow.length ? tableRow[2 + (j * 2)] : '';
-    actual = 3 + (j * 2) < tableRow.length ? tableRow[3 + (j * 2)] : '';
+    // Except 2017-18 which only has target & 2007-8 which only has actual
+    actual = 3 + (j * 2) < cleanedRow.length && finYears[j] !== '2017-18' ? cleanedRow[2 + (j * 2)] : 'nm';
+    target = 4 + (j * 2) < cleanedRow.length && finYears[j] !== '2007-08' ? cleanedRow[3 + (j * 2)] : 'nm';
 
     deliverables[deliverables.length] = [
       deliverableName,
@@ -205,7 +258,7 @@ function organiseSheet (sheet) {
 
     // Obnoxiously massive RegExp to check for words/phrases that tend to appear
     // in non-relevant text due to inconsistency of label positioning
-    if (rowLabel !== '' && !/total\soutput|expected\soutcome|^this\sperformance\smeasure|^(?:[tT]his|[tT]he)\sobjective|^(?:[tT]his|[tT]he)\soutput|201[67]-1[78]\starget|sources?:|note:/i.test(rowLabel)) {
+    if (rowLabel !== '' && !/expected\soutcome|^this\sperformance\smeasure|^(?:[tT]his|[tT]he)\sobjective|^(?:[tT]his|[tT]he)\soutput|201[67]-1[78]\starget|sources?:|note:/i.test(rowLabel)) {
       // If this row is a category label, add it to department object
       if (isCategoryLabel(i, tableArray)) {
         categoryLabel = normalizedRowLabel;
@@ -222,7 +275,7 @@ function organiseSheet (sheet) {
             nextString = tableArray[(i + 1)][0];
             // Length check is to avoid adding program labels as category descriptions
             // for when there isn't a real description
-            categoryDescription = (!consts.TYPE_REGEXP.test(nextString) && nextString.length > 100 && nextString) || '';
+            categoryDescription = (!/^(?:Quantity|Quality|Timeliness|Cost)$/.test(nextString) && nextString.length > 100 && nextString) || '';
           }
 
           department[categoryLabel] = {
@@ -252,7 +305,7 @@ function organiseSheet (sheet) {
           programName = programLabel;
           // Type check is to avoid adding measure types as descriptions to programs
           // that don't have one
-          programDescription = consts.TYPE_REGEXP.test(tableArray[(i + 1)][0]) ? '' : tableArray[(i + 1)][0];
+          programDescription = /^(?:Quantity|Quality|Timeliness|Cost)$/.test(tableArray[(i + 1)][0]) ? '' : tableArray[(i + 1)][0];
           department[categoryLabel][programName] = {
             name: rowLabel,
             description: programDescription,
@@ -273,7 +326,7 @@ function organiseSheet (sheet) {
         }
 
       // Add measurement type to most-recent program
-      } else if (programLabel && consts.TYPE_REGEXP.test(rowLabel)) {
+      } else if (programLabel && /^(?:Quantity|Quality|Timeliness|Cost)$/.test(rowLabel)) {
         typeLabel = normalizedRowLabel;
         department[categoryLabel][programLabel][typeLabel] = {
           name: rowLabel,
