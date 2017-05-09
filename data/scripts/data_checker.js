@@ -8,7 +8,7 @@
 
 // This is to collect all the category/program names (based on font size) to check against cleaned data.
 // This runs up against Google Scripts' time limit, so you can only run 2 - 4 sheets at a time.
-var consts = { DOC_URL: 'https://docs.google.com/spreadsheets/d/17fEmwzSN3XfnL8sPxGlHaN27xmIqGvUuVGdDDEbgkM8/edit#gid=0' };
+var consts = { DOC_URL: 'https://docs.google.com/spreadsheets/d/1LnUhaww03hGO6UPjCqwWEiWMm5GvtGQQ8EAuGYk9MYs/edit#gid=0' };
 
 function getTitles (sheet) {
   var lastRow = sheet.getLastRow();
