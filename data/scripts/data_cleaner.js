@@ -154,18 +154,26 @@ function getDeliverables (tableRow) {
     measureUnit += ' (min)';
   }
 
-  for (j = 0; j < yearsLength; j++) {
+  deliverables[deliverables.length] = [
+    deliverableName,
+    measureUnit,
+    cleanedRow[2],
+    NaN,
+    finYears[0],
+  ];
+
+  for (j = 0; j < yearsLength - 1; j++) {
     // Each year has 2 columns: 1 for target & 1 for estimate/actual
     // Except 2017-18 which only has target & 2007-8 which only has actual
-    actual = 3 + (j * 2) < cleanedRow.length && finYears[j] !== '2017-18' ? cleanedRow[2 + (j * 2)] : 'nm';
-    target = 4 + (j * 2) < cleanedRow.length && finYears[j] !== '2007-08' ? cleanedRow[3 + (j * 2)] : 'nm';
+    actual = 3 + (j * 2) < cleanedRow.length ? cleanedRow[3 + (j * 2)] : NaN;
+    target = 4 + (j * 2) < cleanedRow.length ? cleanedRow[4 + (j * 2)] : NaN;
 
     deliverables[deliverables.length] = [
       deliverableName,
       measureUnit,
       target,
       actual,
-      finYears[j],
+      finYears[j + 1],
     ];
   }
 
