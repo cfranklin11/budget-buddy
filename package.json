@@ -5,7 +5,8 @@
     "babel-preset-react": "^6.24.1",
     "prop-types": "^15.5.8",
     "react": "^15.5.4",
-    "react-dom": "^15.5.4"
+    "react-dom": "^15.5.4",
+    "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
