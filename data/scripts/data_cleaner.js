@@ -228,7 +228,9 @@ function isCategoryLabel (i, tableArray) {
 }
 
 function getDepartment (tableArray) {
-  var departmentName = tableArray[0][0];
+  var sheetName = tableArray[0][0];
+  var departmentName = sheetName.replace(/ output performance measures/i, '');
+
   return { name: departmentName, program_categories: [] };
 }
 
