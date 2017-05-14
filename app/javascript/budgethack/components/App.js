@@ -3,14 +3,14 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/actionCreators';
 import Main from './main';
 
-function mapStateToProps(state){
+function mapStateToProps (state) {
   return {
     infographics: state.infographics,
-    departments: state.departments
-  }
+    departments: state.departments,
+  };
 }
 
-function mapDispachToProps(dispatch){
+function mapDispachToProps (dispatch) {
   return bindActionCreators(actionCreators, dispatch);
 }
 

@@ -1,6 +1,9 @@
 import React from 'react';
 import { render } from 'react-dom';
-//import css
+import { Provider } from 'react-redux';
+import { Router, Route, IndexRoute, browserHistory } from 'react-router';
+
+// import css
 // import css from './styles/style.styl';
 
 // Components
@@ -13,8 +16,6 @@ import Programs from './components/programs';
 
 
 // import react router deps
-import { Router, Route, IndexRoute, browserHistory } from 'react-router';
-import { Provider } from 'react-redux';
 import store, { history } from './store';
 
 const router = (
@@ -29,12 +30,12 @@ const router = (
   <Provider store={store}>
     <Router history={history}>
       <Route path="/" component={App}>
-        <IndexRoute component={Departments}></IndexRoute>
-        <Route path="/programs" component={Programs}></Route>
-        <Route path="/infographic" component={InfographicSingle}></Route>
+        <IndexRoute component={Departments} />
+        <Route path="/programs" component={Programs} />
+        <Route path="/infographic" component={InfographicSingle} />
       </Route>
     </Router>
   </Provider>
-)
+);
 
 render(router, document.getElementById('root'));
