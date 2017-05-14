@@ -9,13 +9,15 @@ export default class Departments extends Component {
   }
 
   render () {
+    const { departments, fetchDataIfNeeded } = this.props;
+
     return (
       <div>
         <h1>
           <Link to="/">Departments</Link>
         </h1>
         <div className="photo-grid">
-          <List items={this.props.departments} />
+          <List items={departments.list} fetchDataIfNeeded={fetchDataIfNeeded} />
         </div>
       </div>
     );
@@ -23,10 +25,12 @@ export default class Departments extends Component {
 }
 
 Departments.propTypes = {
-  departments: PropTypes.arrayOf(React.PropTypes.string),
+  departments: PropTypes.object,
   fetchDataIfNeeded: PropTypes.func,
 };
 
 Departments.defaultProps = {
-  departments: [],
+  departments: {
+    list: [],
+  },
 };
