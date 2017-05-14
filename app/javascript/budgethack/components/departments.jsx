@@ -11,7 +11,7 @@ export default class Departments extends Component {
   render () {
     return (
       <div>
-        <h1>
+        <h1 className="list__title">
           <Link to="/">Departments</Link>
         </h1>
         <div className="photo-grid">
