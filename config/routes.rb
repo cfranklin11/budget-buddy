@@ -5,4 +5,6 @@ Rails.application.routes.draw do
 
   get '/data/department', to: 'data#department'
   get '/data/departments', to: 'data#departments'
+
+  get '/:route', to: 'static_pages#home'
 end

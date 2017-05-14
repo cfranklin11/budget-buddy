@@ -24,6 +24,7 @@
     "space-before-function-paren": ["error", "always"],
     "object-curly-spacing": ["error", "always"],
     "react/prefer-stateless-function": 0,
-    "react/no-array-index-key": 0
+    "react/no-array-index-key": 0,
+    "arrow-body-style": 0
   }
 }
