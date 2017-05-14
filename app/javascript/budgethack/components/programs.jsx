@@ -11,7 +11,7 @@ const Programs = React.createClass({
           <Link to="/">Programs</Link>
         </h1>
         <div className="photo-grid">
-          <List  items = { this.props.infographics}/>
+          {/* <List  items = { this.props.infographics}/> */}
         </div>
       </div>
     )

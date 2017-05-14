@@ -4,9 +4,7 @@ import { Link } from 'react-router';
 export default class List extends Component {
   handleClick = (deptName) => {
     return () => {
-      const deptLabel = deptName ? deptName.replace(/\s/g, '_').toLowerCase() : '';
-
-      this.props.fetchDataIfNeeded('department', deptLabel);
+      this.props.fetchDataIfNeeded('department', deptName);
     };
   }
 
@@ -14,16 +12,15 @@ export default class List extends Component {
     return (
       <div className="list-wrapper">
         <ul className="list">
-          { this.props.items.map(
-            (item, i) =>
+          { this.props.items.map((item, i) => {
+            return (
               <li className="list__item" key={i} >
-                <Link to="/programs" onClick={this.handleClick(item.name)}>{ item.name }</Link>
-              </li>,
-            )
-          }
+                <Link to="/programs" onClick={this.handleClick(item)}>{ item }</Link>
+              </li>
+            );
+          }) }
         </ul>
       </div>
-
     );
   }
 }

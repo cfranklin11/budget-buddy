@@ -9,7 +9,7 @@ export default class Departments extends Component {
   }
 
   render () {
-    const { departments } = this.props;
+    const { departments, fetchDataIfNeeded } = this.props;
 
     return (
       <div>
@@ -17,7 +17,7 @@ export default class Departments extends Component {
           <Link to="/">Departments</Link>
         </h1>
         <div className="photo-grid">
-          <List items={departments.list} />
+          <List items={departments.list} fetchDataIfNeeded={fetchDataIfNeeded} />
         </div>
       </div>
     );

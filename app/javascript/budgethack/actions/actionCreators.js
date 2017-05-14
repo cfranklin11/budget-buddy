@@ -36,8 +36,8 @@ function fetchData (state, dataProperty, dataLabel) {
   };
 }
 
-function shouldFetchData (state, dataProperty) {
-  const { data, isFetching } = state[dataProperty] || { data: [], isFetching: false };
+function shouldFetchData (state, checkLabel) {
+  const { data, isFetching } = state[checkLabel] || { data: [], isFetching: false };
   if (!data) {
     return true;
   }
@@ -51,8 +51,9 @@ function shouldFetchData (state, dataProperty) {
 }
 
 export function fetchDataIfNeeded (dataProperty, dataLabel) {
+  const checkLabel = dataLabel ? dataLabel.replace(/\s/g, '_').toLowerCase() : dataProperty;
   return (dispatch, getState) => {
-    if (shouldFetchData(getState(), dataProperty)) {
+    if (shouldFetchData(getState(), checkLabel)) {
       return dispatch(fetchData(getState(), dataProperty, dataLabel));
     }
   };
