@@ -1,7 +1,7 @@
-function departments(state = [], action){
+function departments (state = [], action) {
   switch (action.type) {
     case 'SELECT_DEPARTMENT':
-    return state;
+      return state;
 
     default:
       return state;

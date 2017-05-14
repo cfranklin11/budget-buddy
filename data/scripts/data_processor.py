@@ -1,12 +1,13 @@
 import sys
 import os
 import pandas as pd
+import json
 
 def list_depts():
     data = get_data();
     depts = pd.unique(data['department_name'])
 
-    return depts
+    return depts.tolist()
 
 def clean_data(department):
     data = get_data()
@@ -35,4 +36,4 @@ def main(args):
     else:
         return list_depts()
 
-print(main(sys.argv))
+print(json.dumps(main(sys.argv)))
