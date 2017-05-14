@@ -6,8 +6,8 @@ import List from './list';
 const Programs = React.createClass({
   render(){
     return(
-      <div>
-        <h1>
+      <div className="programs">
+          <h1 className="list__title">
           <Link to="/">Programs</Link>
         </h1>
         <div className="photo-grid">

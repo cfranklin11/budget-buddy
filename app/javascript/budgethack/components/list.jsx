@@ -9,7 +9,10 @@ export default class List extends Component {
           { this.props.items.map(
             (item, i) =>
               <li className="list__item" key={i} >
-                <Link to="/programs">{ item.name }</Link>
+                <Link to="/programs">
+                  { item.name }
+                </Link>
+                  <img className="list__item__icon" src="http://placehold.it/36x36" />
               </li>,
             )
           }
