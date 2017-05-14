@@ -9,20 +9,29 @@ export function shareInfographic (index) {
   };
 }
 
-function receiveData (state, dataProperty, json) {
+function receiveData (state, json, dataProperty, dataLabel) {
+  if (dataLabel) {
+    return {
+      type: 'RECEIVE_DEPARTMENT_DATA',
+      data: json,
+      label: dataLabel,
+    };
+  }
+
   return {
     type: 'RECEIVE_DEPARTMENTS',
     departments: json,
   };
 }
 
-function fetchData (state, dataProperty) {
+function fetchData (state, dataProperty, dataLabel) {
   return (dispatch) => {
-    // dispatch(requestData(dataProperty));
-    return fetch(`/data/${dataProperty}`)
+    const url = dataLabel ? `/data/${dataProperty}?department_name=${dataLabel}` : `/data/${dataProperty}`;
+
+    return fetch(url)
       .then(response => response.json())
       .then((json) => {
-        dispatch(receiveData(state, dataProperty, json));
+        dispatch(receiveData(state, json, dataProperty, dataLabel));
       });
   };
 }
@@ -41,10 +50,10 @@ function shouldFetchData (state, dataProperty) {
   return true;
 }
 
-export function fetchDataIfNeeded (dataProperty) {
+export function fetchDataIfNeeded (dataProperty, dataLabel) {
   return (dispatch, getState) => {
     if (shouldFetchData(getState(), dataProperty)) {
-      return dispatch(fetchData(getState(), dataProperty));
+      return dispatch(fetchData(getState(), dataProperty, dataLabel));
     }
   };
 }
