@@ -1,7 +1,7 @@
-function infographics(state = [], action){
+function infographics (state = [], action) {
   switch (action.type) {
     case 'SHARE_INFOGRAPHIC':
-    return state;
+      return state;
 
     default:
       return state;

@@ -5,7 +5,6 @@ import Footer from './footer';
 
 const Main = React.createClass({
   render () {
-    console.log(this.props);
     return (
       <div>
         <NavMenu/>

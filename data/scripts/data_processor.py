@@ -1,10 +1,16 @@
 import sys
 import os
 import pandas as pd
+import json
+
+def list_depts():
+    data = get_data();
+    depts = pd.unique(data['department_name'])
+
+    return depts.tolist()
 
 def clean_data(department):
-    file_path = os.path.abspath(os.path.join(os.getcwd(), 'data/cleaned_data.csv'))
-    data = pd.read_csv(file_path)
+    data = get_data()
     dept_data = data[data['department_name'].str.lower() == department.lower()]
     dept_data.loc[:, 'measure_target'] = pd.to_numeric(dept_data['measure_target'], errors='coerce').fillna(0)
     dept_data.loc[:, 'estimate_or_actual'] = pd.to_numeric(dept_data['estimate_or_actual'], errors='coerce').fillna(0)
@@ -12,14 +18,22 @@ def clean_data(department):
     df = dept_data[['program_name', 'year', 'deliverable', 'estimate_or_actual']].copy()
     toc = df[df['deliverable'] == 'Total Output Cost'].rename(columns = {'estimate_or_actual':'total_output_cost'})[['program_name', 'year', 'total_output_cost']]
 
-    # total_output_cost added as separate column (linked on year and program_name)
     df = dept_data.copy()
     new_df = df.merge(toc)
-    new_df = df[df['deliverable'] != 'Total Output Cost']
+    cleaned_new_df = df[df['deliverable'] != 'Total Output Cost']
 
-    return df
+    return cleaned_new_df
 
-def main(department):
-    return clean_data(department).to_dict('records')
+def get_data():
+    file_path = os.path.abspath(os.path.join(os.getcwd(), 'data/cleaned_data.csv'))
+    data = pd.read_csv(file_path)
 
-print(main(sys.argv[1]))
+    return data
+
+def main(args):
+    if len(args) > 1 and type(args[1]) == str:
+        return clean_data(args[1]).to_dict('records')
+    else:
+        return list_depts()
+
+print(json.dumps(main(sys.argv)))
