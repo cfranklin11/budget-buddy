@@ -1,5 +1,5 @@
 module ApplicationHelper
-  def departments
+  def departments_data
     file_path = File.join(Rails.root, 'data/scripts', 'data_processor.py')
     data = %x(python #{file_path})
     data

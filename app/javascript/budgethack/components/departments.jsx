@@ -4,8 +4,8 @@ import List from './list';
 
 
 export default class Departments extends Component {
-  propTypes = {
-    departments: PropTypes.arrayOf(React.PropTypes.string),
+  componentDidMount () {
+    this.props.fetchDataIfNeeded('departments');
   }
 
   render () {
@@ -21,3 +21,12 @@ export default class Departments extends Component {
     );
   }
 }
+
+Departments.propTypes = {
+  departments: PropTypes.arrayOf(React.PropTypes.string),
+  fetchDataIfNeeded: PropTypes.func,
+};
+
+Departments.defaultProps = {
+  departments: [],
+};
