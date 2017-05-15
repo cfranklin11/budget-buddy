@@ -4,5 +4,27 @@
   padding: 1em;
   font-size: 2em;
   text-align: center;
+}
 
+.footer__logo {
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+  color: #ffffff;
+
+}
+.footer__info {
+  font-size: 16px;
+  font-weight: 200;
+  text-align: center;
+  color: #ffffff;
+  a {
+    color: #ffffff;
+    text-decoration:underline;
+  }
+}
+.footer__social {
+  font-size: 13px;
+  text-align: center;
+  color: #ccc;
 }

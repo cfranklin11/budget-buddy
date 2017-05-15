@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 import List from './list';
 
-
 export default class Departments extends Component {
+
   componentDidMount () {
     this.props.fetchDataIfNeeded('departments');
   }
@@ -13,10 +13,10 @@ export default class Departments extends Component {
     const { list } = departments;
     const deptProp = list ? list.map((dept) => { return { name: dept }; }) : [];
 
-    return (
+     return (
       <div>
-        <h1>
-          <Link to="/">Departments</Link>
+        <h1 className="list__title">
+          Departments
         </h1>
         <div className="photo-grid">
           { deptProp.length > 0 && (

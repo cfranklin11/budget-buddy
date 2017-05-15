@@ -3,7 +3,6 @@ import { Link } from 'react-router';
 import { BarChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Bar } from 'recharts';
 import List from './list';
 
-
 export default class Programs extends Component {
   static propTypes = {
     departments: PropTypes.object,
@@ -45,8 +44,11 @@ export default class Programs extends Component {
     const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
 
     return (
-      <div>
-        <h1>{ name }</h1>
+      <div className="programs">
+        <h1 className="programs__department-name">
+          <img className="programs__icon" src="http://placehold.it/36x36" />
+         { name }
+       </h1>
         { chartData && (
           <BarChart width={750} height={250} data={chartData}>
             <XAxis dataKey="name" />
@@ -65,9 +67,15 @@ export default class Programs extends Component {
         </div>
         <h1>
           <Link to="/">Programs</Link>
+
         </h1>
+        <h2 className="list__title">
+          Select a Program:
+        </h2>
         <div className="photo-grid">
-          <List items={programs} />
+
+          <List  items = { programs } isPrograms />
+
         </div>
       </div>
     );
