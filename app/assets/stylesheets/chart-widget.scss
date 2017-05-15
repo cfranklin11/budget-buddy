@@ -1,0 +1,37 @@
+.chart-header {
+  padding: 20px 0;
+  display: flex;
+  flex-direction: column;
+}
+.chart-header__budget-amount {
+  font-size: 16px;
+  line-height: 18px;
+  color: #21ae8e;
+  display: flex;
+  align-content: center;
+  padding: 10px 30px;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+.chart-header__percentage-change {
+  background-color: #21ae8e;
+  color: white;
+  font-size: 16px;
+  font-weight: 300;
+  display: flex;
+  align-content: center;
+  padding: 10px 30px;
+}
+
+.chart-header__percentage-number {
+  font-size: 30px;
+  font-weight: 300;
+  color: #ffffff;
+}
+
+.chart-widget {
+  margin: 10px 0;
+  height: 250px;
+   width: 100%;
+}
