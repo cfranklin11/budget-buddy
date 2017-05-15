@@ -14,7 +14,7 @@ function receiveData (state, json, dataProperty, dataLabel) {
     return {
       type: 'RECEIVE_DEPARTMENT_DATA',
       data: json,
-      label: dataLabel,
+      currentDepartment: dataLabel,
     };
   }
 
@@ -51,9 +51,8 @@ function shouldFetchData (state, checkLabel) {
 }
 
 export function fetchDataIfNeeded (dataProperty, dataLabel) {
-  const checkLabel = dataLabel ? dataLabel.replace(/\s/g, '_').toLowerCase() : dataProperty;
   return (dispatch, getState) => {
-    if (shouldFetchData(getState(), checkLabel)) {
+    if (shouldFetchData(getState(), dataProperty)) {
       return dispatch(fetchData(getState(), dataProperty, dataLabel));
     }
   };
