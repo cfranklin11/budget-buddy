@@ -2,10 +2,28 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 export default class List extends Component {
+  static propTypes = {
+    isPrograms: PropTypes.bool,
+    items: PropTypes.arrayOf(PropTypes.object),
+    addProgram: PropTypes.func,
+  }
 
-  handleClick = (deptName) => {
+  static defaultProps = {
+    isPrograms: false,
+    items: [],
+  }
+
+  handleClick = (name) => {
+    const { isPrograms, addProgram } = this.props;
+
+    if (isPrograms) {
+      return () => {
+        addProgram(name);
+      };
+    }
+
     return () => {
-      this.props.fetchDataIfNeeded('department', deptName);
+      this.props.fetchDataIfNeeded('department', name);
     };
   }
 

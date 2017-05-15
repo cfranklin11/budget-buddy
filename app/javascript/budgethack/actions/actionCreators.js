@@ -9,6 +9,13 @@ export function shareInfographic (index) {
   };
 }
 
+export function addProgram (name) {
+  return {
+    type: 'ADD_PROGRAM',
+    name,
+  };
+}
+
 function receiveData (state, json, dataProperty, dataLabel) {
   if (dataLabel) {
     return {

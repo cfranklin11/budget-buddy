@@ -13,7 +13,7 @@ export default class Departments extends Component {
     const { list } = departments;
     const deptProp = list ? list.map((dept) => { return { name: dept }; }) : [];
 
-     return (
+    return (
       <div>
         <h1 className="list__title">
           Departments
