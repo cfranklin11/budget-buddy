@@ -12,7 +12,8 @@ function departments (state = {}, action) {
     case 'RECEIVE_DEPARTMENT_DATA':
       return {
         ...state,
-        [action.label.replace(/\s/g, '_').toLowerCase()]: action.data,
+        currentDepartment: action.currentDepartment,
+        data: action.data,
       };
 
     default:

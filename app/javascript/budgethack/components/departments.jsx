@@ -10,6 +10,8 @@ export default class Departments extends Component {
 
   render () {
     const { departments, fetchDataIfNeeded } = this.props;
+    const { list } = departments;
+    const deptProp = list ? list.map((dept) => { return { name: dept }; }) : [];
 
     return (
       <div>
@@ -17,7 +19,9 @@ export default class Departments extends Component {
           <Link to="/">Departments</Link>
         </h1>
         <div className="photo-grid">
-          <List items={departments.list} fetchDataIfNeeded={fetchDataIfNeeded} />
+          { deptProp.length > 0 && (
+            <List items={deptProp} fetchDataIfNeeded={fetchDataIfNeeded} />
+          ) }
         </div>
       </div>
     );
@@ -30,7 +34,5 @@ Departments.propTypes = {
 };
 
 Departments.defaultProps = {
-  departments: {
-    list: [],
-  },
+  departments: {},
 };

@@ -5,7 +5,7 @@ import json
 pd.options.mode.chained_assignment = None
 
 def list_depts():
-    data = get_data();
+    data = get_data()
     depts = pd.unique(data['department_name'])
 
     return depts.tolist()
