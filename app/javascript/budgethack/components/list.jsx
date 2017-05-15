@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { Link } from 'react-router';
 
 export default class List extends Component {
+
   handleClick = (deptName) => {
     return () => {
       this.props.fetchDataIfNeeded('department', deptName);
@@ -10,13 +11,15 @@ export default class List extends Component {
 
   render () {
     return (
-      <div className="list-wrapper">
+      <div className={`list-wrapper ${ this.props.isPrograms ? ' is--programs' : '' }`} >
         <ul className="list">
           { this.props.items.map((item, i) => {
             return (
               <li className="list__item" key={i} >
                 <Link to="/programs" onClick={this.handleClick(item)}>{ item }</Link>
-                <img className="list__item__icon" src="http://placehold.it/36x36" />
+                {!this.props.isPrograms &&
+                  <img className="list__item__icon" src="http://placehold.it/36x36" />
+                }
               </li>
             );
           }) }

@@ -14,12 +14,10 @@ export default class Departments extends Component {
     return (
       <div>
         <h1 className="list__title">
-          <Link to="/">Departments</Link>
+          Departments
         </h1>
         <div className="photo-grid">
-
           <List items={departments.list} fetchDataIfNeeded={fetchDataIfNeeded} />
-
         </div>
       </div>
     );
