@@ -12,9 +12,9 @@ class NavMenu extends React.Component {
       <nav className="navBar">
         <nav className="wrapper">
           <div className="logo">
-            <Link to="/">Budget Buddy</Link>
+            <Link to="/"><img src="logo.svg" /></Link>
           </div>
-            <label htmlFor="menu-toggle" className="label-toggle"></label>
+            <label htmlFor="menu-toggle" className="label-toggle" />
           <ul>
             <li><a href="https://github.com/meligatt/budgethack2017_frontend">About</a></li>
             <li><a href="https://github.com/meligatt/budgethack2017_frontend">Github</a></li>

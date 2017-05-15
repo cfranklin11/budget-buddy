@@ -8,11 +8,11 @@ class Footer extends React.Component {
   render() {
     return (
         <footer className="footer">
-          BUDGETHACK 2017
+          <span className="footer__logo">BUDGETHACK 2017</span>
           <br />
-          Made with ☕ by The Hippo’s stripes
+          <span  className="footer__info">Made with ☕ by <a href="https://github.com/cfranklin11/budget-hack-2017">The Hippo’s stripes</a></span>
           <br />
-          twitter | facebook | google +
+          <span  className="footer__social">twitter | facebook | google +</span>
         </footer>
     );
   }
