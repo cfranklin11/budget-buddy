@@ -9,15 +9,19 @@ export default class Departments extends Component {
   }
 
   render () {
-
     const { departments, fetchDataIfNeeded } = this.props;
-    return (
+    const { list } = departments;
+    const deptProp = list ? list.map((dept) => { return { name: dept }; }) : [];
+
+     return (
       <div>
         <h1 className="list__title">
           Departments
         </h1>
         <div className="photo-grid">
-          <List items={departments.list} fetchDataIfNeeded={fetchDataIfNeeded} />
+          { deptProp.length > 0 && (
+            <List items={deptProp} fetchDataIfNeeded={fetchDataIfNeeded} />
+          ) }
         </div>
       </div>
     );
@@ -30,7 +34,5 @@ Departments.propTypes = {
 };
 
 Departments.defaultProps = {
-  departments: {
-    list: [],
-  },
+  departments: {},
 };

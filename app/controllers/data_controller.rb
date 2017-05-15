@@ -3,7 +3,6 @@ class DataController < ApplicationController
 
   def departments
     @departments = JSON.parse(departments_data)
-    # departments_json = @departments.map{ |dept| { value: dept } }
 
     render json: @departments
   end
