@@ -24,6 +24,8 @@
   padding: 10px 30px;
 }
 
+
+
 .chart-header__percentage-number {
   font-size: 30px;
   font-weight: 300;
@@ -34,4 +36,10 @@
   margin: 10px 0;
   height: 250px;
    width: 100%;
+}
+
+.chart-header__percentage-number__program {
+  font-size: 20px;
+  font-weight: 300;
+  color: #4a4a4a;
 }

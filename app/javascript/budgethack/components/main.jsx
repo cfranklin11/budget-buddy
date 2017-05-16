@@ -8,7 +8,7 @@ const Main = React.createClass({
     return (
       <div>
         <NavMenu/>
-        <Header/>
+        {/* <Header/> */}
         {React.cloneElement(this.props.children, this.props)}
         <Footer />
       </div>
