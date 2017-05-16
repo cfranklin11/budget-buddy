@@ -15,7 +15,7 @@
 
 }
 .footer__info {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 200;
   text-align: center;
   color: #ffffff;
@@ -28,4 +28,15 @@
   font-size: 13px;
   text-align: center;
   color: #ccc;
+}
+
+.footer-nav {
+  display: flex;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 300;
+  justify-content: space-around;
+  a {
+    color: lightgray;
+  }
 }
