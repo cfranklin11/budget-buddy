@@ -7,9 +7,10 @@ const Main = React.createClass({
   render () {
     return (
       <div>
-        <NavMenu/>
-        {/* <Header/> */}
-        {React.cloneElement(this.props.children, this.props)}
+        <div className="page-wrap">
+          <NavMenu/>
+          {React.cloneElement(this.props.children, this.props)}
+        </div>
         <Footer />
       </div>
     );
