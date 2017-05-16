@@ -18,6 +18,11 @@
 .logo a {
   color: #494949;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+  .material-icons {
+    font-size: 40px;
+  }
 }
 
 .wrapper {

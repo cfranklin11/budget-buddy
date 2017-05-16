@@ -119,7 +119,7 @@ import { BarChart,
         this.percentMetricChange(metrics));
 
       return (
-        <div>
+        <div className="program-widget-area">
           <span className="program-chart-header__title">
             { name }
           </span>
