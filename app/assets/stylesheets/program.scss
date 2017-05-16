@@ -1,14 +1,7 @@
-// .program-chart-header__percentage-change {
-//   background-color: #21ae8e;
-//   color: white;
-//   font-size: 16px;
-//   font-weight: 300;
-//   display: flex;
-//   align-content: center;
-//   padding: 10px 30px;
-//   margin: 10px 0;
-// }
-
+.program-widget-area {
+  margin: 8px 0;
+  padding: 32px 0;
+}
 .program-chart-header__title {
   background-color: #95ebd7;
   color:#4a4a4a;
@@ -17,6 +10,7 @@
   display: flex;
   align-content: center;
   padding: 10px 30px;
+  justify-content: center;
 }
 
 .program-percentage-change {

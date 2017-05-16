@@ -12,7 +12,10 @@ class NavMenu extends React.Component {
       <nav className="navBar">
         <nav className="wrapper">
           <div className="logo">
-            <Link to="/"><img src="logo.svg" /></Link>
+            <Link to="/">
+              <i className="material-icons">monetization_on</i>
+              <span className="logo__app-name">Budget Buddy</span>
+            </Link>
           </div>
             <label htmlFor="menu-toggle" className="label-toggle" />
           <ul>
