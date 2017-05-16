@@ -35,10 +35,10 @@ export default class List extends Component {
           { this.props.items.map((item, i) => {
             return (
               <li className="list__item" key={i} >
-                <Link to="/programs" onClick={this.handleClick(item.name)}>{ item.name }</Link>
                 {!this.props.isPrograms &&
-                  <img className="list__item__icon" src="http://placehold.it/36x36" />
+                  <i className="material-icons">keyboard_arrow_right</i>
                 }
+                <Link to="/programs" onClick={this.handleClick(item.name)}>{ item.name }</Link>
               </li>
             );
           }) }

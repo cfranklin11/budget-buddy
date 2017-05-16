@@ -66,7 +66,7 @@ export default class Programs extends Component {
     return (
       <div className="programs">
         <h1 className="programs__department-name">
-          <img className="programs__icon" src="http://placehold.it/36x36" alt={name} />
+          <i className="material-icons">keyboard_arrow_right</i>
           { name }
         </h1>
         { !isProgListVisible && (
@@ -91,6 +91,12 @@ export default class Programs extends Component {
                 </div>
               ) }
             </div>
+            <div className="select-program-area">
+              <button className="button--add-programs" type="button" onClick={this.showPrograms}>
+                <i className="material-icons">add_circle_outline</i>
+                <span> Add a Program</span>
+              </button>
+            </div>
           </div>
         ) }
         { isProgListVisible && (
@@ -102,9 +108,6 @@ export default class Programs extends Component {
             />
           </div>
         ) }
-
-        <button className="button--add-programs" type="button" onClick={this.showPrograms}> + Add a Program</button>
-
         <ul className="program-list">
           { addedPrograms.map((program, index) => {
             return (<Program key={index} program={program} addDeliverable={this.addDeliverable} />);
@@ -112,7 +115,10 @@ export default class Programs extends Component {
           }
         </ul>
         <div className="select-program-area">
-          <button className="button--share" type="button">Share</button>
+          <button className="button--share" type="button">
+            <span>Share</span>
+            <i className="material-icons">share</i>
+          </button>
         </div>
       </div>
     );

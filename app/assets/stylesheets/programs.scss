@@ -15,21 +15,16 @@
 	border-bottom: 2px dashed #2e4a6a;
 	display: flex;
 	align-items: center;
+	.material-icons {
+		margin-right: 8px;
+		font-weight: bold;
+	}
 }
 .chart-area {
-	margin: 20px 0;
+	margin: 8px 0;
 	padding: 10px 0;
 }
-.chart-area:after {
-	position: absolute;
-	content: '';
-	right: 10%;
-	left: 10%;
-	width: 80%;
-	border-bottom: 2px dashed #2e4a6a;
-	opacity: 0.8;
 
-}
 .programs__icon {
 	margin: 0 10px 0 0;
 	width: 36px;
@@ -43,22 +38,45 @@
 
 .button--add-programs {
 	width: 200px;
-	margin: 8px auto;
+	margin: 16px auto;
 	color: #4a4a4a;
 	border: none;
 	outline: none;
-
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 16px;
+	.material-icons {
+		margin-right: 8px;
+		font-size: 40px;
+	}
 }
 .button--share {
 	width: 200px;
-	margin: 8px auto;
+	margin: 16px auto;
 	color: #fff;
 	height: 48px;
 	border-radius: 10px;
 	background-color: #4a90e2;
-
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 18px;
+	span {
+		margin-right: 8px;
+	}
 }
+
 .select-program-area {
 	display: flex;
 	flex-direction: column;
+}
+.select-program-area:before {
+	position: absolute;
+	content: '';
+	right: 10%;
+	left: 10%;
+	width: 80%;
+	border-bottom: 2px dashed #2e4a6a;
+	opacity: 0.8;
 }

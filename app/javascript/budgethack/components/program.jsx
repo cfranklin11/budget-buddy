@@ -135,81 +135,84 @@ export default class Program extends Component {
     const chartData = this.lineChartData(percentBudgetChanges, this.percentMetricChange(metrics));
 
     return (
-      <div>
+      <div className="program-widget-area">
         <span className="program-chart-header__title">
           { name }
         </span>
-        <div>
-          { !isDelListVisible && (
+        { !isDelListVisible && (
+          <div>
+            <div className="chart-header">
+              <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
+              <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
+            </div>
             <div>
-              <div className="chart-header">
-                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
-                <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
-              </div>
-              <div>
-                { budgets && budgets.length > 0 && (
-                  <div className="chart-widget">
-                    <h2>Budgets by Year</h2>
+              { budgets && budgets.length > 0 && (
+                <div className="chart-widget">
+                  <h2>Budgets by Year</h2>
 
-                    <BarChart width={750} height={250} data={budgets}>
+                  <BarChart width={750} height={250} data={budgets}>
+                    <XAxis dataKey="year" />
+                    <YAxis />
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <Tooltip />
+                    <Legend />
+                    <Bar dataKey="budget" fill="#8884d8" />
+                  </BarChart>
+                </div>
+              ) }
+            </div>
+
+            <div>
+              { chartData && chartData.length > 0 && (
+                <div className="chart-widget">
+                  <div>
+                    <h2>% Change: Budget vs Aggregate Output Measures</h2>
+                    <LineChart
+                      width={750}
+                      height={250}
+                      data={chartData}
+                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
                       <XAxis dataKey="year" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="budget" fill="#8884d8" />
-                    </BarChart>
+                      <Line type="monotone" dataKey="budget" stroke="#8884d8" />
+                      <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
+                    </LineChart>
                   </div>
-                ) }
-              </div>
-
-              <div>
-                { chartData && chartData.length > 0 && (
-                  <div className="chart-widget">
-                    <div>
-                      <h2>% Change: Budget vs Aggregate Output Measures</h2>
-                      <LineChart
-                        width={750}
-                        height={250}
-                        data={chartData}
-                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                      >
-                        <XAxis dataKey="year" />
-                        <YAxis />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Tooltip />
-                        <Legend />
-                        <Line type="monotone" dataKey="budget" stroke="#8884d8" />
-                        <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
-                      </LineChart>
-                    </div>
-                  </div>
-                ) }
-              </div>
+                </div>
+              ) }
             </div>
-          ) }
-          { isDelListVisible && (
-            <div className="photo-grid">
-              <DeliverableList
-                items={deliverables}
-                addedDeliverables={addedDeliverables}
-                addDeliverable={this.addDeliverable}
-              />
-            </div>
-          ) }
-          <button className="button--add-programs" type="button" onClick={this.showDeliverables}> + Add a Deliverable</button>
-          <ul className="program-list">
-            { addedDeliverables.map((deliverable, index) => {
-              return (
-                <Deliverable
-                  key={index}
-                  deliverable={deliverable}
-                  budgets={percentBudgetChanges}
-                />
-              );
-            }) }
-          </ul>
+          </div>
+        ) }
+        { isDelListVisible && (
+          <div className="photo-grid">
+            <DeliverableList
+              items={deliverables}
+              addedDeliverables={addedDeliverables}
+              addDeliverable={this.addDeliverable}
+            />
+          </div>
+        ) }
+        <div className="select-program-area">
+          <button className="button--add-programs" type="button" onClick={this.showDeliverables}>
+            <i className="material-icons">add_circle_outline</i>
+            <span> Add a Deliverable</span>
+          </button>
         </div>
+        <ul className="program-list">
+          { addedDeliverables.map((deliverable, index) => {
+            return (
+              <Deliverable
+                key={index}
+                deliverable={deliverable}
+                budgets={percentBudgetChanges}
+              />
+            );
+          }) }
+        </ul>
       </div>
     );
   }
