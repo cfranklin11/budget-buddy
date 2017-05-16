@@ -18,20 +18,21 @@ export default class Programs extends Component {
     super();
 
     this.state = {
-      isListVisible: false,
+      isProgListVisible: false,
     };
   }
 
   showPrograms = () => {
-    this.setState({ isListVisible: true });
+    this.setState({ isProgListVisible: true });
   }
 
   addProgram = (name) => {
     this.props.addProgram(name);
-    this.setState({ isListVisible: false });
+    this.setState({ isProgListVisible: false });
   }
 
   render () {
+    const { isProgListVisible } = this.state;
     const { departments: { data, currentDepartment, addedPrograms } } = this.props;
     const department = data && data.filter((dept) => { return dept.name === currentDepartment; });
     const { name, programs } = department ? department[0] : {};
@@ -68,7 +69,7 @@ export default class Programs extends Component {
           <img className="programs__icon" src="http://placehold.it/36x36" alt={name} />
           { name }
         </h1>
-        { !this.state.isListVisible && (
+        { !isProgListVisible && (
           <div>
             <div className="chart-area">
               <div>
@@ -76,8 +77,8 @@ export default class Programs extends Component {
                   <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
                   <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
                 </div>
-                <div className="chart-widget">
-                  { chartData && (
+                { chartData && (
+                  <div className="chart-widget">
                     <ResponsiveContainer>
                       <BarChart width={750} height={250} data={chartData}>
                         <XAxis dataKey="name" />
@@ -88,9 +89,19 @@ export default class Programs extends Component {
                         <Bar dataKey="value" fill="#8884d8" />
                       </BarChart>
                     </ResponsiveContainer>
+                  </div>
+                ) }
+                <div className="photo-grid">
+                  { isProgListVisible && (
+                    <List
+                      items={programs}
+                      isPrograms
+                      addProgram={this.addProgram}
+                    />
                   ) }
                 </div>
               </div>
+              <button className="button--add-programs" type="button" onClick={this.showPrograms}> + Add a Program</button>
               <ul className="program-list">
                 { addedPrograms.map((program, index) => {
                   return (<Program key={index} program={program} />);
@@ -99,22 +110,11 @@ export default class Programs extends Component {
               </ul>
             </div>
 
-
             <div className="select-program-area">
-            <button className="button--add-programs" type="button" onClick={this.showPrograms}> + Add a Program</button>
-            <button className="button--share" type="button">Share</button>
+              <button className="button--share" type="button">Share</button>
             </div>
           </div>
         ) }
-        <div className="photo-grid">
-          { this.state.isListVisible && (
-            <List
-              items={programs}
-              isPrograms
-              addProgram={this.addProgram}
-            />
-          ) }
-        </div>
       </div>
     );
   }
