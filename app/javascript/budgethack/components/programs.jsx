@@ -73,7 +73,7 @@ export default class Programs extends Component {
           <div>
             <div className="chart-area">
               <div className="chart-header">
-                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${parseInt(currentBudget, 10)}`}</span></div>
+                <div className="chart-header__budget-amount"><span>{`Budget 2016 / 2017: $${parseInt(currentBudget, 10)}`}</span></div>
                 <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
               </div>
               { chartData && (
