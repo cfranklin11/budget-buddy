@@ -1,9 +1,10 @@
 .footer {
   background-color: #595f6f;
   color: white;
-  padding: 1em;
+  padding: 0.1em 0;
   font-size: 2em;
   text-align: center;
+  height: 100px;
 }
 
 .footer__logo {
@@ -14,7 +15,7 @@
 
 }
 .footer__info {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 200;
   text-align: center;
   color: #ffffff;
@@ -27,4 +28,15 @@
   font-size: 13px;
   text-align: center;
   color: #ccc;
+}
+
+.footer-nav {
+  display: flex;
+  list-style: none;
+  font-size: 14px;
+  font-weight: 300;
+  justify-content: space-around;
+  a {
+    color: lightgray;
+  }
 }
