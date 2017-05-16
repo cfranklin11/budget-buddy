@@ -41,21 +41,21 @@ export default class Programs extends Component {
     .filter((budget) => {
       return budget.year === '2018';
     })
-    .map((budget) => { return budget.metric; });
+    .map((budget) => { return budget.budget; });
     const currentBudget = currentBudgets.length > 0 ?
     currentBudgets.reduce((acc, curr) => acc + curr) : 0;
     const prevBudgets = flatBudgets
     .filter((budget) => {
       return budget.year === '2017';
     })
-    .map((budget) => { return budget.metric; });
+    .map((budget) => { return budget.budget; });
     const prevBudget = prevBudgets.length > 0 ?
     prevBudgets.reduce((acc, curr) => acc + curr) : 0;
     const chartData = programs ? programs.map((program) => {
       const budgetFigure = program.budgets.filter((budget) => {
         return budget.year === '2018';
       }).map((budget) => {
-        return budget.metric;
+        return budget.budget;
       });
 
       return { name: program.name, value: parseFloat(budgetFigure[0]) };
@@ -93,7 +93,7 @@ export default class Programs extends Component {
               </div>
               <ul className="program-list">
                 { addedPrograms.map((program, index) => {
-                  return (<Program key={index} name={program.name} />);
+                  return (<Program key={index} program={program} />);
                 })
                 }
               </ul>
