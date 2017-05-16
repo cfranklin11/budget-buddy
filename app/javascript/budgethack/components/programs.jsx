@@ -33,28 +33,27 @@ export default class Programs extends Component {
 
   render () {
     const { isProgListVisible } = this.state;
-    const { departments: { data, currentDepartment, addedPrograms } } = this.props;
-    const department = data && data.filter((dept) => { return dept.name === currentDepartment; });
-    const { name, programs } = department ? department[0] : {};
+    const { departments: { department, addedPrograms } } = this.props;
+    const { name, programs } = department || {};
     const budgets = programs ? programs.map((program) => { return program.budgets; }) : [];
     const flatBudgets = [].concat(...budgets);
     const currentBudgets = flatBudgets
     .filter((budget) => {
-      return budget.year === '2018';
+      return budget.year === 2017;
     })
     .map((budget) => { return budget.budget; });
     const currentBudget = currentBudgets.length > 0 ?
     currentBudgets.reduce((acc, curr) => acc + curr) : 0;
     const prevBudgets = flatBudgets
     .filter((budget) => {
-      return budget.year === '2017';
+      return budget.year === 2016;
     })
     .map((budget) => { return budget.budget; });
     const prevBudget = prevBudgets.length > 0 ?
     prevBudgets.reduce((acc, curr) => acc + curr) : 0;
     const chartData = programs ? programs.map((program) => {
       const budgetFigure = program.budgets.filter((budget) => {
-        return budget.year === '2018';
+        return budget.year === 2017;
       }).map((budget) => {
         return budget.budget;
       });
@@ -62,7 +61,6 @@ export default class Programs extends Component {
       return { name: program.name, value: parseFloat(budgetFigure[0]) };
     }) : null;
     const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
-
     return (
       <div className="programs">
         <h1 className="programs__department-name">

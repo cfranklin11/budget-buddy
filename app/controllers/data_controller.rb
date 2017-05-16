@@ -9,7 +9,6 @@ class DataController < ApplicationController
 
   def department
     @data = department_data(budget_params[:department_name])
-
     render json: @data
   end
 
