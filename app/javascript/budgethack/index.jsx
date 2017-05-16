@@ -8,9 +8,6 @@ import { Router, Route, IndexRoute } from 'react-router';
 
 // Components
 import App from './components/app';
-import InfographicSingle from './components/infographic-single';
-// import InfographicGrid from './components/infographicGrid';
-
 import Departments from './components/departments';
 import Programs from './components/programs';
 
@@ -24,7 +21,6 @@ const router = (
       <Route path="/" component={App}>
         <IndexRoute component={Departments} />
         <Route path="/programs" component={Programs} />
-        <Route path="/infographic" component={InfographicSingle} />
       </Route>
     </Router>
   </Provider>

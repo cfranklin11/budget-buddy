@@ -6,6 +6,7 @@ export default class List extends Component {
     isPrograms: PropTypes.bool,
     items: PropTypes.arrayOf(PropTypes.object),
     addProgram: PropTypes.func,
+    fetchDataIfNeeded: PropTypes.func,
   }
 
   static defaultProps = {
@@ -46,12 +47,3 @@ export default class List extends Component {
     );
   }
 }
-
-List.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object),
-  fetchDataIfNeeded: PropTypes.func,
-};
-
-List.defaultProps = {
-  items: [],
-};

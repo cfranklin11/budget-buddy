@@ -5,7 +5,6 @@ import Main from './main';
 
 function mapStateToProps (state) {
   return {
-    infographics: state.infographics,
     departments: state.departments,
   };
 }

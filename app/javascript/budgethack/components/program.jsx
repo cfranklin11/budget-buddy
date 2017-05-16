@@ -9,129 +9,145 @@ import { BarChart,
   ResponsiveContainer,
   LineChart,
   Line } from 'recharts';
+import DeliverableList from './deliverableList';
+import Deliverable from './deliverable';
 
-  export default class Program extends Component {
-    static propTypes = {
-      program: PropTypes.object.isRequired,
-    }
+export default class Program extends Component {
+  static propTypes = {
+    program: PropTypes.object.isRequired,
+  }
 
-    static years = [2017, 2016, 2015, 2014, 2013, 2012, 2011, 2010, 2009, 2008];
+  state = {
+    isDelListVisible: false,
+    addedDeliverables: [],
+  }
 
-    percentBudgetChange = (budgets) => {
-      const firstBudget = parseFloat(budgets[0].budget);
-      const firstBudgetNumber = isNaN(firstBudget) ? 1 : firstBudget;
+  percentBudgetChange = (budgets) => {
+    const firstBudget = parseFloat(budgets[0].budget);
+    const firstBudgetNumber = isNaN(firstBudget) ? 1 : firstBudget;
 
-      const percentChanges = budgets.map((budget) => {
-        const thisBudget = parseFloat(budget.budget);
-        const budgetNumber = isNaN(thisBudget) ? 0 : thisBudget;
-        const percentChange = Math.round(((budgetNumber / firstBudgetNumber) - 1) * 100);
+    const percentChanges = budgets.map((budget) => {
+      const thisBudget = parseFloat(budget.budget);
+      const budgetNumber = isNaN(thisBudget) ? 0 : thisBudget;
+      const percentChange = Math.round(((budgetNumber / firstBudgetNumber) - 1) * 100);
 
-        return { year: budget.year, budget: percentChange };
-      });
+      return { year: budget.year, budget: percentChange };
+    });
 
-      return percentChanges;
-    }
+    return percentChanges;
+  }
 
-    percentMetricChange = (metrics) => {
-      const firstMetric = parseFloat(metrics[0].metric);
-      const firstMetricNumber = isNaN(firstMetric) ? 1 : firstMetric;
+  percentMetricChange = (metrics) => {
+    const firstMetric = parseFloat(metrics[0].metric);
+    const firstMetricNumber = isNaN(firstMetric) ? 1 : firstMetric;
 
-      const percentChanges = metrics.map((metric) => {
-        const thisMetric = parseFloat(metric.metric);
-        const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-        const percentChange = Math.round(((metricNumber / firstMetricNumber) - 1) * 100);
+    const percentChanges = metrics.map((metric) => {
+      const thisMetric = parseFloat(metric.metric);
+      const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
+      const percentChange = Math.round(((metricNumber / firstMetricNumber) - 1) * 100);
 
-        return { year: metric.year, metric: percentChange };
-      });
+      return { year: metric.year, metric: percentChange };
+    });
 
-      return percentChanges;
-    }
+    return percentChanges;
+  }
 
-    lineChartData = (budgetChanges, metricChanges) => {
-      const chartData = budgetChanges.map((budget, index) => {
-        const metric = metricChanges.length > index ? metricChanges[index].metric : 0;
-        return { year: budget.year, budget: budget.budget, metric };
-      });
+  lineChartData = (budgetChanges, metricChanges) => {
+    const chartData = budgetChanges.map((budget, index) => {
+      const metric = metricChanges.length > index ? metricChanges[index].metric : 0;
+      return { year: budget.year, budget: budget.budget, metric };
+    });
 
-      return chartData;
-    }
+    return chartData;
+  }
 
-    metricsByYear = (deliverables) => {
-      const qtyDeliverables = deliverables.filter((deliverable) => {
-        return deliverable.metric_type === 'Quantity';
-      });
-      // const qltyDeliverables = deliverables.filter((deliverable) => {
-      //   return deliverable.metric_type === 'Quality';
-      // });
-      const qtyMetrics = qtyDeliverables.map((deliverable) => {
-        return deliverable.metrics;
-      }).reduce((acc, curr) => {
-        return acc.concat(curr);
-      }, []);
+  metricsByYear = (deliverables) => {
+    const qtyDeliverables = deliverables.filter((deliverable) => {
+      return deliverable.metric_type === 'Quantity';
+    });
+    // const qltyDeliverables = deliverables.filter((deliverable) => {
+    //   return deliverable.metric_type === 'Quality';
+    // });
+    const qtyMetrics = qtyDeliverables.map((deliverable) => {
+      return deliverable.metrics;
+    }).reduce((acc, curr) => {
+      return acc.concat(curr);
+    }, []);
 
-      // .reduce((acc, deliverable) => {
-      //   acc.concat(deliverable.metrics);
-      // }, []);
-      const metricObj = {};
+    // .reduce((acc, deliverable) => {
+    //   acc.concat(deliverable.metrics);
+    // }, []);
+    const metricObj = {};
 
-      for (let i = 0; i < qtyMetrics.length; i++) {
-        const metric = qtyMetrics[i];
-        const thisMetric = parseFloat(metric.metric);
-        const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
+    for (let i = 0; i < qtyMetrics.length; i++) {
+      const metric = qtyMetrics[i];
+      const thisMetric = parseFloat(metric.metric);
+      const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
 
-        if (metricObj[metric.year]) {
-          metricObj[metric.year] += metricNumber;
-        } else {
-          metricObj[metric.year] = metricNumber;
-        }
+      if (metricObj[metric.year]) {
+        metricObj[metric.year] += metricNumber;
+      } else {
+        metricObj[metric.year] = metricNumber;
       }
-
-      const metricArray = [];
-      const keys = Object.keys(metricObj);
-
-      for (let i = 0; i < keys.length; i++) {
-        metricArray[metricArray.length] = { year: keys[i], metric: metricObj[keys[i]] };
-      }
-
-      return metricArray;
     }
 
-    render () {
-      const { program: { budgets, name, deliverables } } = this.props;
-      const currentBudgets = budgets
+    const metricArray = [];
+    const keys = Object.keys(metricObj);
+
+    for (let i = 0; i < keys.length; i++) {
+      metricArray[metricArray.length] = { year: keys[i], metric: metricObj[keys[i]] };
+    }
+
+    return metricArray;
+  }
+
+  showDeliverables = () => {
+    this.setState({ isDelListVisible: true });
+  }
+
+  addDeliverable = (deliverable, addedDeliverables) => {
+    this.setState({
+      isDelListVisible: false,
+      addedDeliverables: addedDeliverables.concat(deliverable),
+    });
+  }
+
+  render () {
+    const { isDelListVisible, addedDeliverables } = this.state;
+    const { program: { budgets, name, deliverables } } = this.props;
+    const currentBudgets = budgets
       .filter((budget) => {
         return budget.year === '2018';
       })
       .map((budget) => { return budget.budget; });
-      const currentBudget = currentBudgets.length > 0 ?
+    const currentBudget = currentBudgets.length > 0 ?
       currentBudgets.reduce((acc, curr) => acc + curr) : 0;
-      const prevBudgets = budgets
+    const prevBudgets = budgets
       .filter((budget) => {
         return budget.year === '2017';
       })
       .map((budget) => { return budget.budget; });
-      const prevBudget = prevBudgets.length > 0 ?
+    const prevBudget = prevBudgets.length > 0 ?
       prevBudgets.reduce((acc, curr) => acc + curr) : 0;
-      const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
-      const metrics = this.metricsByYear(deliverables);
-      const chartData = this.lineChartData(
-        this.percentBudgetChange(budgets),
-        this.percentMetricChange(metrics));
+    const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
+    const metrics = this.metricsByYear(deliverables);
+    const percentBudgetChanges = this.percentBudgetChange(budgets);
+    const chartData = this.lineChartData(percentBudgetChanges, this.percentMetricChange(metrics));
 
-      return (
-        <div className="program-widget-area">
-          <span className="program-chart-header__title">
-            { name }
-          </span>
+    return (
+      <div className="program-widget-area">
+        <span className="program-chart-header__title">
+          { name }
+        </span>
+        { !isDelListVisible && (
           <div>
             <div className="chart-header">
               <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
               <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
             </div>
-
-            <div className="chart-widget">
+            <div>
               { budgets && budgets.length > 0 && (
-                <div>
+                <div className="chart-widget">
                   <h2>Budgets by Year</h2>
 
                   <BarChart width={750} height={250} data={budgets}>
@@ -142,34 +158,62 @@ import { BarChart,
                     <Legend />
                     <Bar dataKey="budget" fill="#8884d8" />
                   </BarChart>
-
                 </div>
               ) }
             </div>
 
-            <div className="chart-widget">
+            <div>
               { chartData && chartData.length > 0 && (
-                <div>
-                  <h2>% Change: Budget vs Output Measures</h2>
-                  <LineChart
-                    width={750}
-                    height={250}
-                    data={chartData}
-                    margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                  >
-                    <XAxis dataKey="year" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="budget" stroke="#8884d8" />
-                    <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
-                  </LineChart>
+                <div className="chart-widget">
+                  <div>
+                    <h2>% Change: Budget vs Aggregate Output Measures</h2>
+                    <LineChart
+                      width={750}
+                      height={250}
+                      data={chartData}
+                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                    >
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="budget" stroke="#8884d8" />
+                      <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
+                    </LineChart>
+                  </div>
                 </div>
-                ) }
+              ) }
             </div>
           </div>
+        ) }
+        { isDelListVisible && (
+          <div className="photo-grid">
+            <DeliverableList
+              items={deliverables}
+              addedDeliverables={addedDeliverables}
+              addDeliverable={this.addDeliverable}
+            />
+          </div>
+        ) }
+        <div className="select-program-area">
+          <button className="button--add-programs" type="button" onClick={this.showDeliverables}>
+            <i className="material-icons">add_circle_outline</i>
+            <span> Add a Deliverable</span>
+          </button>
         </div>
-      );
-    }
+        <ul className="program-list">
+          { addedDeliverables.map((deliverable, index) => {
+            return (
+              <Deliverable
+                key={index}
+                deliverable={deliverable}
+                budgets={percentBudgetChanges}
+              />
+            );
+          }) }
+        </ul>
+      </div>
+    );
   }
+}

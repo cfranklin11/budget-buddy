@@ -18,20 +18,21 @@ export default class Programs extends Component {
     super();
 
     this.state = {
-      isListVisible: false,
+      isProgListVisible: false,
     };
   }
 
   showPrograms = () => {
-    this.setState({ isListVisible: true });
+    this.setState({ isProgListVisible: true });
   }
 
   addProgram = (name) => {
     this.props.addProgram(name);
-    this.setState({ isListVisible: false });
+    this.setState({ isProgListVisible: false });
   }
 
   render () {
+    const { isProgListVisible } = this.state;
     const { departments: { data, currentDepartment, addedPrograms } } = this.props;
     const department = data && data.filter((dept) => { return dept.name === currentDepartment; });
     const { name, programs } = department ? department[0] : {};
@@ -68,56 +69,56 @@ export default class Programs extends Component {
           <i className="material-icons">keyboard_arrow_right</i>
           { name }
         </h1>
-        { !this.state.isListVisible && (
+        { !isProgListVisible && (
           <div>
             <div className="chart-area">
-              <div>
-                <div className="chart-header">
-                  <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
-                  <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
-                </div>
-                <div className="chart-widget">
-                  { chartData && (
-                    <ResponsiveContainer>
-                      <BarChart width={750} height={250} data={chartData}>
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="value" fill="#8884d8" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  ) }
-                </div>
+              <div className="chart-header">
+                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
+                <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
               </div>
-              <ul className="program-list">
-                { addedPrograms.map((program, index) => {
-                  return (<Program key={index} program={program} />);
-                })
-                }
-              </ul>
+              { chartData && (
+                <div className="chart-widget">
+                  <ResponsiveContainer>
+                    <BarChart width={750} height={250} data={chartData}>
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) }
             </div>
             <div className="select-program-area">
               <button className="button--add-programs" type="button" onClick={this.showPrograms}>
                 <i className="material-icons">add_circle_outline</i>
                 <span> Add a Program</span>
               </button>
-              <button className="button--share" type="button">
-                <span>Share</span>
-                <i className="material-icons">share</i>
-              </button>
             </div>
           </div>
         ) }
-        <div className="photo-grid">
-          { this.state.isListVisible && (
+        { isProgListVisible && (
+          <div className="photo-grid">
             <List
               items={programs}
               isPrograms
               addProgram={this.addProgram}
             />
-          ) }
+          </div>
+        ) }
+        <ul className="program-list">
+          { addedPrograms.map((program, index) => {
+            return (<Program key={index} program={program} addDeliverable={this.addDeliverable} />);
+          })
+          }
+        </ul>
+        <div className="select-program-area">
+          <button className="button--share" type="button">
+            <span>Share</span>
+            <i className="material-icons">share</i>
+          </button>
         </div>
       </div>
     );
