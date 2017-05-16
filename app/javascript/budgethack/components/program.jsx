@@ -142,7 +142,7 @@ export default class Program extends Component {
         { !isDelListVisible && (
           <div>
             <div className="chart-header">
-              <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
+              <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${parseInt(currentBudget)}`}</span></div>
               <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
             </div>
             <div>

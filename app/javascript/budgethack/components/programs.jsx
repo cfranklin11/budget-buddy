@@ -36,21 +36,23 @@ export default class Programs extends Component {
     const { departments: { department, addedPrograms } } = this.props;
     const { name, programs } = department || {};
     const budgets = programs ? programs.map((program) => { return program.budgets; }) : [];
-    const flatBudgets = [].concat(...budgets);
-    const currentBudgets = flatBudgets
-    .filter((budget) => {
-      return budget.year === 2017;
-    })
-    .map((budget) => { return budget.budget; });
-    const currentBudget = currentBudgets.length > 0 ?
-    currentBudgets.reduce((acc, curr) => acc + curr) : 0;
-    const prevBudgets = flatBudgets
-    .filter((budget) => {
-      return budget.year === 2016;
-    })
-    .map((budget) => { return budget.budget; });
-    const prevBudget = prevBudgets.length > 0 ?
-    prevBudgets.reduce((acc, curr) => acc + curr) : 0;
+    // const flatBudgets = [].concat(...budgets);
+    // const currentBudgets = flatBudgets
+    // .filter((budget) => {
+    //   return budget.year === 2017;
+    // })
+    // .map((budget) => { return budget.budget; });
+    // const currentBudget = currentBudgets.length > 0 ?
+    // currentBudgets.reduce((acc, curr) => acc + curr) : 0;
+    const currentBudget = (department && department.current_budget) || 0;
+    // const prevBudgets = flatBudgets
+    // .filter((budget) => {
+    //   return budget.year === 2016;
+    // })
+    // .map((budget) => { return budget.budget; });
+    // const prevBudget = prevBudgets.length > 0 ?
+    // prevBudgets.reduce((acc, curr) => acc + curr) : 0;
+    const prevBudget = (department && department.prev_budget) || 0;
     const chartData = programs ? programs.map((program) => {
       const budgetFigure = program.budgets.filter((budget) => {
         return budget.year === 2017;
@@ -58,7 +60,7 @@ export default class Programs extends Component {
         return budget.budget;
       });
 
-      return { name: program.name, value: parseFloat(budgetFigure[0]) };
+      return { name: program.name, value: parseInt(budgetFigure[0], 10) };
     }) : null;
     const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
     return (
@@ -71,7 +73,7 @@ export default class Programs extends Component {
           <div>
             <div className="chart-area">
               <div className="chart-header">
-                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
+                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${parseInt(currentBudget, 10)}`}</span></div>
                 <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
               </div>
               { chartData && (
