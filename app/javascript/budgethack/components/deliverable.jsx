@@ -14,7 +14,6 @@ export default class Deliverable extends Component {
   static propTypes = {
     deliverable: PropTypes.object.isRequired,
     budgets: PropTypes.arrayOf(PropTypes.object),
-    addDeliverable: PropTypes.func,
   }
 
   percentMetricChange = (metrics) => {

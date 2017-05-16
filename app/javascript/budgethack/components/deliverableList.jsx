@@ -14,8 +14,10 @@ export default class DeliverableList extends Component {
   }
 
   handleClick = (deliverable, addedDeliverables) => {
+    const { addDeliverable } = this.props;
+
     return () => {
-      this.props.addDeliverable(deliverable, addedDeliverables);
+      addDeliverable(deliverable, addedDeliverables);
     };
   }
 

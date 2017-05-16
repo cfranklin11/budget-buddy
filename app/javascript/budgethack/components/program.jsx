@@ -15,12 +15,11 @@ import Deliverable from './deliverable';
 export default class Program extends Component {
   static propTypes = {
     program: PropTypes.object.isRequired,
-    addDeliverable: PropTypes.func.isRequired,
   }
 
   state = {
     isDelListVisible: false,
-    deliverables: [],
+    addedDeliverables: [],
   }
 
   percentBudgetChange = (budgets) => {
@@ -107,29 +106,27 @@ export default class Program extends Component {
   }
 
   addDeliverable = (deliverable, addedDeliverables) => {
-    return () => {
-      this.setState({
-        isDelListVisible: false,
-        addedDeliverables: addedDeliverables.concat(deliverable),
-      });
-    };
+    this.setState({
+      isDelListVisible: false,
+      addedDeliverables: addedDeliverables.concat(deliverable),
+    });
   }
 
   render () {
     const { isDelListVisible, addedDeliverables } = this.state;
     const { program: { budgets, name, deliverables } } = this.props;
     const currentBudgets = budgets
-    .filter((budget) => {
-      return budget.year === '2018';
-    })
-    .map((budget) => { return budget.budget; });
+      .filter((budget) => {
+        return budget.year === '2018';
+      })
+      .map((budget) => { return budget.budget; });
     const currentBudget = currentBudgets.length > 0 ?
-    currentBudgets.reduce((acc, curr) => acc + curr) : 0;
+      currentBudgets.reduce((acc, curr) => acc + curr) : 0;
     const prevBudgets = budgets
-    .filter((budget) => {
-      return budget.year === '2017';
-    })
-    .map((budget) => { return budget.budget; });
+      .filter((budget) => {
+        return budget.year === '2017';
+      })
+      .map((budget) => { return budget.budget; });
     const prevBudget = prevBudgets.length > 0 ?
       prevBudgets.reduce((acc, curr) => acc + curr) : 0;
     const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
@@ -143,59 +140,63 @@ export default class Program extends Component {
           { name }
         </span>
         <div>
-          <div className="chart-header">
-            <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
-            <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
-          </div>
-
-          <div className="chart-widget">
-            { budgets && budgets.length > 0 && (
-              <div>
-                <h2>Budgets by Year</h2>
-
-                <BarChart width={750} height={250} data={budgets}>
-                  <XAxis dataKey="year" />
-                  <YAxis />
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
-                  <Legend />
-                  <Bar dataKey="budget" fill="#8884d8" />
-                </BarChart>
-
+          { !isDelListVisible && (
+            <div>
+              <div className="chart-header">
+                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
+                <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
               </div>
-            ) }
-          </div>
-
-          { chartData && chartData.length > 0 && (
-            <div className="chart-widget">
               <div>
-                <h2>% Change: Budget vs Output Measures</h2>
-                <LineChart
-                  width={750}
-                  height={250}
-                  data={chartData}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <XAxis dataKey="year" />
-                  <YAxis />
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <Tooltip />
-                  <Legend />
-                  <Line type="monotone" dataKey="budget" stroke="#8884d8" />
-                  <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
-                </LineChart>
+                { budgets && budgets.length > 0 && (
+                  <div className="chart-widget">
+                    <h2>Budgets by Year</h2>
+
+                    <BarChart width={750} height={250} data={budgets}>
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="budget" fill="#8884d8" />
+                    </BarChart>
+                  </div>
+                ) }
+              </div>
+
+              <div>
+                { chartData && chartData.length > 0 && (
+                  <div className="chart-widget">
+                    <div>
+                      <h2>% Change: Budget vs Aggregate Output Measures</h2>
+                      <LineChart
+                        width={750}
+                        height={250}
+                        data={chartData}
+                        margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                      >
+                        <XAxis dataKey="year" />
+                        <YAxis />
+                        <CartesianGrid strokeDasharray="3 3" />
+                        <Tooltip />
+                        <Legend />
+                        <Line type="monotone" dataKey="budget" stroke="#8884d8" />
+                        <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
+                      </LineChart>
+                    </div>
+                  </div>
+                ) }
               </div>
             </div>
           ) }
-          <div className="photo-grid">
-            { isDelListVisible && (
+          { isDelListVisible && (
+            <div className="photo-grid">
               <DeliverableList
                 items={deliverables}
-                isDeliverables
-                addProgram={this.addDeliverable}
+                addedDeliverables={addedDeliverables}
+                addDeliverable={this.addDeliverable}
               />
-            ) }
-          </div>
+            </div>
+          ) }
           <button className="button--add-programs" type="button" onClick={this.showDeliverables}> + Add a Deliverable</button>
           <ul className="program-list">
             { addedDeliverables.map((deliverable, index) => {
@@ -206,8 +207,7 @@ export default class Program extends Component {
                   budgets={percentBudgetChanges}
                 />
               );
-            })
-            }
+            }) }
           </ul>
         </div>
       </div>

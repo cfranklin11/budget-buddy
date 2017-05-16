@@ -72,49 +72,48 @@ export default class Programs extends Component {
         { !isProgListVisible && (
           <div>
             <div className="chart-area">
-              <div>
-                <div className="chart-header">
-                  <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
-                  <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
-                </div>
-                { chartData && (
-                  <div className="chart-widget">
-                    <ResponsiveContainer>
-                      <BarChart width={750} height={250} data={chartData}>
-                        <XAxis dataKey="name" />
-                        <YAxis />
-                        <CartesianGrid strokeDasharray="3 3" />
-                        <Tooltip />
-                        <Legend />
-                        <Bar dataKey="value" fill="#8884d8" />
-                      </BarChart>
-                    </ResponsiveContainer>
-                  </div>
-                ) }
-                <div className="photo-grid">
-                  { isProgListVisible && (
-                    <List
-                      items={programs}
-                      isPrograms
-                      addProgram={this.addProgram}
-                    />
-                  ) }
-                </div>
+              <div className="chart-header">
+                <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
+                <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
               </div>
-              <button className="button--add-programs" type="button" onClick={this.showPrograms}> + Add a Program</button>
-              <ul className="program-list">
-                { addedPrograms.map((program, index) => {
-                  return (<Program key={index} program={program} />);
-                })
-                }
-              </ul>
-            </div>
-
-            <div className="select-program-area">
-              <button className="button--share" type="button">Share</button>
+              { chartData && (
+                <div className="chart-widget">
+                  <ResponsiveContainer>
+                    <BarChart width={750} height={250} data={chartData}>
+                      <XAxis dataKey="name" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="value" fill="#8884d8" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              ) }
             </div>
           </div>
         ) }
+        { isProgListVisible && (
+          <div className="photo-grid">
+            <List
+              items={programs}
+              isPrograms
+              addProgram={this.addProgram}
+            />
+          </div>
+        ) }
+
+        <button className="button--add-programs" type="button" onClick={this.showPrograms}> + Add a Program</button>
+
+        <ul className="program-list">
+          { addedPrograms.map((program, index) => {
+            return (<Program key={index} program={program} addDeliverable={this.addDeliverable} />);
+          })
+          }
+        </ul>
+        <div className="select-program-area">
+          <button className="button--share" type="button">Share</button>
+        </div>
       </div>
     );
   }
