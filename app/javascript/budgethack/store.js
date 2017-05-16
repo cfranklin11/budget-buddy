@@ -6,17 +6,8 @@ import { browserHistory } from 'react-router';
 // import the root reducer
 import rootReducer from './reducers/index';
 
-
-import infographics from './data/infographics';
-
-// create an object for the default data
-const defaultState = {
-  infographics,
-};
-
 const enhancers = compose(window.devToolsExtension ? window.devToolsExtension() : f => f);
-
-const store = createStore(rootReducer, defaultState, applyMiddleware(thunkMiddleware), enhancers);
+const store = createStore(rootReducer, applyMiddleware(thunkMiddleware), enhancers);
 
 export const history = syncHistoryWithStore(browserHistory, store);
 
