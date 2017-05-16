@@ -70,7 +70,7 @@ export default class Programs extends Component {
         </h1>
         { !this.state.isListVisible && (
           <div>
-            <div>
+            <div className="chart-area">
               <div>
                 <div className="chart-header">
                   <div className="chart-header__budget-amount"><span>{`Budget 2017 / 2018: $${currentBudget}`}</span></div>
@@ -91,17 +91,19 @@ export default class Programs extends Component {
                   ) }
                 </div>
               </div>
-              <ul>
+              <ul className="program-list">
                 { addedPrograms.map((program, index) => {
                   return (<Program key={index} name={program.name} />);
                 })
                 }
               </ul>
             </div>
-            <h2 className="list__title">
-              Select a Program:
-            </h2>
-            <button type="button" onClick={this.showPrograms}>Add a Program</button>
+
+
+            <div className="select-program-area">
+            <button className="button--add-programs" type="button" onClick={this.showPrograms}> + Add a Program</button>
+            <button className="button--share" type="button">Share</button>
+            </div>
           </div>
         ) }
         <div className="photo-grid">

@@ -7,7 +7,15 @@ export default class Program extends Component {
 
   render () {
     return (
-      <h1>{ this.props.name }</h1>
+      <div className="chart-header">
+
+
+           <span className="program-chart-header__title">
+                { this.props.name } <span className="program-percentage-change"> {`+${45}%`} </span>
+            </span>
+
+
+      </div>
     );
   }
 }
