@@ -13,22 +13,16 @@ function departments (state = { addedPrograms: [] }, action) {
       return {
         ...state,
         currentDepartment: action.currentDepartment,
-        data: action.data,
+        department: JSON.parse(action.data),
       };
 
     case 'ADD_PROGRAM':
       return {
         ...state,
         addedPrograms: state.addedPrograms
-          .concat(state.data
-            .filter((dept) => { return dept.name === state.currentDepartment; })
-            .map((dept) => {
-              const deptProgram = dept.programs.filter((prog) => {
-                return prog.name === action.name;
-              });
-
-              return deptProgram[0] || [];
-            })),
+          .concat(state.department.programs.filter((program) => {
+            return program.name === action.name;
+          })),
       };
 
     default:

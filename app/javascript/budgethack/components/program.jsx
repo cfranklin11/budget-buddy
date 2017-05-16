@@ -117,14 +117,14 @@ export default class Program extends Component {
     const { program: { budgets, name, deliverables } } = this.props;
     const currentBudgets = budgets
       .filter((budget) => {
-        return budget.year === '2018';
+        return budget.year === 2017;
       })
       .map((budget) => { return budget.budget; });
     const currentBudget = currentBudgets.length > 0 ?
       currentBudgets.reduce((acc, curr) => acc + curr) : 0;
     const prevBudgets = budgets
       .filter((budget) => {
-        return budget.year === '2017';
+        return budget.year === 2016;
       })
       .map((budget) => { return budget.budget; });
     const prevBudget = prevBudgets.length > 0 ?
