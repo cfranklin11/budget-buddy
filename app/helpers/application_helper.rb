@@ -9,12 +9,12 @@ module ApplicationHelper
           name: 'program 1',
           description: 'program description',
           budgets: [
-              { year: '2018', metric: 357},
-              { year: '2017', metric: 674},
-              { year: '2016', metric: 305},
-              { year: '2015', metric: 973},
-              { year: '2014', metric: 276},
-              { year: '2013', metric: 936},
+              { year: '2018', budget: 357},
+              { year: '2017', budget: 674},
+              { year: '2016', budget: 305},
+              { year: '2015', budget: 973},
+              { year: '2014', budget: 276},
+              { year: '2013', budget: 936},
           ],
           deliverables: [
             {
@@ -37,12 +37,12 @@ module ApplicationHelper
           name: 'program 2',
           description: 'program description',
           budgets: [
-              { year: '2018', metric: 357},
-              { year: '2017', metric: 674},
-              { year: '2016', metric: 305},
-              { year: '2015', metric: 973},
-              { year: '2014', metric: 276},
-              { year: '2013', metric: 936},
+              { year: '2018', budget: 357},
+              { year: '2017', budget: 674},
+              { year: '2016', budget: 305},
+              { year: '2015', budget: 973},
+              { year: '2014', budget: 276},
+              { year: '2013', budget: 936},
           ],
           deliverables: [
             {
