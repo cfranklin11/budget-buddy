@@ -78,8 +78,8 @@ export default class Programs extends Component {
               </div>
               { chartData && (
                 <div className="chart-widget">
-                  <ResponsiveContainer>
-                    <BarChart width={750} height={250} data={chartData}>
+                  <ResponsiveContainer width='100%' height='100%'>
+                    <BarChart width={400} height={250} data={chartData}>
                       <XAxis dataKey="name" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
