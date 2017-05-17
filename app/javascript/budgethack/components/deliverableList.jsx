@@ -30,7 +30,7 @@ export default class DeliverableList extends Component {
           { items.map((item, i) => {
             return (
               <li className="list__item" key={i} >
-                <Link to="/programs" onClick={this.handleClick(item, addedDeliverables)}>{ item.name }</Link>
+                <Link role="link" to="/programs" onClick={this.handleClick(item, addedDeliverables)}>{ item.name }</Link>
               </li>
             );
           }) }

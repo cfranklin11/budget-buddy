@@ -197,7 +197,7 @@ export default class Program extends Component {
           </div>
         ) }
         <div className="select-program-area">
-          <button className="button--add-programs" type="button" onClick={this.showDeliverables}>
+          <button role="button" className="button--add-programs" type="button" onClick={this.showDeliverables}>
             <i className="material-icons">add_circle_outline</i>
             <span> Add a Deliverable</span>
           </button>
