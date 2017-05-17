@@ -36,9 +36,9 @@ export default class List extends Component {
             return (
               <li className="list__item" key={i} >
                 {!this.props.isPrograms &&
-                  <i className="material-icons">keyboard_arrow_right</i>
+                  <i aria-hidden="true" className="material-icons">keyboard_arrow_right</i>
                 }
-                <Link to="/programs" onClick={this.handleClick(item.name)}>{ item.name }</Link>
+                <Link role="link" aria-label={item.name} to="/programs" onClick={this.handleClick(item.name)}>{ item.name }</Link>
               </li>
             );
           }) }
