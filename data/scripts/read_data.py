@@ -25,11 +25,10 @@ def create_list_of_dicts_from_sub_dataframe(column_name, df, columns_for_dict):
 def create_dict_from_dataframe(df, columns_for_dict):
     dct = {}
     for dict_name, col_name in columns_for_dict.items():
-        if type(df[col_name].iloc[0]) != str:
-            print(type(df[col_name].iloc[0]))
-            dct[dict_name] = float(df[col_name].iloc[0])
-        else:
+        if type(df[col_name].iloc[0]) == str:
             dct[dict_name] = df[col_name].iloc[0]
+        else:
+            dct[dict_name] = float(df[col_name].iloc[0])
     return dct
 
 # Return department in specific json format
