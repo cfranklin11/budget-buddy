@@ -6,22 +6,28 @@ class NavMenu extends React.Component {
     return (
       <div className="nav-bar-menu">
         <div className="navBar">
-          <nav className="wrapper">
+          <nav className="wrapper" role="navigation">
             <div className="logo">
-              <Link to="/">
-                <i className="material-icons">monetization_on</i>
+              <Link to="/" role="link">
+                <i aria-hidden="true" className="material-icons">monetization_on</i>
                 <span className="logo__app-name">Budget Buddy</span>
               </Link>
             </div>
-            <div className="menu-accessibility">
-              <span className="menu-accessibility__tonality">
-                <i className="material-icons">tonality</i>
+            <div tabIndex="0" className="menu-accessibility">
+              <span  className="menu-accessibility__tonality">
+                <Link aria-label="tonality" to="/" role="link">
+                <i  aria-hidden="true" className="material-icons">tonality</i>
+              </Link>
               </span>
-              <span className="menu-accessibility__screen-reader">
-                <i className="material-icons">accessibility</i>
+              <span aria-hidden="true" className="menu-accessibility__screen-reader">
+                <Link to="/" role="link">
+                <i  aria-hidden="true" className="material-icons">accessibility</i>
+                </Link>
               </span>
-              <span className="menu-accessibility__hamburger">
-                <i className="material-icons">menu</i>
+              <span  className="menu-accessibility__hamburger">
+                <Link aria-label="mobile-menu" to="/" role="link">
+                <i aria-hidden="true" className="material-icons">menu</i>
+                </Link>
               </span>
             </div>
           </nav>

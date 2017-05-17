@@ -65,21 +65,21 @@ export default class Programs extends Component {
     const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
     return (
       <div className="programs">
-        <h1 className="programs__department-name">
-          <i className="material-icons">keyboard_arrow_right</i>
+        <h1 aria-label="Programs" className="programs__department-name">
+          <i aria-hidden="true" className="material-icons">keyboard_arrow_right</i>
           { name }
         </h1>
         { !isProgListVisible && (
           <div>
-            <div className="chart-area">
+            <div className="chart-area" tabIndex="0">
               <div className="chart-header">
                 <div className="chart-header__budget-amount"><span>{`Budget 2016 / 2017: $${parseInt(currentBudget, 10)}`}</span></div>
                 <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
               </div>
               { chartData && (
                 <div className="chart-widget">
-                  <ResponsiveContainer>
-                    <BarChart width={750} height={250} data={chartData}>
+                  <ResponsiveContainer width='100%' height='100%'>
+                    <BarChart width={400} height={250} data={chartData}>
                       <XAxis dataKey="name" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
@@ -92,7 +92,7 @@ export default class Programs extends Component {
               ) }
             </div>
             <div className="select-program-area">
-              <button className="button--add-programs" type="button" onClick={this.showPrograms}>
+              <button role="button" className="button--add-programs" type="button" onClick={this.showPrograms}>
                 <i className="material-icons">add_circle_outline</i>
                 <span> Add a Program</span>
               </button>
@@ -115,7 +115,7 @@ export default class Programs extends Component {
           }
         </ul>
         <div className="select-program-area">
-          <button className="button--share" type="button">
+          <button role="button" className="button--share" type="button">
             <span>Share</span>
             <i className="material-icons">share</i>
           </button>

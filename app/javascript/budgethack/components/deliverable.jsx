@@ -55,7 +55,7 @@ export default class Deliverable extends Component {
               <div>
                 <h2>% Change: Budget vs Output Measures</h2>
                 <LineChart
-                  width={750}
+                  width={400}
                   height={250}
                   data={chartData}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}

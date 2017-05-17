@@ -149,15 +149,16 @@ export default class Program extends Component {
               { budgets && budgets.length > 0 && (
                 <div className="chart-widget">
                   <h2>Budgets by Year</h2>
-
-                  <BarChart width={750} height={250} data={budgets}>
-                    <XAxis dataKey="year" />
-                    <YAxis />
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="budget" fill="#8884d8" />
-                  </BarChart>
+                  <ResponsiveContainer width='100%' height='100%'>
+                    <BarChart width={400} height={250} data={budgets}>
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Legend />
+                      <Bar dataKey="budget" fill="#8884d8" />
+                    </BarChart>
+                </ResponsiveContainer>
                 </div>
               ) }
             </div>
@@ -167,20 +168,22 @@ export default class Program extends Component {
                 <div className="chart-widget">
                   <div>
                     <h2>% Change: Budget vs Aggregate Output Measures</h2>
-                    <LineChart
-                      width={750}
-                      height={250}
-                      data={chartData}
-                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                    >
-                      <XAxis dataKey="year" />
-                      <YAxis />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <Tooltip />
-                      <Legend />
-                      <Line type="monotone" dataKey="budget" stroke="#8884d8" />
-                      <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
-                    </LineChart>
+
+                        <LineChart
+                          width={400}
+                          height={250}
+                          data={chartData}
+                          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
+                        >
+                          <XAxis dataKey="year" />
+                          <YAxis />
+                          <CartesianGrid strokeDasharray="3 3" />
+                          <Tooltip />
+                          <Legend />
+                          <Line type="monotone" dataKey="budget" stroke="#8884d8" />
+                          <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
+                        </LineChart>
+
                   </div>
                 </div>
               ) }
@@ -197,7 +200,7 @@ export default class Program extends Component {
           </div>
         ) }
         <div className="select-program-area">
-          <button className="button--add-programs" type="button" onClick={this.showDeliverables}>
+          <button role="button" className="button--add-programs" type="button" onClick={this.showDeliverables}>
             <i className="material-icons">add_circle_outline</i>
             <span> Add a Deliverable</span>
           </button>

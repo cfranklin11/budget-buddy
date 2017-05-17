@@ -15,7 +15,7 @@ export default class Departments extends Component {
 
     return (
       <div>
-        <h1 className="list__title">
+        <h1 className="list__title" tabIndex="0">
           Departments
         </h1>
         <div className="photo-grid">
