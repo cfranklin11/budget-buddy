@@ -26,6 +26,7 @@ def create_dict_from_dataframe(df, columns_for_dict):
     dct = {}
     for dict_name, col_name in columns_for_dict.items():
         if type(df[col_name].iloc[0]) != str:
+            print(type(df[col_name].iloc[0]))
             dct[dict_name] = float(df[col_name].iloc[0])
         else:
             dct[dict_name] = df[col_name].iloc[0]
