@@ -1,6 +1,6 @@
+# Controller for serving app views
 class StaticPagesController < ApplicationController
   include ApplicationHelper
 
-  def home
-  end
+  def home; end
 end

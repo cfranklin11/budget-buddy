@@ -1,3 +1,4 @@
+# Controller for sending data to React app
 class DataController < ApplicationController
   include ApplicationHelper
 
