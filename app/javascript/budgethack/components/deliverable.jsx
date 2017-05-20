@@ -1,19 +1,23 @@
 import React, { PropTypes, Component } from 'react';
-import { BarChart,
-  XAxis,
+import { XAxis,
   YAxis,
   CartesianGrid,
   Tooltip,
   Legend,
-  Bar,
-  ResponsiveContainer,
   LineChart,
   Line } from 'recharts';
 
 export default class Deliverable extends Component {
   static propTypes = {
-    deliverable: PropTypes.object.isRequired,
+    deliverable: PropTypes.shape({
+      name: PropTypes.string,
+      metrics: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
     budgets: PropTypes.arrayOf(PropTypes.object),
+  }
+
+  static defaultProps = {
+    budgets: [],
   }
 
   percentMetricChange = (metrics) => {
@@ -23,7 +27,8 @@ export default class Deliverable extends Component {
     const percentChanges = metrics.map((metric) => {
       const thisMetric = parseFloat(metric.metric);
       const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-      const percentChange = Math.round(((metricNumber / firstMetricNumber) - 1) * 100);
+      const percentChange = Math.round(
+        ((metricNumber / firstMetricNumber) - 1) * 100);
 
       return { year: metric.year, metric: percentChange };
     });
@@ -33,7 +38,9 @@ export default class Deliverable extends Component {
 
   lineChartData = (budgetChanges, metricChanges) => {
     const chartData = budgetChanges.map((budget, index) => {
-      const metric = metricChanges.length > index ? metricChanges[index].metric : 0;
+      const metric = metricChanges.length > index ?
+        metricChanges[index].metric :
+        0;
       return { year: budget.year, budget: budget.budget, metric };
     });
 
@@ -42,7 +49,9 @@ export default class Deliverable extends Component {
 
   render () {
     const { deliverable: { name, metrics }, budgets } = this.props;
-    const chartData = this.lineChartData(budgets, this.percentMetricChange(metrics));
+    const chartData = this.lineChartData(
+      budgets,
+      this.percentMetricChange(metrics));
 
     return (
       <div>

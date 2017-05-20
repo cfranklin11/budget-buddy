@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
+import classNames from 'classnames';
 
 export default class List extends Component {
   static propTypes = {
@@ -12,10 +12,12 @@ export default class List extends Component {
   static defaultProps = {
     isPrograms: false,
     items: [],
+    addProgram: () => { return 'Could not add the program'; },
+    fetchDataIfNeeded: () => { return 'Unable to check data'; },
   }
 
   handleClick = (name) => {
-    const { isPrograms, addProgram } = this.props;
+    const { isPrograms, addProgram, fetchDataIfNeeded } = this.props;
 
     if (isPrograms) {
       return () => {
@@ -24,21 +26,30 @@ export default class List extends Component {
     }
 
     return () => {
-      this.props.fetchDataIfNeeded('department', name);
+      fetchDataIfNeeded('department', name);
     };
   }
 
   render () {
+    const { isPrograms, items } = this.props;
+    const divClass = classNames('list-wrapper', { 'is--programs': isPrograms });
+
     return (
-      <div className={`list-wrapper ${ this.props.isPrograms ? ' is--programs' : '' }`} >
+      <div className={ divClass } >
         <ul className="list">
-          { this.props.items.map((item, i) => {
+          { items.map((item, i) => {
             return (
-              <li className="list__item" key={i} >
-                {!this.props.isPrograms &&
-                  <i aria-hidden="true" className="material-icons">keyboard_arrow_right</i>
+              <li className="list__item" key={ item.name }>
+                {!isPrograms &&
+                  <i aria-hidden="true" className="material-icons">
+                    keyboard_arrow_right
+                  </i>
                 }
-                <Link role="link" aria-label={item.name} to="/programs" onClick={this.handleClick(item.name)}>{ item.name }</Link>
+                <button
+                  aria-label={ item.name }
+                  onClick={ this.handleClick(item.name) }>
+                  { item.name }
+                </button>
               </li>
             );
           }) }

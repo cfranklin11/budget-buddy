@@ -14,7 +14,11 @@ import Deliverable from './deliverable';
 
 export default class Program extends Component {
   static propTypes = {
-    program: PropTypes.object.isRequired,
+    program: PropTypes.shape({
+      budgets: PropTypes.arrayOf(PropTypes.number),
+      name: PropTypes.string,
+      deliverables: PropTypes.arrayOf(PropTypes.object),
+    }).isRequired,
   }
 
   state = {
@@ -29,7 +33,8 @@ export default class Program extends Component {
     const percentChanges = budgets.map((budget) => {
       const thisBudget = parseFloat(budget.budget);
       const budgetNumber = isNaN(thisBudget) ? 0 : thisBudget;
-      const percentChange = Math.round(((budgetNumber / firstBudgetNumber) - 1) * 100);
+      const percentChange = Math.round(
+        ((budgetNumber / firstBudgetNumber) - 1) * 100);
 
       return { year: budget.year, budget: percentChange };
     });
@@ -38,13 +43,15 @@ export default class Program extends Component {
   }
 
   percentMetricChange = (metrics) => {
-    const firstMetric = parseFloat(metrics[0].metric);
+    const firstMetric = (metrics && metrics.length > 0 &&
+      parseFloat(metrics[0].metric)) || 0;
     const firstMetricNumber = isNaN(firstMetric) ? 1 : firstMetric;
 
     const percentChanges = metrics.map((metric) => {
       const thisMetric = parseFloat(metric.metric);
       const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-      const percentChange = Math.round(((metricNumber / firstMetricNumber) - 1) * 100);
+      const percentChange = Math.round(
+        ((metricNumber / firstMetricNumber) - 1) * 100);
 
       return { year: metric.year, metric: percentChange };
     });
@@ -54,7 +61,10 @@ export default class Program extends Component {
 
   lineChartData = (budgetChanges, metricChanges) => {
     const chartData = budgetChanges.map((budget, index) => {
-      const metric = metricChanges.length > index ? metricChanges[index].metric : 0;
+      const metric = metricChanges.length > index ?
+      metricChanges[index].metric :
+      0;
+
       return { year: budget.year, budget: budget.budget, metric };
     });
 
@@ -65,21 +75,14 @@ export default class Program extends Component {
     const qtyDeliverables = deliverables.filter((deliverable) => {
       return deliverable.metric_type === 'Quantity';
     });
-    // const qltyDeliverables = deliverables.filter((deliverable) => {
-    //   return deliverable.metric_type === 'Quality';
-    // });
     const qtyMetrics = qtyDeliverables.map((deliverable) => {
       return deliverable.metrics;
     }).reduce((acc, curr) => {
       return acc.concat(curr);
     }, []);
-
-    // .reduce((acc, deliverable) => {
-    //   acc.concat(deliverable.metrics);
-    // }, []);
     const metricObj = {};
 
-    for (let i = 0; i < qtyMetrics.length; i++) {
+    for (let i = 0; i < qtyMetrics.length; i += 1) {
       const metric = qtyMetrics[i];
       const thisMetric = parseFloat(metric.metric);
       const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
@@ -94,8 +97,11 @@ export default class Program extends Component {
     const metricArray = [];
     const keys = Object.keys(metricObj);
 
-    for (let i = 0; i < keys.length; i++) {
-      metricArray[metricArray.length] = { year: keys[i], metric: metricObj[keys[i]] };
+    for (let i = 0; i < keys.length; i += 1) {
+      metricArray[metricArray.length] = {
+        year: keys[i],
+        metric: metricObj[keys[i]],
+      };
     }
 
     return metricArray;
@@ -121,18 +127,23 @@ export default class Program extends Component {
       })
       .map((budget) => { return budget.budget; });
     const currentBudget = currentBudgets.length > 0 ?
-      currentBudgets.reduce((acc, curr) => acc + curr) : 0;
+      currentBudgets.reduce((acc, curr) => { return acc + curr; }) :
+      0;
     const prevBudgets = budgets
       .filter((budget) => {
         return budget.year === 2016;
       })
       .map((budget) => { return budget.budget; });
     const prevBudget = prevBudgets.length > 0 ?
-      prevBudgets.reduce((acc, curr) => acc + curr) : 0;
-    const change = Math.round(((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
+      prevBudgets.reduce((acc, curr) => { return acc + curr; }) :
+      0;
+    const change = Math.round(
+      ((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
     const metrics = this.metricsByYear(deliverables);
     const percentBudgetChanges = this.percentBudgetChange(budgets);
-    const chartData = this.lineChartData(percentBudgetChanges, this.percentMetricChange(metrics));
+    const chartData = this.lineChartData(
+      percentBudgetChanges,
+      this.percentMetricChange(metrics));
 
     return (
       <div className="program-widget-area">
@@ -142,15 +153,23 @@ export default class Program extends Component {
         { !isDelListVisible && (
           <div>
             <div className="chart-header">
-              <div className="chart-header__budget-amount"><span>{`Budget 2016 / 2017: $${parseInt(currentBudget)} million`}</span></div>
-              <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
+              <div className="chart-header__budget-amount">
+                <span>
+                  {`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}
+                </span>
+              </div>
+              <div className="chart-header__percentage-change">
+                <span>
+                  Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span>
+                </span>
+              </div>
             </div>
             <div>
               { budgets && budgets.length > 0 && (
                 <div className="chart-widget">
                   <h2>Budgets by Year</h2>
-                  <ResponsiveContainer width='100%' height='100%'>
-                    <BarChart width={400} height={250} data={budgets}>
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart width={ 400 } height={ 250 } data={ budgets }>
                       <XAxis dataKey="year" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
@@ -158,7 +177,7 @@ export default class Program extends Component {
                       <Legend />
                       <Bar dataKey="budget" fill="#8884d8" />
                     </BarChart>
-                </ResponsiveContainer>
+                  </ResponsiveContainer>
                 </div>
               ) }
             </div>
@@ -168,21 +187,19 @@ export default class Program extends Component {
                 <div className="chart-widget">
                   <div>
                     <h2>% Change: Budget vs Aggregate Output Measures</h2>
-
-                        <LineChart
-                          width={400}
-                          height={250}
-                          data={chartData}
-                          margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                        >
-                          <XAxis dataKey="year" />
-                          <YAxis />
-                          <CartesianGrid strokeDasharray="3 3" />
-                          <Tooltip />
-                          <Legend />
-                          <Line type="monotone" dataKey="budget" stroke="#8884d8" />
-                          <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
-                        </LineChart>
+                    <LineChart
+                      width={ 400 }
+                      height={ 250 }
+                      data={ chartData }
+                      margin={ { top: 5, right: 30, left: 20, bottom: 5 } }>
+                      <XAxis dataKey="year" />
+                      <YAxis />
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <Tooltip />
+                      <Legend />
+                      <Line type="monotone" dataKey="budget" stroke="#8884d8" />
+                      <Line type="monotone" dataKey="metric" stroke="#82ca9d" />
+                    </LineChart>
 
                   </div>
                 </div>
@@ -193,26 +210,28 @@ export default class Program extends Component {
         { isDelListVisible && (
           <div className="photo-grid">
             <DeliverableList
-              items={deliverables}
-              addedDeliverables={addedDeliverables}
-              addDeliverable={this.addDeliverable}
-            />
+              items={ deliverables }
+              addedDeliverables={ addedDeliverables }
+              addDeliverable={ this.addDeliverable } />
           </div>
         ) }
         <div className="select-program-area">
-          <button role="button" className="button--add-programs" type="button" onClick={this.showDeliverables}>
+          <button
+            role="button"
+            className="button--add-programs"
+            type="button"
+            onClick={ this.showDeliverables }>
             <i className="material-icons">add_circle_outline</i>
             <span> Add a Deliverable</span>
           </button>
         </div>
         <ul className="program-list">
-          { addedDeliverables.map((deliverable, index) => {
+          { addedDeliverables.map((deliverable) => {
             return (
               <Deliverable
-                key={index}
-                deliverable={deliverable}
-                budgets={percentBudgetChanges}
-              />
+                key={ deliverable.name }
+                deliverable={ deliverable }
+                budgets={ percentBudgetChanges } />
             );
           }) }
         </ul>
