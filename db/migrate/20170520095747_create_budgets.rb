@@ -1,7 +1,7 @@
 class CreateBudgets < ActiveRecord::Migration[5.1]
   def change
     create_table :budgets do |t|
-      t.number :budget
+      t.numeric :budget
       t.datetime :year
       t.belongs_to :program
 

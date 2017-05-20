@@ -9,6 +9,6 @@ module ApplicationHelper
   def department_data(department_name)
     file_path = File.join(Rails.root, 'data/scripts', 'read_data.py')
     data = `python #{file_path} '#{department_name}'`
-    data
+    JSON.parse(data)
   end
 end

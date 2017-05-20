@@ -1,7 +1,7 @@
 class CreateMetrics < ActiveRecord::Migration[5.1]
   def change
     create_table :metrics do |t|
-      t.number :metric
+      t.numeric :metric
       t.datetime :year
       t.belongs_to :deliverable
 

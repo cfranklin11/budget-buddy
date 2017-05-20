@@ -1,8 +1,9 @@
 AllCops:
   Exclude:
     - 'Gemfile'
-    - /data/*
-    - /data_exploration/*
+    - db/**/*
+    - data/*
+    - data_exploration/*
 
 Metrics/LineLength:
   Severity: refactor
