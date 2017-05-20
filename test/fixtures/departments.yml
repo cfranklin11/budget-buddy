@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  current_budget: 
+  prev_budget: 
+  name: MyString
+
+two:
+  current_budget: 
+  prev_budget: 
+  name: MyString
