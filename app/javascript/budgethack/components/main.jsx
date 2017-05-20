@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { PropTypes, PureComponent } from 'react';
 import NavMenu from './nav-menu';
-import Header from './header';
 import Footer from './footer';
 
-const Main = React.createClass({
+export default class Main extends PureComponent {
+  static propTypes = {
+    children: PropTypes.element.isRequired,
+  }
+
   render () {
     return (
       <div>
         <div className="page-wrap">
-          <NavMenu/>
+          <NavMenu />
           {React.cloneElement(this.props.children, this.props)}
         </div>
         <Footer />
       </div>
     );
-  },
-});
-
-export default Main;
+  }
+}

@@ -1,8 +1,21 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import List from './list';
 
 export default class Departments extends Component {
+  static propTypes = {
+    departments: PropTypes.shape({
+      currentDepartment: PropTypes.string,
+      department: PropTypes.object,
+      list: PropTypes.arrayOf(PropTypes.string),
+      addedPrograms: PropTypes.arrayOf(PropTypes.object),
+    }),
+    fetchDataIfNeeded: PropTypes.func,
+  };
+
+  static defaultProps = {
+    departments: {},
+    fetchDataIfNeeded: () => { return 'Unable to check data'; },
+  };
 
   componentDidMount () {
     this.props.fetchDataIfNeeded('departments');
@@ -27,12 +40,3 @@ export default class Departments extends Component {
     );
   }
 }
-
-Departments.propTypes = {
-  departments: PropTypes.object,
-  fetchDataIfNeeded: PropTypes.func,
-};
-
-Departments.defaultProps = {
-  departments: {},
-};

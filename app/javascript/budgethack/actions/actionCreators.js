@@ -1,5 +1,3 @@
-/* eslint arrow-body-style: 0 */
-
 import fetch from 'isomorphic-fetch';
 
 export function shareInfographic (index) {
@@ -33,7 +31,9 @@ function receiveData (state, json, dataProperty, dataLabel) {
 
 function fetchData (state, dataProperty, dataLabel) {
   return (dispatch) => {
-    const url = dataLabel ? `/data/${dataProperty}?department_name=${dataLabel}` : `/data/${dataProperty}`;
+    const url = dataLabel ?
+      `/data/${dataProperty}?department_name=${dataLabel}` :
+      `/data/${dataProperty}`;
 
     return fetch(url)
       .then(response => response.json())
@@ -44,7 +44,8 @@ function fetchData (state, dataProperty, dataLabel) {
 }
 
 function shouldFetchData (state, checkLabel) {
-  const { data, isFetching } = state[checkLabel] || { data: [], isFetching: false };
+  const { data, isFetching } = state[checkLabel] ||
+    { data: [], isFetching: false };
   if (!data) {
     return true;
   }
@@ -62,5 +63,7 @@ export function fetchDataIfNeeded (dataProperty, dataLabel) {
     if (shouldFetchData(getState(), dataProperty)) {
       return dispatch(fetchData(getState(), dataProperty, dataLabel));
     }
+
+    return null;
   };
 }

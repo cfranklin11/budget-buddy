@@ -3,8 +3,6 @@ import { render } from 'react-dom';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute } from 'react-router';
 
-// import css
-// import css from './styles/style.styl';
 
 // Components
 import App from './components/app';

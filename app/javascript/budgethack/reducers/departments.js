@@ -20,9 +20,8 @@ function departments (state = { addedPrograms: [] }, action) {
       return {
         ...state,
         addedPrograms: state.addedPrograms
-          .concat(state.department.programs.filter((program) => {
-            return program.name === action.name;
-          })),
+          .concat(state.department.programs
+            .filter(program => program.name === action.name)),
       };
 
     default:
