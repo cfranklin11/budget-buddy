@@ -13,7 +13,7 @@ function departments (state = { addedPrograms: [] }, action) {
       return {
         ...state,
         currentDepartment: action.currentDepartment,
-        department: JSON.parse(action.data),
+        department: action.data,
       };
 
     case 'ADD_PROGRAM':

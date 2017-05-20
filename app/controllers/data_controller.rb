@@ -3,14 +3,11 @@ class DataController < ApplicationController
   include ApplicationHelper
 
   def departments
-    @departments = JSON.parse(departments_data)
-
-    render json: @departments
+    render json: departments_data
   end
 
   def department
-    @data = department_data(budget_params[:department_name])
-    render json: @data
+    render json: department_data(budget_params[:department_name])
   end
 
   private
