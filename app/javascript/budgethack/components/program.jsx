@@ -43,7 +43,8 @@ export default class Program extends Component {
   }
 
   percentMetricChange = (metrics) => {
-    const firstMetric = parseFloat(metrics[0].metric);
+    const firstMetric = (metrics && metrics.length > 0 &&
+      parseFloat(metrics[0].metric)) || 0;
     const firstMetricNumber = isNaN(firstMetric) ? 1 : firstMetric;
 
     const percentChanges = metrics.map((metric) => {
@@ -168,7 +169,7 @@ export default class Program extends Component {
                 <div className="chart-widget">
                   <h2>Budgets by Year</h2>
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart width={400} height={250} data={budgets}>
+                    <BarChart width={ 400 } height={ 250 } data={ budgets }>
                       <XAxis dataKey="year" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
@@ -187,10 +188,10 @@ export default class Program extends Component {
                   <div>
                     <h2>% Change: Budget vs Aggregate Output Measures</h2>
                     <LineChart
-                      width={400}
-                      height={250}
-                      data={chartData}
-                      margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                      width={ 400 }
+                      height={ 250 }
+                      data={ chartData }
+                      margin={ { top: 5, right: 30, left: 20, bottom: 5 } }>
                       <XAxis dataKey="year" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
@@ -209,9 +210,9 @@ export default class Program extends Component {
         { isDelListVisible && (
           <div className="photo-grid">
             <DeliverableList
-              items={deliverables}
-              addedDeliverables={addedDeliverables}
-              addDeliverable={this.addDeliverable} />
+              items={ deliverables }
+              addedDeliverables={ addedDeliverables }
+              addDeliverable={ this.addDeliverable } />
           </div>
         ) }
         <div className="select-program-area">
@@ -219,7 +220,7 @@ export default class Program extends Component {
             role="button"
             className="button--add-programs"
             type="button"
-            onClick={this.showDeliverables}>
+            onClick={ this.showDeliverables }>
             <i className="material-icons">add_circle_outline</i>
             <span> Add a Deliverable</span>
           </button>
@@ -228,9 +229,9 @@ export default class Program extends Component {
           { addedDeliverables.map((deliverable) => {
             return (
               <Deliverable
-                key={deliverable.name}
-                deliverable={deliverable}
-                budgets={percentBudgetChanges} />
+                key={ deliverable.name }
+                deliverable={ deliverable }
+                budgets={ percentBudgetChanges } />
             );
           }) }
         </ul>

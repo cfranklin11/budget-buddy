@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 
 export default class DeliverableList extends Component {
   static propTypes = {
@@ -28,17 +27,14 @@ export default class DeliverableList extends Component {
     const { addedDeliverables, items } = this.props;
 
     return (
-      <div className={`list-wrapper ${'is--programs'}`} >
+      <div className={ `list-wrapper ${'is--programs'}` } >
         <ul className="list">
           { items.map((item) => {
             return (
-              <li className="list__item" key={item.name} >
-                <Link
-                  role="link"
-                  to="/programs"
-                  onClick={this.handleClick(item, addedDeliverables)}>
+              <li className="list__item" key={ item.name }>
+                <button onClick={ this.handleClick(item, addedDeliverables) }>
                   { item.name }
-                </Link>
+                </button>
               </li>
             );
           })

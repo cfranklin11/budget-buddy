@@ -79,7 +79,7 @@ export default class Programs extends Component {
               { chartData && (
                 <div className="chart-widget">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart width={400} height={250} data={chartData}>
+                    <BarChart width={ 400 } height={ 250 } data={ chartData }>
                       <XAxis dataKey="name" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
@@ -96,7 +96,7 @@ export default class Programs extends Component {
                 role="button"
                 className="button--add-programs"
                 type="button"
-                onClick={this.showPrograms}>
+                onClick={ this.showPrograms }>
                 <i className="material-icons">add_circle_outline</i>
                 <span> Add a Program</span>
               </button>
@@ -106,18 +106,18 @@ export default class Programs extends Component {
         { isProgListVisible && (
           <div className="photo-grid">
             <List
-              items={programs}
+              items={ programs }
               isPrograms
-              addProgram={this.addProgram} />
+              addProgram={ this.addProgram } />
           </div>
         ) }
         <ul className="program-list">
           { addedPrograms.map((program) => {
             return (
               <Program
-                key={program.name}
-                program={program}
-                addDeliverable={this.addDeliverable} />
+                key={ program.name }
+                program={ program }
+                addDeliverable={ this.addDeliverable } />
             );
           })
           }

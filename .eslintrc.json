@@ -21,11 +21,12 @@
   "rules": {
     "require-jsdoc": 0,
     "camelcase": 0,
-    "space-before-function-paren": ["error", "always"],
-    "object-curly-spacing": ["error", "always"],
+    "space-before-function-paren": [1, "always"],
+    "object-curly-spacing": [1, "always"],
     "max-len": [2, 80, {"ignoreUrls": true, "ignoreTemplateLiterals": true}],
-    "arrow-body-style": ["error", "always"],
+    "arrow-body-style": [1, "always"],
     "react/jsx-closing-bracket-location": [1, "after-props"],
+    "react/jsx-curly-spacing": [1, "always"],
     "react/prefer-stateless-function": [1, { "ignorePureComponents": true }]
   }
 }

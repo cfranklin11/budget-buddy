@@ -21,7 +21,7 @@ function departments (state = { addedPrograms: [] }, action) {
         ...state,
         addedPrograms: state.addedPrograms
           .concat(state.department.programs
-            .filter(program => program.name === action.name)),
+            .filter((program) => { return program.name === action.name; })),
       };
 
     default:

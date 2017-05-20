@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import { Link } from 'react-router';
 import classNames from 'classnames';
 
 export default class List extends Component {
@@ -36,23 +35,21 @@ export default class List extends Component {
     const divClass = classNames('list-wrapper', { 'is--programs': isPrograms });
 
     return (
-      <div className={divClass} >
+      <div className={ divClass } >
         <ul className="list">
           { items.map((item, i) => {
             return (
-              <li className="list__item" key={item.name} >
+              <li className="list__item" key={ item.name }>
                 {!isPrograms &&
                   <i aria-hidden="true" className="material-icons">
                     keyboard_arrow_right
                   </i>
                 }
-                <Link
-                  role="link"
-                  aria-label={item.name}
-                  to="/programs"
-                  onClick={this.handleClick(item.name)}>
+                <button
+                  aria-label={ item.name }
+                  onClick={ this.handleClick(item.name) }>
                   { item.name }
-                </Link>
+                </button>
               </li>
             );
           }) }

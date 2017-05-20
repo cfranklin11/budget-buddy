@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router';
 
 const NavMenu = () => {
   return (
@@ -7,34 +6,34 @@ const NavMenu = () => {
       <div className="navBar">
         <nav className="wrapper" role="navigation">
           <div className="logo">
-            <Link to="/" role="link">
+            <a href="/">
               <i aria-hidden="true" className="material-icons">
                 monetization_on
               </i>
               <span className="logo__app-name">Budget Buddy</span>
-            </Link>
+            </a>
           </div>
           <div tabIndex="0" className="menu-accessibility">
             <span className="menu-accessibility__tonality">
-              <Link aria-label="tonality" to="/" role="link">
+              <a aria-label="tonality" href="/">
                 <i aria-hidden="true" className="material-icons">tonality</i>
-              </Link>
+              </a>
             </span>
             <span
               aria-hidden="true"
               className="menu-accessibility__screen-reader">
-              <Link to="/" role="link">
+              <a href="/">
                 <i aria-hidden="true" className="material-icons">
                   accessibility
                 </i>
-              </Link>
+              </a>
             </span>
             <span className="menu-accessibility__hamburger">
-              <Link aria-label="mobile-menu" to="/" role="link">
+              <a aria-label="mobile-menu" href="/">
                 <i aria-hidden="true" className="material-icons">
                   menu
                 </i>
-              </Link>
+              </a>
             </span>
           </div>
         </nav>

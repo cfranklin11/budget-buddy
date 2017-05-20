@@ -33,7 +33,7 @@ export default class Departments extends Component {
         </h1>
         <div className="photo-grid">
           { deptProp.length > 0 && (
-            <List items={deptProp} fetchDataIfNeeded={fetchDataIfNeeded} />
+            <List items={ deptProp } fetchDataIfNeeded={ fetchDataIfNeeded } />
           ) }
         </div>
       </div>
