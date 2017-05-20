@@ -5,6 +5,12 @@ AllCops:
     - data/*
     - data_exploration/*
 
+  TargetRubyVersion: 2.3.1
+  TargetRailsVersion: 5.1
+
 Metrics/LineLength:
   Severity: refactor
   Max: 120
+
+Layout/MultilineMethodCallIndentation:
+  EnforcedStyle: indented

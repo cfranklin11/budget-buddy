@@ -13,8 +13,8 @@
 ActiveRecord::Schema.define(version: 20170520100434) do
 
   create_table "budgets", force: :cascade do |t|
-    t.decimal "budget"
-    t.datetime "year"
+    t.float "budget"
+    t.integer "year"
     t.integer "program_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -32,16 +32,16 @@ ActiveRecord::Schema.define(version: 20170520100434) do
   end
 
   create_table "departments", force: :cascade do |t|
-    t.decimal "current_budget"
-    t.decimal "prev_budget"
+    t.float "current_budget"
+    t.float "prev_budget"
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
   create_table "metrics", force: :cascade do |t|
-    t.decimal "metric"
-    t.datetime "year"
+    t.float "metric"
+    t.integer "year"
     t.integer "deliverable_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
