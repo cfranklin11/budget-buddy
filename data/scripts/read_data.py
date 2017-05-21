@@ -1,5 +1,6 @@
 import os
 import pandas as pd
+import numpy as np
 import sys
 import json
 
@@ -24,8 +25,9 @@ def create_list_of_dicts_from_sub_dataframe(column_name, df, columns_for_dict):
 # 'columns_for_dict' must be a dictionary of the form { <name for dict> : <dataframe column name> }
 def create_dict_from_dataframe(df, columns_for_dict):
     dct = {}
+
     for dict_name, col_name in columns_for_dict.items():
-        if type(df[col_name].iloc[0]) == str:
+        if df[col_name].dtype == 'O':
             dct[dict_name] = df[col_name].iloc[0]
         else:
             dct[dict_name] = float(df[col_name].iloc[0])
@@ -67,8 +69,6 @@ def get_department(name, current_year = 2017):
             # Iterate over all years
             columns_for_dict = {'year':'year', 'metric':'estimate_or_actual'}
             deliv['metrics'] = create_list_of_dicts_from_sub_dataframe('year', deliverable, columns_for_dict)
-
-            import pdb; pdb.set_trace()
 
             deliverables.append(deliv)
 
