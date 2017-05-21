@@ -1,4 +1,5 @@
 import React from 'react';
+import logo from '../assets/images/logo.svg';
 
 const NavMenu = () => {
   return (
@@ -7,10 +8,7 @@ const NavMenu = () => {
         <nav className="wrapper" role="navigation">
           <div className="logo">
             <a href="/">
-              <i aria-hidden="true" className="material-icons">
-                monetization_on
-              </i>
-              <span className="logo__app-name">Budget Buddy</span>
+              <img src={ logo } alt="logo" />
             </a>
           </div>
           <div tabIndex="0" className="menu-accessibility">
