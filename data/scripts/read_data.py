@@ -62,11 +62,13 @@ def get_department(name, current_year = 2017):
 
             # Create deliverable dictionary and base level values
             columns_for_dict = {'name':'deliverable', 'metric_unit':'measure_unit', 'metric_type':'measure_type'}
-            deliv = create_dict_from_dataframe(program, columns_for_dict)
+            deliv = create_dict_from_dataframe(deliverable, columns_for_dict)
 
             # Iterate over all years
             columns_for_dict = {'year':'year', 'metric':'estimate_or_actual'}
-            deliv['metrics'] = create_list_of_dicts_from_sub_dataframe('year', program, columns_for_dict)
+            deliv['metrics'] = create_list_of_dicts_from_sub_dataframe('year', deliverable, columns_for_dict)
+
+            import pdb; pdb.set_trace()
 
             deliverables.append(deliv)
 
