@@ -32,7 +32,7 @@ export default class DeliverableList extends Component {
         <ul className="list">
           { items.map((item) => {
             return (
-              <li className="list__item" key={ item.name }>
+              <li className="list__item" key={ item.id }>
                 <button onClick={ this.handleClick(item, addedDeliverables) }>
                   { item.name }
                 </button>

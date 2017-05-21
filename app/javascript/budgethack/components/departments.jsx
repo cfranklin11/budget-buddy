@@ -25,7 +25,9 @@ export default class Departments extends Component {
   render () {
     const { departments, fetchDataIfNeeded } = this.props;
     const { list } = departments;
-    const deptProp = list ? list.map((dept) => { return { name: dept }; }) : [];
+    const deptProp = list ?
+      list.map((dept, index) => { return { name: dept, id: index }; }) :
+      [];
 
     return (
       <div>

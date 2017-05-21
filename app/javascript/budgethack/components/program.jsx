@@ -16,7 +16,7 @@ import Deliverable from './deliverable';
 export default class Program extends Component {
   static propTypes = {
     program: PropTypes.shape({
-      budgets: PropTypes.arrayOf(PropTypes.number),
+      budgets: PropTypes.arrayOf(PropTypes.object),
       name: PropTypes.string,
       deliverables: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
@@ -230,7 +230,7 @@ export default class Program extends Component {
           { addedDeliverables.map((deliverable) => {
             return (
               <Deliverable
-                key={ deliverable.name }
+                key={ deliverable.id }
                 deliverable={ deliverable }
                 budgets={ percentBudgetChanges } />
             );

@@ -116,7 +116,7 @@ export default class Programs extends Component {
           { addedPrograms.map((program) => {
             return (
               <Program
-                key={ program.name }
+                key={ program.id }
                 program={ program }
                 addDeliverable={ this.addDeliverable } />
             );
