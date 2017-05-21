@@ -61,7 +61,7 @@ def get_department(name, current_year = 2017):
         for deliverable in sub_dataframe_from_all_column_values('deliverable', program):
 
             # Create deliverable dictionary and base level values
-            columns_for_dict = {'name':'deliverable', 'metric_units':'measure_unit', 'metric_type':'measure_type'}
+            columns_for_dict = {'name':'deliverable', 'metric_unit':'measure_unit', 'metric_type':'measure_type'}
             deliv = create_dict_from_dataframe(program, columns_for_dict)
 
             # Iterate over all years
@@ -76,4 +76,4 @@ def get_department(name, current_year = 2017):
     dept['programs'] = programs
     return json.dumps(dept)
 
-print(json.dumps(get_department(sys.argv[1])))
+print(get_department(sys.argv[1]))

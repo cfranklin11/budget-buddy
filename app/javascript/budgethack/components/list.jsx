@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 export default class List extends Component {
@@ -39,7 +40,7 @@ export default class List extends Component {
         <ul className="list">
           { items.map((item, i) => {
             return (
-              <li className="list__item" key={ item.name }>
+              <li className="list__item" key={ item.id }>
                 {!isPrograms &&
                   <i aria-hidden="true" className="material-icons">
                     keyboard_arrow_right

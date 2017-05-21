@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { BarChart,
   XAxis,
   YAxis,
@@ -115,7 +116,7 @@ export default class Programs extends Component {
           { addedPrograms.map((program) => {
             return (
               <Program
-                key={ program.name }
+                key={ program.id }
                 program={ program }
                 addDeliverable={ this.addDeliverable } />
             );

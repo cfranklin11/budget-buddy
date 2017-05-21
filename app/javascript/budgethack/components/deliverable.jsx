@@ -1,4 +1,5 @@
-import React, { PropTypes, Component } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { XAxis,
   YAxis,
   CartesianGrid,
@@ -64,11 +65,10 @@ export default class Deliverable extends Component {
               <div>
                 <h2>% Change: Budget vs Output Measures</h2>
                 <LineChart
-                  width={400}
-                  height={250}
-                  data={chartData}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
+                  width={ 400 }
+                  height={ 250 }
+                  data={ chartData }
+                  margin={ { top: 5, right: 30, left: 20, bottom: 5 } }>
                   <XAxis dataKey="year" />
                   <YAxis />
                   <CartesianGrid strokeDasharray="3 3" />

@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import List from './list';
 
 export default class Departments extends Component {
@@ -24,7 +25,9 @@ export default class Departments extends Component {
   render () {
     const { departments, fetchDataIfNeeded } = this.props;
     const { list } = departments;
-    const deptProp = list ? list.map((dept) => { return { name: dept }; }) : [];
+    const deptProp = list ?
+      list.map((dept, index) => { return { name: dept, id: index }; }) :
+      [];
 
     return (
       <div>

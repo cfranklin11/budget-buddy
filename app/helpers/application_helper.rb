@@ -1,79 +1,47 @@
-module ApplicationHelper
-  def datas
-    [{
-      name: 'Department of Health and Human Services',
-      current_budget: 2367438,
-      prev_budget: 2374953,
-      programs: [
-        {
-          name: 'program 1',
-          description: 'program description',
-          budgets: [
-              { year: '2018', budget: 357},
-              { year: '2017', budget: 674},
-              { year: '2016', budget: 305},
-              { year: '2015', budget: 973},
-              { year: '2014', budget: 276},
-              { year: '2013', budget: 936},
-          ],
-          deliverables: [
-            {
-              name: 'deliverable name',
-              metrics: [
-                { year: '2018', metric: 876},
-                { year: '2017', metric: 356},
-                { year: '2016', metric: 247},
-                { year: '2015', metric: 953},
-                { year: '2014', metric: 294},
-                { year: '2013', metric: 285},
-              ],
-              metric_units: 'number',
-              metric_type: 'Quantity',
-              regression_slope: 5,
-            }
-          ]
-        },
-        {
-          name: 'program 2',
-          description: 'program description',
-          budgets: [
-              { year: '2018', budget: 357},
-              { year: '2017', budget: 674},
-              { year: '2016', budget: 305},
-              { year: '2015', budget: 973},
-              { year: '2014', budget: 276},
-              { year: '2013', budget: 936},
-          ],
-          deliverables: [
-            {
-              name: 'deliverable name',
-              metrics: [
-                { year: '2018', metric: 876},
-                { year: '2017', metric: 356},
-                { year: '2016', metric: 247},
-                { year: '2015', metric: 953},
-                { year: '2014', metric: 294},
-                { year: '2013', metric: 285},
-              ],
-              metric_units: 'number',
-              metric_type: 'Quantity',
-              regression_slope: 5,
-            }
-          ]
-        }
-      ]
-    }]
-  end
+# frozen_string_literal: true
 
+# General helpers for getting data
+module ApplicationHelper
   def departments_data
-    file_path = File.join(Rails.root, 'data/scripts', 'data_processor.py')
-    data = %x(python #{file_path})
-    data
+    Department.all.pluck(:name)
   end
 
   def department_data(department_name)
-    file_path = File.join(Rails.root, 'data/scripts', 'read_data.py')
-    data = %x(python #{file_path} '#{department_name}')
-    data
+    department = Department.where(name: department_name)
+      .includes(programs: [{ deliverables: :metrics }, :budgets]).try(:first)
+
+    {
+      name: department.name,
+      current_budget: department.current_budget,
+      prev_budget: department.prev_budget,
+      id: department.id,
+      programs: program_data(department.programs)
+    }
+  end
+
+  private
+
+  def program_data(programs)
+    programs.map do |program|
+      {
+        description: program.description,
+        name: program.name,
+        id: program.id,
+        budgets: program.budgets,
+        deliverables: deliverable_data(program.deliverables)
+      }
+    end
+  end
+
+  def deliverable_data(deliverables)
+    deliverables.map do |deliverable|
+      {
+        name: deliverable.name,
+        metric_unit: deliverable.metric_unit,
+        metric_type: deliverable.metric_type,
+        metrics: deliverable.metrics,
+        id: deliverable.id
+      }
+    end
   end
 end
