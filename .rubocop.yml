@@ -12,5 +12,5 @@ Metrics/LineLength:
   Severity: refactor
   Max: 120
 
-Layout/MultilineMethodCallIndentation:
+Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented
