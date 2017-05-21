@@ -1,3 +1,5 @@
+/* eslint max-len: 0 */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { BarChart,
@@ -218,7 +220,6 @@ export default class Program extends Component {
         ) }
         <div className="select-program-area">
           <button
-            role="button"
             className="button--add-programs"
             type="button"
             onClick={ this.showDeliverables }>

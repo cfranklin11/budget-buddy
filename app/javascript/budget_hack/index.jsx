@@ -6,7 +6,7 @@ import App from './components/app';
 import store from './store';
 
 const app = (
-  <Provider store={store}>
+  <Provider store={ store }>
     <App />
   </Provider>
 );

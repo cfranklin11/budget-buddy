@@ -36,7 +36,7 @@ function fetchData (state, dataProperty, dataLabel) {
       `/data/${dataProperty}`;
 
     return fetch(url)
-      .then(response => response.json())
+      .then((response) => { return response.json(); })
       .then((json) => {
         dispatch(receiveData(state, json, dataProperty, dataLabel));
       });
