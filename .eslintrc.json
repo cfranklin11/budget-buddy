@@ -23,7 +23,7 @@
     "camelcase": 0,
     "space-before-function-paren": [1, "always"],
     "object-curly-spacing": [1, "always"],
-    "max-len": [2, 80, {"ignoreUrls": true, "ignoreTemplateLiterals": true}],
+    "max-len": [2, 80, {"ignoreUrls": true, "ignoreTemplateLiterals": true, "ignoreComments": true}],
     "arrow-body-style": [1, "always"],
     "react/jsx-closing-bracket-location": [1, "after-props"],
     "react/jsx-curly-spacing": [1, "always"],
