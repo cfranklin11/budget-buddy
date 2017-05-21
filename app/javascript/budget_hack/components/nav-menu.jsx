@@ -5,7 +5,7 @@ const NavMenu = () => {
   return (
     <div className="nav-bar-menu">
       <div className="navBar">
-        <nav className="wrapper" role="navigation">
+        <nav className="wrapper">
           <div className="logo">
             <a href="/">
               <img src={ logo } alt="logo" />

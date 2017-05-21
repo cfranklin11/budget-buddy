@@ -74,8 +74,12 @@ export default class Programs extends Component {
           <div>
             <div className="chart-area" tabIndex="0">
               <div className="chart-header">
-                <div className="chart-header__budget-amount"><span>{`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}</span></div>
-                <div className="chart-header__percentage-change"><span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span></div>
+                <div className="chart-header__budget-amount">
+                  <span>{`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}</span>
+                </div>
+                <div className="chart-header__percentage-change">
+                  <span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span>
+                </div>
               </div>
               { chartData && (
                 <div className="chart-widget">
@@ -94,7 +98,6 @@ export default class Programs extends Component {
             </div>
             <div className="select-program-area">
               <button
-                role="button"
                 className="button--add-programs"
                 type="button"
                 onClick={ this.showPrograms }>
@@ -124,7 +127,7 @@ export default class Programs extends Component {
           }
         </ul>
         <div className="select-program-area">
-          <button role="button" className="button--share" type="button">
+          <button className="button--share" type="button">
             <span>Share</span>
             <i className="material-icons">share</i>
           </button>
