@@ -57,7 +57,7 @@ export default class Deliverable extends Component {
     return (
       <div>
         <span className="program-chart-header__title">
-          { name }
+          { name } [ Delete deliverable ]
         </span>
         <div>
           { chartData && chartData.length > 0 && (

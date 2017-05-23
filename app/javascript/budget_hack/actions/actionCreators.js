@@ -1,16 +1,16 @@
 import fetch from 'isomorphic-fetch';
 
-export function shareInfographic (index) {
-  return {
-    type: 'SHARE_INFOGRAPHIC',
-    index,
-  };
-}
-
 export function addProgram (name) {
   return {
     type: 'ADD_PROGRAM',
     name,
+  };
+}
+
+export function removeProgram (id) {
+  return {
+    type: 'REMOVE_PROGRAM',
+    id,
   };
 }
 
