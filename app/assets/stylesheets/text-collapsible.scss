@@ -1,4 +1,23 @@
 .text-collapsible {
   border: 1px solid blue;
   background-color: white;
+  font-size: 16px;
+}
+.text-collapsible__wrapper {
+  overflow: hidden;
+  max-height: 50px;
+
+  .is--expanded & {
+    max-height: 3000px;
+  }
+}
+.text-collapsible__read-more {
+  font-weight: 400;
+  color: #37B1FF;
+  font-size: 16px;
+  text-align: center;
+  display: block;
+  padding: 14px 0;
+  cursor: pointer;
+
 }
