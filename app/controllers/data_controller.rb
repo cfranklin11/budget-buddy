@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Controller for sending data to React app
 class DataController < ApplicationController
   include ApplicationHelper
