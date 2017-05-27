@@ -4,6 +4,7 @@ AllCops:
     - db/**/*
     - data/*
     - data_exploration/*
+    - spec/**/*
 
   TargetRubyVersion: 2.3.1
   TargetRailsVersion: 5.1

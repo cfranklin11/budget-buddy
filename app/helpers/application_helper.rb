@@ -18,7 +18,7 @@ module ApplicationHelper
         description: program.description,
         name: program.name,
         id: program.id,
-        budgets: program.budgets,
+        budgets: budget_data(program.budgets),
         deliverables: deliverable_data(program.deliverables)
       }
     end
@@ -30,14 +30,34 @@ module ApplicationHelper
         name: deliverable.name,
         metric_unit: deliverable.metric_unit,
         metric_type: deliverable.metric_type,
-        metrics: deliverable.metrics,
+        metrics: metric_data(deliverable.metrics),
         id: deliverable.id
       }
     end
   end
 
+  def budget_data(budgets)
+    budgets.map do |budget|
+      {
+        budget: budget.budget,
+        year: budget.year,
+        id: budget.id
+      }
+    end
+  end
+
+  def metric_data(metrics)
+    metrics.map do |metric|
+      {
+        metric: metric.metric,
+        year: metric.year,
+        id: metric.id
+      }
+    end
+  end
+
   def department_record(department_name)
-    Department.find_by(name: department_name).try(:includes, programs: [{ deliverables: :metrics }, :budgets])
+    Department.where(name: department_name).try(:includes, programs: [{ deliverables: :metrics }, :budgets]).first
   end
 
   def department_hash(department_record)
