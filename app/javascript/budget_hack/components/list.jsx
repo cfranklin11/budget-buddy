@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 export default class List extends Component {
   static propTypes = {
-    isPrograms: PropTypes.bool,
     items: PropTypes.arrayOf(PropTypes.object),
     addProgram: PropTypes.func,
     fetchDataIfNeeded: PropTypes.func,
@@ -18,34 +16,21 @@ export default class List extends Component {
   }
 
   handleClick = (name) => {
-    const { isPrograms, addProgram, fetchDataIfNeeded } = this.props;
-
-    if (isPrograms) {
-      return () => {
-        addProgram(name);
-      };
-    }
-
+    const { addProgram, fetchDataIfNeeded } = this.props;
     return () => {
-      fetchDataIfNeeded('department', name);
+      addProgram(name);
     };
   }
 
   render () {
-    const { isPrograms, items } = this.props;
-    const divClass = classNames('list-wrapper', { 'is--programs': isPrograms });
+    const { items } = this.props;
 
     return (
-      <div className={ divClass } >
+      <div className="list-wrapper is--programs" >
         <ul className="list">
-          { items.map((item, i) => {
+          { items.map((item) => {
             return (
               <li className="list__item" key={ item.id }>
-                {!isPrograms &&
-                  <i aria-hidden="true" className="material-icons">
-                    keyboard_arrow_right
-                  </i>
-                }
                 <button
                   aria-label={ item.name }
                   onClick={ this.handleClick(item.name) }>
