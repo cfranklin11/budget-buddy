@@ -7,16 +7,7 @@ module ApplicationHelper
   end
 
   def department_data(department_name)
-    department = Department.where(name: department_name)
-      .includes(programs: [{ deliverables: :metrics }, :budgets]).try(:first)
-
-    {
-      name: department.name,
-      current_budget: department.current_budget,
-      prev_budget: department.prev_budget,
-      id: department.id,
-      programs: program_data(department.programs)
-    }
+    department_hash(department_record(department_name))
   end
 
   private
@@ -42,6 +33,24 @@ module ApplicationHelper
         metrics: deliverable.metrics,
         id: deliverable.id
       }
+    end
+  end
+
+  def department_record(department_name)
+    Department.find_by(name: department_name).try(:includes, programs: [{ deliverables: :metrics }, :budgets])
+  end
+
+  def department_hash(department_record)
+    if department_record
+      {
+        name: department_record.name,
+        current_budget: department_record.current_budget,
+        prev_budget: department_record.prev_budget,
+        id: department_record.id,
+        programs: program_data(department_record.programs)
+      }
+    else
+      {}
     end
   end
 end
