@@ -2,30 +2,23 @@
 
 require 'rails_helper'
 
-describe ApplicationHelper, type: :helper do
-  describe '#departments_data' do
-    it 'returns an array of department names' do
-      departments_array = helper.departments_data
-
-      expect(departments_array).to be_instance_of(Array)
-      expect(departments_array.length).to be > 0
-
-      departments_array.each { |dept| expect(dept).to be_instance_of(String) }
-    end
+describe DepartmentPresenter do
+  before do
+    @department = create(:department)
+    @presenter = DepartmentPresenter.new(@department.name)
   end
 
-  describe '#department_data' do
+  describe '#data' do
     it 'returns a department data object' do
-      department_record = create(:department)
-      department_hash = helper.department_data(department_record.name)
+      department_hash = @presenter.data
 
       expect(department_hash).to include(
-        name: department_record.name,
-        current_budget: department_record.current_budget,
-        prev_budget: department_record.prev_budget
+        name: @department.name,
+        current_budget: @department.current_budget,
+        prev_budget: @department.prev_budget
       )
 
-      program_record = department_record.programs.first
+      program_record = @department.programs.first
       program_hash = department_hash[:programs].first
       expect(program_hash).to include(
         name: program_record.name,
