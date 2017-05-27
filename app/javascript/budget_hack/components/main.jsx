@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import NavMenu from './nav-menu';
-import Footer from './footer';
-import Departments from './departments';
-import Programs from './programs';
+import DepartmentList from './department-list';
+import Department from './department';
 
 export default class Main extends PureComponent {
   static propTypes = {
@@ -35,19 +33,17 @@ export default class Main extends PureComponent {
     return (
       <div>
         <div className="page-wrap">
-          <NavMenu />
           {!currentDepartment && (
-            <Departments
+            <DepartmentList
               departments={ departments }
               fetchDataIfNeeded={ fetchDataIfNeeded } />
           )}
           {currentDepartment && (
-            <Programs
+            <Department
               departments={ departments }
               addProgram={ addProgram } />
           )}
         </div>
-        <Footer />
       </div>
     );
   }
