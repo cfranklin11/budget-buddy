@@ -1,16 +1,29 @@
 # frozen_string_literal: true
 
-# General helpers for getting data
-module ApplicationHelper
-  def departments_data
-    Department.all.pluck(:name)
+# Return one department's data with associations
+class DepartmentPresenter
+  def initialize(department_name)
+    @department = Department
+      .where(name: department_name)
+      .try(:includes, programs: [{ deliverables: :metrics }, :budgets])
+      .first
   end
 
-  def department_data(department_name)
-    department_hash(department_record(department_name))
+  def data
+    @department ? department_data(@department) : {}
   end
 
   private
+
+  def department_data(department_record)
+    {
+      name: department_record.name,
+      current_budget: department_record.current_budget,
+      prev_budget: department_record.prev_budget,
+      id: department_record.id,
+      programs: program_data(department_record.programs)
+    }
+  end
 
   def program_data(programs)
     programs.map do |program|
@@ -53,24 +66,6 @@ module ApplicationHelper
         year: metric.year,
         id: metric.id
       }
-    end
-  end
-
-  def department_record(department_name)
-    Department.where(name: department_name).try(:includes, programs: [{ deliverables: :metrics }, :budgets]).first
-  end
-
-  def department_hash(department_record)
-    if department_record
-      {
-        name: department_record.name,
-        current_budget: department_record.current_budget,
-        prev_budget: department_record.prev_budget,
-        id: department_record.id,
-        programs: program_data(department_record.programs)
-      }
-    else
-      {}
     end
   end
 end

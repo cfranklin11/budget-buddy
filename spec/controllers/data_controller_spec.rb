@@ -5,22 +5,18 @@ require 'rails_helper'
 describe DataController do
   describe 'GET departments' do
     it 'returns json' do
-      get :departments
+      get :department_list
       expect(response.code).to eq('200')
       expect(response.content_type).to eq('application/json')
+      expect(JSON.parse(response.body).length).to be > 0
     end
   end
 
   describe 'GET department' do
     it 'returns json' do
-      allow(controller).to receive(:department_data).and_return(
-        name: 'Department Name',
-        current_budget: 2000,
-        prev_budget: 1500,
-        programs: []
-      )
+      department_record = create(:department)
 
-      get :department, params: { department_name: 'Department Name' }
+      get :department_attributes, params: { department_name: department_record.name }
       expect(response.code).to eq('200')
       expect(response.content_type).to eq('application/json')
     end

@@ -5,8 +5,8 @@
     "precommit": "lint-staged"
   },
   "lint-staged": {
-    "*.{js,jsx}": ["./node_modules/.bin/eslint"],
-    "*.rb": ["rubocop"]
+    "app/**/*.{js,jsx}": ["./node_modules/.bin/eslint"],
+    "app/**/*.rb": ["rubocop"]
   },
   "dependencies": {
     "babel-core": "^6.24.1",
