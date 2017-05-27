@@ -2,10 +2,6 @@
 
 # General helpers for getting data
 module ApplicationHelper
-  def departments_data
-    Department.all.pluck(:name)
-  end
-
   def department_data(department_name)
     department_hash(department_record(department_name))
   end

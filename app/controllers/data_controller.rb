@@ -4,11 +4,11 @@
 class DataController < ApplicationController
   include ApplicationHelper
 
-  def departments
-    render json: departments_data
+  def department_list
+    render json: Department.all.pluck(:name)
   end
 
-  def department
+  def department_attributes
     render json: department_data(budget_params[:department_name])
   end
 
