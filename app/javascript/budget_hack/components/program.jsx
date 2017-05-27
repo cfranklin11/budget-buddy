@@ -151,7 +151,7 @@ export default class Program extends Component {
     return (
       <div className="program-widget-area">
         <span className="program-chart-header__title">
-          { name }
+          { name } [ delete program ]
         </span>
         { !isDelListVisible && (
           <div>

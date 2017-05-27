@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import List from './list';
 
 export default class Departments extends Component {
   static propTypes = {
@@ -22,6 +21,13 @@ export default class Departments extends Component {
     this.props.fetchDataIfNeeded('departments');
   }
 
+  handleClick = (name) => {
+    const { fetchDataIfNeeded } = this.props;
+    return () => {
+      fetchDataIfNeeded('department', name);
+    };
+  }
+
   render () {
     const { departments, fetchDataIfNeeded } = this.props;
     const { list } = departments;
@@ -36,7 +42,24 @@ export default class Departments extends Component {
         </h1>
         <div className="photo-grid">
           { deptProp.length > 0 && (
-            <List items={ deptProp } fetchDataIfNeeded={ fetchDataIfNeeded } />
+            <div className="list-wrapper" >
+              <ul className="list">
+                { deptProp.map((item, i) => {
+                  return (
+                    <li className="list__item" key={ item.id }>
+                      <i aria-hidden="true" className="material-icons">
+                        keyboard_arrow_right
+                      </i>
+                      <button
+                        aria-label={ item.name }
+                        onClick={ this.handleClick(item.name) }>
+                        { item.name }
+                      </button>
+                    </li>
+                  );
+                }) }
+              </ul>
+            </div>
           ) }
         </div>
       </div>

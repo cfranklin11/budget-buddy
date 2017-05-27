@@ -8,7 +8,6 @@ import { BarChart,
   Legend,
   Bar,
   ResponsiveContainer } from 'recharts';
-import List from './list';
 import Program from './program';
 
 export default class Programs extends Component {
@@ -40,8 +39,10 @@ export default class Programs extends Component {
   }
 
   addProgram = (name) => {
-    this.props.addProgram(name);
-    this.setState({ isProgListVisible: false });
+    return () => {
+      this.props.addProgram(name);
+      this.setState({ isProgListVisible: false });
+    };
   }
 
   render () {
@@ -109,10 +110,21 @@ export default class Programs extends Component {
         ) }
         { isProgListVisible && (
           <div className="photo-grid">
-            <List
-              items={ programs }
-              isPrograms
-              addProgram={ this.addProgram } />
+            <div className="list-wrapper is--programs" >
+              <ul className="list">
+                { programs.map((program) => {
+                  return (
+                    <li className="list__item" key={ program.id }>
+                      <button
+                        aria-label={ program.name }
+                        onClick={ this.addProgram(program.name) }>
+                        { program.name }
+                      </button>
+                    </li>
+                  );
+                }) }
+              </ul>
+            </div>
           </div>
         ) }
         <ul className="program-list">

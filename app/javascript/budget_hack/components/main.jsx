@@ -24,9 +24,12 @@ export default class Main extends PureComponent {
   }
 
   render () {
-    const { departments,
+    const {
+      departments,
       fetchDataIfNeeded,
-      addProgram } = this.props;
+      addProgram,
+    } = this.props;
+
     const { currentDepartment } = departments || {};
 
     return (
