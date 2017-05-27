@@ -10,7 +10,7 @@ import { BarChart,
   ResponsiveContainer } from 'recharts';
 import Program from './program';
 
-export default class Programs extends Component {
+export default class Department extends Component {
   static propTypes = {
     departments: PropTypes.shape({
       currentDepartment: PropTypes.string,
@@ -73,7 +73,7 @@ export default class Programs extends Component {
         </h1>
         { !isProgListVisible && (
           <div>
-            <div className="chart-area" tabIndex="0">
+            <div className="chart-area">
               <div className="chart-header">
                 <div className="chart-header__budget-amount">
                   <span>{`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}</span>
@@ -109,7 +109,7 @@ export default class Programs extends Component {
           </div>
         ) }
         { isProgListVisible && (
-          <div className="photo-grid">
+          <div className="content-wrapper">
             <div className="list-wrapper is--programs" >
               <ul className="list">
                 { programs.map((program) => {

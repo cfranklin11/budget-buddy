@@ -1,6 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TextCollapsible extends React.Component {
+  static propTypes = {
+    children: PropTypes.string.isRequired,
+  };
+
   constructor () {
     super();
     this.state = {
@@ -18,12 +23,16 @@ class TextCollapsible extends React.Component {
 
   render () {
     const { isExpanded } = this.state;
+    const { children } = this.props;
     return (
-      <div className={ `text-collapsible ${isExpanded ? 'is--expanded' : ''}` }>
+      <div
+        className={ `text-collapsible ${isExpanded ? 'is--expanded' : ''}` }>
         <div className="text-collapsible__wrapper">
-          {this.props.children}
+          { children }
         </div>
         <a
+          role="button"
+          tabIndex={ 0 }
           onClick={ this.handleToggle }
           className="text-collapsible__read-more">
           {isExpanded ? 'Read less' : 'Read more'}

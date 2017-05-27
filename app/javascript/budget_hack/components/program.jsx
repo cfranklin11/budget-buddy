@@ -12,7 +12,7 @@ import { BarChart,
   ResponsiveContainer,
   LineChart,
   Line } from 'recharts';
-import DeliverableList from './deliverableList';
+import DeliverableList from './deliverable-list';
 import Deliverable from './deliverable';
 
 export default class Program extends Component {
@@ -211,7 +211,7 @@ export default class Program extends Component {
           </div>
         ) }
         { isDelListVisible && (
-          <div className="photo-grid">
+          <div className="content-wrapper">
             <DeliverableList
               items={ deliverables }
               addedDeliverables={ addedDeliverables }
