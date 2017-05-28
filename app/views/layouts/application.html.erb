@@ -18,31 +18,31 @@
   <body>
 
 
-      <div className="navBar">
-        <nav className="wrapper">
-          <div className="logo">
+      <div class="navBar">
+        <nav class="wrapper">
+          <div class="logo">
             <a href="/">
-              <img src={ logo } alt="logo" />
+              <%= image_tag "logo.svg"%>
             </a>
           </div>
-          <div tabIndex="0" className="menu-accessibility">
-            <span className="menu-accessibility__tonality">
+          <div tabIndex="0" class="menu-accessibility">
+            <span class="menu-accessibility__tonality">
               <a aria-label="tonality" href="/">
-                <i aria-hidden="true" className="material-icons">tonality</i>
+                <i aria-hidden="true" class="material-icons">tonality</i>
               </a>
             </span>
             <span
               aria-hidden="true"
-              className="menu-accessibility__screen-reader">
+              class="menu-accessibility__screen-reader">
               <a href="/">
-                <i aria-hidden="true" className="material-icons">
+                <i aria-hidden="true" class="material-icons">
                   accessibility
                 </i>
               </a>
             </span>
-            <span className="menu-accessibility__hamburger">
+            <span class="menu-accessibility__hamburger">
               <a aria-label="mobile-menu" href="/">
-                <i aria-hidden="true" className="material-icons">
+                <i aria-hidden="true" class="material-icons">
                   menu
                 </i>
               </a>
@@ -54,16 +54,16 @@
 
     <%= yield %>
 
-    <footer className="footer" tabIndex="0">
-      <span aria-label="budget hackathon 2017" className="footer__logo">
+    <footer class="footer" tabIndex="0">
+      <span aria-label="budget hackathon 2017" class="footer__logo">
         BUDGETHACK 2017
       </span>
       <br />
-      <span aria-hidden="true" tabIndex="-1" className="footer__info">
-        Made with lot of ☕ by <a tabIndex="-1" href="https://github.com/cfranklin11/budget-hack-2017">The Hippo’s stripes</a>
+      <span aria-hidden="true" tabIndex="-1" class="footer__info">
+        Made with lot of <span class="footer__icon">☕</span> by <a tabIndex="-1" href="https://github.com/cfranklin11/budget-hack-2017">The Hippo’s stripes</a>
       </span>
       <nav>
-        <ul className="footer-nav" tabIndex="1">
+        <ul class="footer-nav" tabIndex="1">
           <li><a href="https://github.com/meligatt/budgethack2017_frontend">About</a></li>
           <li><a href="https://github.com/meligatt/budgethack2017_frontend">Github</a></li>
           <li><a href="https://github.com/meligatt/budgethack2017_frontend">Contact</a></li>

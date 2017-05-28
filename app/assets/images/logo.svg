@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="95" height="48" viewBox="0 0 95 48">
+    <g fill="none" fill-rule="evenodd">
+        <text fill="#4A4A4A" font-family="Roboto-Medium, Roboto" font-size="15" font-weight="400">
+            <tspan x="0" y="36.435">budget buddy</tspan>
+        </text>
+        <path fill="#33C7A6" d="M60.064 5.155h4.204v16.981h-4.204zM66.07 11.523h4.204v10.613H66.07zM72.377 7.581h4.204v14.555h-4.204zM78.383 0h4.204v22.135h-4.204z"/>
+        <g stroke="#33C7A6" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.2">
+            <path d="M62.48 41.17H49.439c-.6 0-1.087-.525-1.087-.887V21.904c0-.362.487-.166 1.087-.166h43.475c.6 0 1.087-.196 1.087.166v18.379c0 .362-.487.887-1.087.887H77.697M70.089 46.838l7.2-5.251M70.089 46.838l-7.2-5.251"/>
+        </g>
+    </g>
+</svg>
