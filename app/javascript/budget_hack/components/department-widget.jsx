@@ -8,9 +8,9 @@ import { BarChart,
   Legend,
   Bar,
   ResponsiveContainer } from 'recharts';
-import Program from './program';
+import ProgramWidget from './program-widget';
 
-export default class Department extends Component {
+export default class DepartmentWidget extends Component {
   static propTypes = {
     departments: PropTypes.shape({
       currentDepartment: PropTypes.string,
@@ -130,7 +130,7 @@ export default class Department extends Component {
         <ul className="program-list">
           { addedPrograms.map((program) => {
             return (
-              <Program
+              <ProgramWidget
                 key={ program.id }
                 program={ program }
                 addDeliverable={ this.addDeliverable } />

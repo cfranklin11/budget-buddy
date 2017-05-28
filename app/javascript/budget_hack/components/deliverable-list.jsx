@@ -28,12 +28,14 @@ export default class DeliverableList extends Component {
     const { addedDeliverables, items } = this.props;
 
     return (
-      <div className={ `list-wrapper ${'is--programs'}` } >
-        <ul className="list">
+      <div className="deliverable-list-wrapper is--deliverable">
+        <ul className="deliverable-list">
           { items.map((item) => {
             return (
-              <li className="list__item" key={ item.id }>
-                <button onClick={ this.handleClick(item, addedDeliverables) }>
+              <li className="deliverable-list__item" key={ item.id }>
+                <button
+                  className="deliverable-list__button"
+                  onClick={ this.handleClick(item, addedDeliverables) }>
                   { item.name }
                 </button>
               </li>

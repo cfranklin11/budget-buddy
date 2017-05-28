@@ -13,9 +13,9 @@ import { BarChart,
   LineChart,
   Line } from 'recharts';
 import DeliverableList from './deliverable-list';
-import Deliverable from './deliverable';
+import DeliverableWidget from './deliverable-widget';
 
-export default class Program extends Component {
+export default class ProgramWidget extends Component {
   static propTypes = {
     program: PropTypes.shape({
       budgets: PropTypes.arrayOf(PropTypes.object),
@@ -230,7 +230,7 @@ export default class Program extends Component {
         <ul className="program-list">
           { addedDeliverables.map((deliverable) => {
             return (
-              <Deliverable
+              <DeliverableWidget
                 key={ deliverable.id }
                 deliverable={ deliverable }
                 budgets={ percentBudgetChanges } />

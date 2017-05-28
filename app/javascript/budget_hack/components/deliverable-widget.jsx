@@ -8,7 +8,7 @@ import { XAxis,
   LineChart,
   Line } from 'recharts';
 
-export default class Deliverable extends Component {
+export default class DeliverableWidget extends Component {
   static propTypes = {
     deliverable: PropTypes.shape({
       name: PropTypes.string,
@@ -56,12 +56,12 @@ export default class Deliverable extends Component {
 
     return (
       <div>
-        <span className="program-chart-header__title">
+        <span className="deliverable-chart-header__title">
           { name } [ Delete deliverable ]
         </span>
         <div>
           { chartData && chartData.length > 0 && (
-            <div className="chart-widget">
+            <div className="deliverable-widget">
               <div>
                 <h2>% Change: Budget vs Output Measures</h2>
                 <LineChart

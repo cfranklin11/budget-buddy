@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import DepartmentList from './department-list';
-import Department from './department';
+import DepartmentWidget from './department-widget';
 
 export default class Main extends PureComponent {
   static propTypes = {
@@ -39,7 +39,7 @@ export default class Main extends PureComponent {
               fetchDataIfNeeded={ fetchDataIfNeeded } />
           )}
           {currentDepartment && (
-            <Department
+            <DepartmentWidget
               departments={ departments }
               addProgram={ addProgram } />
           )}
