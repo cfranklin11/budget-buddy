@@ -34,22 +34,6 @@ export default class ProgramWidget extends Component {
     addedDeliverables: [],
   }
 
-  percentBudgetChange = (budgets) => {
-    const firstBudget = parseFloat(budgets[0].budget);
-    const firstBudgetNumber = isNaN(firstBudget) ? 1 : firstBudget;
-
-    const percentChanges = budgets.map((budget) => {
-      const thisBudget = parseFloat(budget.budget);
-      const budgetNumber = isNaN(thisBudget) ? 0 : thisBudget;
-      const percentChange = Math.round(
-        ((budgetNumber / firstBudgetNumber) - 1) * 100);
-
-      return { year: budget.year, budget: percentChange };
-    });
-
-    return percentChanges;
-  }
-
   percentMetricChange = (metrics) => {
     const firstMetric = (metrics && metrics.length > 0 &&
       parseFloat(metrics[0].metric)) || 0;
@@ -134,29 +118,16 @@ export default class ProgramWidget extends Component {
 
   render () {
     const { isDelListVisible, addedDeliverables } = this.state;
-    const { program: { budgets, name, deliverables } } = this.props;
-    const currentBudgets = budgets
-      .filter((budget) => {
-        return budget.year === 2017;
-      })
-      .map((budget) => { return budget.budget; });
-    const currentBudget = currentBudgets.length > 0 ?
-      currentBudgets.reduce((acc, curr) => { return acc + curr; }) :
-      0;
-    const prevBudgets = budgets
-      .filter((budget) => {
-        return budget.year === 2016;
-      })
-      .map((budget) => { return budget.budget; });
-    const prevBudget = prevBudgets.length > 0 ?
-      prevBudgets.reduce((acc, curr) => { return acc + curr; }) :
-      0;
-    const change = Math.round(
-      ((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
+    const { program: {
+      budgets,
+      name,
+      deliverables,
+      percent_budget_changes,
+      percent_budget_change,
+      current_budget } } = this.props;
     const metrics = this.metricsByYear(deliverables);
-    const percentBudgetChanges = this.percentBudgetChange(budgets);
     const chartData = this.lineChartData(
-      percentBudgetChanges,
+      percent_budget_changes,
       this.percentMetricChange(metrics));
 
     return (
@@ -177,7 +148,7 @@ export default class ProgramWidget extends Component {
             <div className="chart-header">
               <div className="chart-header__budget-amount">
                 <span>
-                  {`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}
+                  {`Budget 2016 / 2017: $${parseInt(current_budget, 10)} million`}
                 </span>
               </div>
               <div className="chart-header__percentage-change">
@@ -185,7 +156,7 @@ export default class ProgramWidget extends Component {
                   Change from previous year
                   <span
                     className="chart-header__percentage-number">
-                    {`${change}%`}
+                    {`${percent_budget_change}%`}
                   </span>
                 </span>
               </div>
@@ -256,7 +227,7 @@ export default class ProgramWidget extends Component {
               <DeliverableWidget
                 key={ deliverable.id }
                 deliverable={ deliverable }
-                budgets={ percentBudgetChanges } />
+                budgets={ percent_budget_changes } />
             );
           }) }
         </ul>

@@ -20,8 +20,7 @@ class DepartmentPresenter
     {
       name: department_record.name,
       current_budget: department_record.current_budget,
-      prev_budget: department_record.prev_budget,
-      percent_budget_change: percent_budget_change(department_record.prev_budget, department_record.current_budget),
+      percent_budget_change: percent_change(department_record.current_budget, department_record.prev_budget),
       id: department_record.id,
       programs: programs,
       chart_data: current_program_budgets(programs)
@@ -30,35 +29,60 @@ class DepartmentPresenter
 
   def current_program_budgets(programs)
     programs.map do |program|
-      { name: program[:name], budget: current_metric(program[:budgets])[:budget] || 0 }
+      { name: program[:name], budget: current_metric(program[:budgets], :budget) || 0 }
     end
   end
 
-  def current_metric(metrics)
-    year = max_year(metrics)
-    filtered_metrics = metrics.select { |metric| metric[:year].to_i == year }
-    filtered_metrics.first
+  def current_metric(metrics, label)
+    current_year = selected_year(metrics, metrics.count - 1)
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == current_year }
+    filtered_metrics.first.fetch(label.to_sym)
   end
 
-  def max_year(metrics)
+  def selected_year(metrics, index)
     years = metrics.map { |metric| metric[:year].to_i }
-    years.reduce { |memo, year| [memo, year].max }
+    years.sort[index]
   end
 
-  def percent_budget_change(prev_budget, current_budget)
-    (((current_budget.to_f / prev_budget.to_f) - 1) * 100).round
+  def prev_metric(metrics, label)
+    prev_year = selected_year(metrics, metrics.count - 2)
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == prev_year }
+    filtered_metrics.first.fetch(label.to_sym)
+  end
+
+  def percent_change(current_metric, prev_metric)
+    (((current_metric.to_f / prev_metric.to_f) - 1) * 100).round
   end
 
   def program_data(programs)
     programs.map do |program|
+      budgets_array = budget_data(program.budgets)
+      current_budget = current_metric(budgets_array, :budget)
+
       {
         description: program.description,
         name: program.name,
         id: program.id,
-        budgets: budget_data(program.budgets),
-        deliverables: deliverable_data(program.deliverables)
+        current_budget: current_budget,
+        percent_budget_change: percent_change(current_budget, prev_metric(budgets_array, :budget)),
+        budgets: budgets_array,
+        deliverables: deliverable_data(program.deliverables),
+        percent_budget_changes: percent_changes(budgets_array, :budget)
       }
     end
+  end
+
+  def percent_changes(metrics, label)
+    oldest = oldest_metric(metrics, label)
+    metrics.map do |metric|
+      { year: metric[:year], percent_change: percent_change(metric.fetch(label.to_sym), oldest) }
+    end
+  end
+
+  def oldest_metric(metrics, label)
+    min_year = selected_year(metrics, 0)
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == min_year }
+    filtered_metrics.first.fetch(label.to_sym)
   end
 
   def deliverable_data(deliverables)
