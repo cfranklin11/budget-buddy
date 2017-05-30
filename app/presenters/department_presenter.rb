@@ -16,13 +16,37 @@ class DepartmentPresenter
   private
 
   def department_data(department_record)
+    programs = program_data(department_record.programs)
     {
       name: department_record.name,
       current_budget: department_record.current_budget,
       prev_budget: department_record.prev_budget,
+      percent_budget_change: percent_budget_change(department_record.prev_budget, department_record.current_budget),
       id: department_record.id,
-      programs: program_data(department_record.programs)
+      programs: programs,
+      chart_data: current_program_budgets(programs)
     }
+  end
+
+  def current_program_budgets(programs)
+    programs.map do |program|
+      { name: program[:name], budget: current_metric(program[:budgets])[:budget] || 0 }
+    end
+  end
+
+  def current_metric(metrics)
+    year = max_year(metrics)
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == year }
+    filtered_metrics.first
+  end
+
+  def max_year(metrics)
+    years = metrics.map { |metric| metric[:year].to_i }
+    years.reduce { |memo, year| [memo, year].max }
+  end
+
+  def percent_budget_change(prev_budget, current_budget)
+    (((current_budget.to_f / prev_budget.to_f) - 1) * 100).round
   end
 
   def program_data(programs)

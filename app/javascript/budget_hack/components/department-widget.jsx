@@ -53,20 +53,10 @@ export default class DepartmentWidget extends Component {
       departments: { department, addedPrograms },
       removeProgram,
     } = this.props;
-    const { name, programs } = department || {};
+    const { name, programs, chart_data } = department || {};
     const currentBudget = (department && department.current_budget) || 0;
-    const prevBudget = (department && department.prev_budget) || 0;
-    const chartData = programs ? programs.map((program) => {
-      const budgetFigure = program.budgets.filter((budget) => {
-        return budget.year === 2017;
-      }).map((budget) => {
-        return budget.budget;
-      });
-
-      return { name: program.name, value: parseInt(budgetFigure[0], 10) };
-    }) : null;
-    const change = Math.round(
-      ((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
+    const percentBudgetChange =
+      (department && department.percent_budget_change) || 0;
 
     return (
       <div className="programs">
@@ -89,15 +79,15 @@ export default class DepartmentWidget extends Component {
                   <span>
                     Change from previous year
                     <span className="chart-header__percentage-number">
-                      {`${change}%`}
+                      {`${percentBudgetChange}%`}
                     </span>
                   </span>
                 </div>
               </div>
-              { chartData && (
+              { chart_data && (
                 <div className="chart-widget">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart width={ 400 } height={ 250 } data={ chartData }>
+                    <BarChart width={ 400 } height={ 250 } data={ chart_data }>
                       <XAxis dataKey="name" />
                       <YAxis />
                       <CartesianGrid strokeDasharray="3 3" />
