@@ -93,7 +93,7 @@ export default class DepartmentWidget extends Component {
                       <CartesianGrid strokeDasharray="3 3" />
                       <Tooltip />
                       <Legend />
-                      <Bar dataKey="value" fill="#8884d8" />
+                      <Bar dataKey="budget" fill="#8884d8" />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>

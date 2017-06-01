@@ -14,11 +14,11 @@ export default class DeliverableWidget extends Component {
       name: PropTypes.string,
       metrics: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
-    budgets: PropTypes.arrayOf(PropTypes.object),
+    budgetChanges: PropTypes.arrayOf(PropTypes.object),
   }
 
   static defaultProps = {
-    budgets: [],
+    budgetChanges: [],
   }
 
   percentMetricChange = (metrics) => {
@@ -49,9 +49,9 @@ export default class DeliverableWidget extends Component {
   }
 
   render () {
-    const { deliverable: { name, metrics }, budgets } = this.props;
+    const { deliverable: { name, metrics }, budgetChanges } = this.props;
     const chartData = this.lineChartData(
-      budgets,
+      budgetChanges,
       this.percentMetricChange(metrics));
 
     return (

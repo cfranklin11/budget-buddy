@@ -22,6 +22,10 @@ export default class ProgramWidget extends Component {
       budgets: PropTypes.arrayOf(PropTypes.object),
       name: PropTypes.string,
       deliverables: PropTypes.arrayOf(PropTypes.object),
+      percent_budget_change: PropTypes.number,
+      current_budget: PropTypes.number,
+      percent_budget_changes: PropTypes.arrayOf(PropTypes.object),
+      percent_metric_changes: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
   }
 
@@ -34,69 +38,16 @@ export default class ProgramWidget extends Component {
     addedDeliverables: [],
   }
 
-  percentMetricChange = (metrics) => {
-    const firstMetric = (metrics && metrics.length > 0 &&
-      parseFloat(metrics[0].metric)) || 0;
-    const firstMetricNumber = isNaN(firstMetric) ? 1 : firstMetric;
-
-    const percentChanges = metrics.map((metric) => {
-      const thisMetric = parseFloat(metric.metric);
-      const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-      const percentChange = Math.round(
-        ((metricNumber / firstMetricNumber) - 1) * 100);
-
-      return { year: metric.year, metric: percentChange };
-    });
-
-    return percentChanges;
-  }
-
   lineChartData = (budgetChanges, metricChanges) => {
     const chartData = budgetChanges.map((budget, index) => {
-      const metric = metricChanges.length > index ?
-      metricChanges[index].metric :
-      0;
-
-      return { year: budget.year, budget: budget.budget, metric };
+      return {
+        year: budget.year,
+        budget: budget.percent_change,
+        metric: metricChanges[index] ? metricChanges[index].percent_change : 0,
+      };
     });
 
     return chartData;
-  }
-
-  metricsByYear = (deliverables) => {
-    const qtyDeliverables = deliverables.filter((deliverable) => {
-      return deliverable.metric_type === 'Quantity';
-    });
-    const qtyMetrics = qtyDeliverables.map((deliverable) => {
-      return deliverable.metrics;
-    }).reduce((acc, curr) => {
-      return acc.concat(curr);
-    }, []);
-    const metricObj = {};
-
-    for (let i = 0; i < qtyMetrics.length; i += 1) {
-      const metric = qtyMetrics[i];
-      const thisMetric = parseFloat(metric.metric);
-      const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-
-      if (metricObj[metric.year]) {
-        metricObj[metric.year] += metricNumber;
-      } else {
-        metricObj[metric.year] = metricNumber;
-      }
-    }
-
-    const metricArray = [];
-    const keys = Object.keys(metricObj);
-
-    for (let i = 0; i < keys.length; i += 1) {
-      metricArray[metricArray.length] = {
-        year: keys[i],
-        metric: metricObj[keys[i]],
-      };
-    }
-
-    return metricArray;
   }
 
   showDeliverables = () => {
@@ -122,13 +73,11 @@ export default class ProgramWidget extends Component {
       budgets,
       name,
       deliverables,
-      percent_budget_changes,
       percent_budget_change,
-      current_budget } } = this.props;
-    const metrics = this.metricsByYear(deliverables);
-    const chartData = this.lineChartData(
       percent_budget_changes,
-      this.percentMetricChange(metrics));
+      percent_metric_changes,
+      current_budget } } = this.props;
+    const chartData = this.lineChartData(percent_budget_changes, percent_metric_changes);
 
     return (
       <div className="program-widget-area">
@@ -227,7 +176,7 @@ export default class ProgramWidget extends Component {
               <DeliverableWidget
                 key={ deliverable.id }
                 deliverable={ deliverable }
-                budgets={ percent_budget_changes } />
+                budgetChanges={ percent_budget_changes } />
             );
           }) }
         </ul>

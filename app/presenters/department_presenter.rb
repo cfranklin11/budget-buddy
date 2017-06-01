@@ -67,22 +67,54 @@ class DepartmentPresenter
         percent_budget_change: percent_change(current_budget, prev_metric(budgets_array, :budget)),
         budgets: budgets_array,
         deliverables: deliverable_data(program.deliverables),
-        percent_budget_changes: percent_changes(budgets_array, :budget)
+        percent_budget_changes: percent_changes(budgets_array, :budget),
+        percent_metric_changes: percent_changes(metrics_by_year(program), :metric)
       }
     end
   end
 
   def percent_changes(metrics, label)
     oldest = oldest_metric(metrics, label)
-    metrics.map do |metric|
+    metric_changes = metrics.map do |metric|
       { year: metric[:year], percent_change: percent_change(metric.fetch(label.to_sym), oldest) }
     end
+
+    metric_changes.sort { |a, b| a[:year] <=> b[:year] }
   end
 
   def oldest_metric(metrics, label)
     min_year = selected_year(metrics, 0)
     filtered_metrics = metrics.select { |metric| metric[:year].to_i == min_year }
     filtered_metrics.first.fetch(label.to_sym)
+  end
+
+  def metrics_by_year(program)
+    metrics = quantity_deliverables(program.deliverables)
+      .map(&:metrics)
+      .reduce([]) { |array, n| array.concat(n) }
+
+    metric_array = []
+    year_metrics(metrics).each_pair { |key, value| metric_array << { year: key, metric: value } }
+
+    metric_array
+  end
+
+  def quantity_deliverables(deliverables)
+    deliverables.select { |deliverable| deliverable[:metric_type] == 'Quantity' }
+  end
+
+  def year_metrics(metrics)
+    metric_hash = {}
+
+    metrics.each do |metric|
+      if metric_hash[metric[:year]].present?
+        metric_hash[metric[:year]] += metric[:metric]
+      else
+        metric_hash[metric[:year]] = metric[:metric]
+      end
+    end
+
+    metric_hash
   end
 
   def deliverable_data(deliverables)
