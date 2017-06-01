@@ -19,11 +19,13 @@ export default class DepartmentWidget extends Component {
       addedPrograms: PropTypes.arrayOf(PropTypes.object),
     }),
     addProgram: PropTypes.func,
+    removeProgram: PropTypes.func,
   }
 
   static defaultProps = {
     departments: {},
-    addProgram: () => { return 'Could not add the program'; },
+    addProgram: () => { return null; },
+    removeProgram: () => { return null; },
   }
 
   constructor () {
@@ -47,7 +49,10 @@ export default class DepartmentWidget extends Component {
 
   render () {
     const { isProgListVisible } = this.state;
-    const { departments: { department, addedPrograms } } = this.props;
+    const {
+      departments: { department, addedPrograms },
+      removeProgram,
+    } = this.props;
     const { name, programs } = department || {};
     const currentBudget = (department && department.current_budget) || 0;
     const prevBudget = (department && department.prev_budget) || 0;
@@ -76,10 +81,17 @@ export default class DepartmentWidget extends Component {
             <div className="chart-area">
               <div className="chart-header">
                 <div className="chart-header__budget-amount">
-                  <span>{`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}</span>
+                  <span>
+                    {`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}
+                  </span>
                 </div>
                 <div className="chart-header__percentage-change">
-                  <span>Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span></span>
+                  <span>
+                    Change from previous year
+                    <span className="chart-header__percentage-number">
+                      {`${change}%`}
+                    </span>
+                  </span>
                 </div>
               </div>
               { chartData && (
@@ -131,6 +143,7 @@ export default class DepartmentWidget extends Component {
           { addedPrograms.map((program) => {
             return (
               <ProgramWidget
+                removeProgram={ removeProgram }
                 key={ program.id }
                 program={ program }
                 addDeliverable={ this.addDeliverable } />
