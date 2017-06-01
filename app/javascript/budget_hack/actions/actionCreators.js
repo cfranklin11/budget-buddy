@@ -7,10 +7,10 @@ export function addProgram (name) {
   };
 }
 
-export function removeProgram (id) {
+export function removeProgram (name) {
   return {
     type: 'REMOVE_PROGRAM',
-    id,
+    name,
   };
 }
 

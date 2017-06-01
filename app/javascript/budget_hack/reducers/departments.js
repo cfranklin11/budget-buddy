@@ -24,6 +24,13 @@ function departments (state = { addedPrograms: [] }, action) {
             .filter((program) => { return program.name === action.name; })),
       };
 
+    case 'REMOVE_PROGRAM':
+      return {
+        ...state,
+        addedPrograms: state.addedPrograms
+        .filter((program) => { return program.name !== action.name; }),
+      };
+
     default:
       return state;
   }

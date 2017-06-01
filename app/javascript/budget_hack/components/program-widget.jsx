@@ -17,12 +17,17 @@ import DeliverableWidget from './deliverable-widget';
 
 export default class ProgramWidget extends Component {
   static propTypes = {
+    removeProgram: PropTypes.func,
     program: PropTypes.shape({
       budgets: PropTypes.arrayOf(PropTypes.object),
       name: PropTypes.string,
       deliverables: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
   }
+
+  static defaultProps = {
+    removeProgram: () => { return null; },
+  };
 
   state = {
     isDelListVisible: false,
@@ -121,6 +126,12 @@ export default class ProgramWidget extends Component {
     });
   }
 
+  removeProgram = (name) => {
+    return () => {
+      this.props.removeProgram(name);
+    };
+  }
+
   render () {
     const { isDelListVisible, addedDeliverables } = this.state;
     const { program: { budgets, name, deliverables } } = this.props;
@@ -150,9 +161,17 @@ export default class ProgramWidget extends Component {
 
     return (
       <div className="program-widget-area">
-        <span className="program-chart-header__title">
-          { name } [ delete program ]
-        </span>
+        <div className="program-chart-header">
+          <div className="program-chart-header__title">
+            { name }
+          </div>
+          <button
+            className="button--remove-programs"
+            onClick={ this.removeProgram(name) }>
+            <i className="material-icons">remove_circle_outline</i>
+            Remove program
+          </button>
+        </div>
         { !isDelListVisible && (
           <div>
             <div className="chart-header">
@@ -163,7 +182,11 @@ export default class ProgramWidget extends Component {
               </div>
               <div className="chart-header__percentage-change">
                 <span>
-                  Change from previous year <span className="chart-header__percentage-number">{`${change}%`}</span>
+                  Change from previous year
+                  <span
+                    className="chart-header__percentage-number">
+                    {`${change}%`}
+                  </span>
                 </span>
               </div>
             </div>

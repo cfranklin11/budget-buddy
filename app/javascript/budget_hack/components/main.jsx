@@ -13,12 +13,14 @@ export default class Main extends PureComponent {
     }),
     fetchDataIfNeeded: PropTypes.func,
     addProgram: PropTypes.func,
+    removeProgram: PropTypes.func,
   }
 
   static defaultProps = {
     departments: {},
     fetchDataIfNeeded: () => { return 'Unable to check data'; },
     addProgram: () => { return 'Could not add the program'; },
+    removeProgram: () => { return 'Could not add the program'; },
   }
 
   render () {
@@ -26,6 +28,7 @@ export default class Main extends PureComponent {
       departments,
       fetchDataIfNeeded,
       addProgram,
+      removeProgram,
     } = this.props;
 
     const { currentDepartment } = departments || {};
@@ -40,6 +43,7 @@ export default class Main extends PureComponent {
           )}
           {currentDepartment && (
             <DepartmentWidget
+              removeProgram={ removeProgram }
               departments={ departments }
               addProgram={ addProgram } />
           )}
