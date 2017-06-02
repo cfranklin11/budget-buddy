@@ -7,6 +7,7 @@ import { XAxis,
   Legend,
   LineChart,
   Line } from 'recharts';
+import lineChartData from '../utils/data-utils';
 
 export default class DeliverableWidget extends Component {
   static propTypes = {
@@ -37,25 +38,13 @@ export default class DeliverableWidget extends Component {
     return percentChanges;
   }
 
-  lineChartData = (budgetChanges, metricChanges) => {
-    const chartData = budgetChanges.map((budget, index) => {
-      return {
-        year: budget.year,
-        budget: budget.percent_change,
-        metric: metricChanges[index] ? metricChanges[index].percent_change : 0,
-      };
-    });
-
-    return chartData;
-  }
-
   render () {
     const { budgetChanges,
       deliverable: {
         name,
         percent_metric_changes,
       } } = this.props;
-    const chartData = this.lineChartData(budgetChanges, percent_metric_changes);
+    const chartData = lineChartData(budgetChanges, percent_metric_changes);
 
     return (
       <div>

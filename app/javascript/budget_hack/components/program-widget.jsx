@@ -12,6 +12,7 @@ import { BarChart,
   ResponsiveContainer,
   LineChart,
   Line } from 'recharts';
+import lineChartData from '../utils/data-utils';
 import DeliverableList from './deliverable-list';
 import DeliverableWidget from './deliverable-widget';
 
@@ -36,18 +37,6 @@ export default class ProgramWidget extends Component {
   state = {
     isDelListVisible: false,
     addedDeliverables: [],
-  }
-
-  lineChartData = (budgetChanges, metricChanges) => {
-    const chartData = budgetChanges.map((budget, index) => {
-      return {
-        year: budget.year,
-        budget: budget.percent_change,
-        metric: metricChanges[index] ? metricChanges[index].percent_change : 0,
-      };
-    });
-
-    return chartData;
   }
 
   showDeliverables = () => {
@@ -77,7 +66,7 @@ export default class ProgramWidget extends Component {
       percent_budget_changes,
       percent_metric_changes,
       current_budget } } = this.props;
-    const chartData = this.lineChartData(percent_budget_changes, percent_metric_changes);
+    const chartData = lineChartData(percent_budget_changes, percent_metric_changes);
 
     return (
       <div className="program-widget-area">
