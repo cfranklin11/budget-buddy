@@ -51,6 +51,8 @@ class DepartmentPresenter
   end
 
   def percent_change(current_metric, prev_metric)
+    return 0 if current_metric.to_f.nan? || prev_metric.to_f.nan? || prev_metric.zero?
+
     (((current_metric.to_f / prev_metric.to_f) - 1) * 100).round
   end
 
@@ -123,7 +125,7 @@ class DepartmentPresenter
         name: deliverable.name,
         metric_unit: deliverable.metric_unit,
         metric_type: deliverable.metric_type,
-        metrics: metric_data(deliverable.metrics),
+        percent_metric_changes: percent_changes(metric_data(deliverable.metrics), :metric),
         id: deliverable.id
       }
     end

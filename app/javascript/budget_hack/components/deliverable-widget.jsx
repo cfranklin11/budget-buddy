@@ -12,7 +12,7 @@ export default class DeliverableWidget extends Component {
   static propTypes = {
     deliverable: PropTypes.shape({
       name: PropTypes.string,
-      metrics: PropTypes.arrayOf(PropTypes.object),
+      percent_metric_changes: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
     budgetChanges: PropTypes.arrayOf(PropTypes.object),
   }
@@ -39,20 +39,23 @@ export default class DeliverableWidget extends Component {
 
   lineChartData = (budgetChanges, metricChanges) => {
     const chartData = budgetChanges.map((budget, index) => {
-      const metric = metricChanges.length > index ?
-        metricChanges[index].metric :
-        0;
-      return { year: budget.year, budget: budget.budget, metric };
+      return {
+        year: budget.year,
+        budget: budget.percent_change,
+        metric: metricChanges[index] ? metricChanges[index].percent_change : 0,
+      };
     });
 
     return chartData;
   }
 
   render () {
-    const { deliverable: { name, metrics }, budgetChanges } = this.props;
-    const chartData = this.lineChartData(
-      budgetChanges,
-      this.percentMetricChange(metrics));
+    const { budgetChanges,
+      deliverable: {
+        name,
+        percent_metric_changes,
+      } } = this.props;
+    const chartData = this.lineChartData(budgetChanges, percent_metric_changes);
 
     return (
       <div>
