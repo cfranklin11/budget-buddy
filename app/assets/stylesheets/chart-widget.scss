@@ -22,6 +22,9 @@
   display: flex;
   align-content: center;
   padding: 10px 30px;
+  .program-list & {
+    background-color: #c5d6ce;
+  }
 }
 
 .chart-header__percentage-number {

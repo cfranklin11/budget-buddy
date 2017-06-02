@@ -1,3 +1,5 @@
+/* eslint no-console: 0 */
+
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { XAxis,
@@ -48,6 +50,10 @@ export default class DeliverableWidget extends Component {
     return chartData;
   }
 
+  removeDeliverable = (name) => {
+    console.log('removing this deliverable: ', name);
+  }
+
   render () {
     const { deliverable: { name, metrics }, budgets } = this.props;
     const chartData = this.lineChartData(
@@ -56,9 +62,19 @@ export default class DeliverableWidget extends Component {
 
     return (
       <div>
-        <span className="deliverable-chart-header__title">
-          { name } [ Delete deliverable ]
-        </span>
+
+        <div className="deliverable-chart-header">
+          <span className="deliverable-chart-header__title">
+            { name }
+          </span>
+          <button
+            className="button--remove-deliverable"
+            onClick={ this.removeDeliverable(name) }>
+            <i className="material-icons">remove_circle_outline</i>
+            Remove deliverable
+          </button>
+        </div>
+
         <div>
           { chartData && chartData.length > 0 && (
             <div className="deliverable-widget">
