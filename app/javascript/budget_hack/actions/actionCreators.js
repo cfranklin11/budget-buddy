@@ -14,7 +14,7 @@ export function removeProgram (name) {
   };
 }
 
-function receiveData (state, json, dataProperty, dataLabel) {
+function receiveData (json, dataProperty, dataLabel) {
   if (dataLabel) {
     return {
       type: 'RECEIVE_DEPARTMENT_DATA',
@@ -29,7 +29,7 @@ function receiveData (state, json, dataProperty, dataLabel) {
   };
 }
 
-function fetchData (state, dataProperty, dataLabel) {
+export function fetchData (dataProperty, dataLabel) {
   return (dispatch) => {
     const url = dataLabel ?
       `/data/${dataProperty}?department_name=${dataLabel}` :
@@ -38,32 +38,7 @@ function fetchData (state, dataProperty, dataLabel) {
     return fetch(url)
       .then((response) => { return response.json(); })
       .then((json) => {
-        dispatch(receiveData(state, json, dataProperty, dataLabel));
+        dispatch(receiveData(json, dataProperty, dataLabel));
       });
-  };
-}
-
-function shouldFetchData (state, checkLabel) {
-  const { data, isFetching } = state[checkLabel] ||
-    { data: [], isFetching: false };
-  if (!data) {
-    return true;
-  }
-  if (data.length === 0) {
-    return true;
-  }
-  if (isFetching) {
-    return false;
-  }
-  return true;
-}
-
-export function fetchDataIfNeeded (dataProperty, dataLabel) {
-  return (dispatch, getState) => {
-    if (shouldFetchData(getState(), dataProperty)) {
-      return dispatch(fetchData(getState(), dataProperty, dataLabel));
-    }
-
-    return null;
   };
 }
