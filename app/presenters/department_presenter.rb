@@ -27,36 +27,45 @@ class DepartmentPresenter
     }
   end
 
-  def current_program_budgets(programs)
+  def current_program_budgets(programs = [])
     programs.map do |program|
       { name: program[:name], budget: current_metric(program[:budgets], :budget) || 0 }
     end
   end
 
-  def current_metric(metrics, label)
+  # For getting budget/metric from most-recent year
+  def current_metric(metrics = [], label = '')
     current_year = selected_year(metrics, metrics.count - 1)
+
+    return nil unless current_year.present?
     filtered_metrics = metrics.select { |metric| metric[:year].to_i == current_year }
+
+    return nil unless filtered_metrics.any?
     filtered_metrics.first.fetch(label.to_sym)
   end
 
-  def selected_year(metrics, index)
+  def selected_year(metrics = [], index = 0)
     years = metrics.map { |metric| metric[:year].to_i }
+
+    return nil unless years.any?
     years.sort[index]
   end
 
-  def prev_metric(metrics, label)
+  # For getting metric/budget from previous year
+  def prev_metric(metrics = [], label = '')
     prev_year = selected_year(metrics, metrics.count - 2)
     filtered_metrics = metrics.select { |metric| metric[:year].to_i == prev_year }
+
+    return nil unless filtered_metrics.any?
     filtered_metrics.first.fetch(label.to_sym)
   end
 
-  def percent_change(current_metric, prev_metric)
+  def percent_change(current_metric = NaN, prev_metric = NaN)
     return 0 if current_metric.to_f.nan? || prev_metric.to_f.nan? || prev_metric.zero?
-
     (((current_metric.to_f / prev_metric.to_f) - 1) * 100).round
   end
 
-  def program_data(programs)
+  def program_data(programs = [])
     programs.map do |program|
       budgets_array = budget_data(program.budgets)
       current_budget = current_metric(budgets_array, :budget)
@@ -75,7 +84,8 @@ class DepartmentPresenter
     end
   end
 
-  def percent_changes(metrics, label)
+  # Calculates percent-change per year from first year's budget/metric
+  def percent_changes(metrics = [], label = '')
     oldest = oldest_metric(metrics, label)
     metric_changes = metrics.map do |metric|
       { year: metric[:year], percent_change: percent_change(metric.fetch(label.to_sym), oldest) }
@@ -84,16 +94,22 @@ class DepartmentPresenter
     metric_changes.sort { |a, b| a[:year] <=> b[:year] }
   end
 
-  def oldest_metric(metrics, label)
+  # Gets budget/metric from oldest available year
+  def oldest_metric(metrics = [], label = '')
     min_year = selected_year(metrics, 0)
     filtered_metrics = metrics.select { |metric| metric[:year].to_i == min_year }
+
+    return nil unless filtered_metrics.any?
     filtered_metrics.first.fetch(label.to_sym)
   end
 
-  def metrics_by_year(program)
+  # Organises all quantity metrics within a program by year to get data for percent_metric_changes
+  def metrics_by_year(program = {})
     metrics = quantity_deliverables(program.deliverables)
       .map(&:metrics)
       .reduce([]) { |array, n| array.concat(n) }
+
+    return [] unless metrics.any?
 
     metric_array = []
     year_metrics(metrics).each_pair { |key, value| metric_array << { year: key, metric: value } }
@@ -101,11 +117,12 @@ class DepartmentPresenter
     metric_array
   end
 
-  def quantity_deliverables(deliverables)
+  def quantity_deliverables(deliverables = [])
     deliverables.select { |deliverable| deliverable[:metric_type] == 'Quantity' }
   end
 
-  def year_metrics(metrics)
+  # Add up all metric values from a given year and return hash with totals by year
+  def year_metrics(metrics = [])
     metric_hash = {}
 
     metrics.each do |metric|
@@ -119,7 +136,7 @@ class DepartmentPresenter
     metric_hash
   end
 
-  def deliverable_data(deliverables)
+  def deliverable_data(deliverables = [])
     deliverables.map do |deliverable|
       {
         name: deliverable.name,
@@ -131,7 +148,7 @@ class DepartmentPresenter
     end
   end
 
-  def budget_data(budgets)
+  def budget_data(budgets = [])
     budgets.map do |budget|
       {
         budget: budget.budget,
@@ -141,7 +158,7 @@ class DepartmentPresenter
     end
   end
 
-  def metric_data(metrics)
+  def metric_data(metrics = [])
     metrics.map do |metric|
       {
         metric: metric.metric,
