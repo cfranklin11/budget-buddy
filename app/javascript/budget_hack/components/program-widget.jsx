@@ -50,6 +50,13 @@ export default class ProgramWidget extends Component {
     });
   }
 
+  removeDeliverable = (deliverable) => {
+    console.log(deliverable);
+     this.setState({
+      addedDeliverables: this.state.addedDeliverables.filter((deliverableItem) => { return (deliverableItem.name !== deliverable); }),
+    });
+  }
+
   removeProgram = (name) => {
     return () => {
       this.props.removeProgram(name);
@@ -165,7 +172,8 @@ export default class ProgramWidget extends Component {
               <DeliverableWidget
                 key={ deliverable.id }
                 deliverable={ deliverable }
-                budgetChanges={ percent_budget_changes } />
+                budgetChanges={ percent_budget_changes }
+                removeDeliverable={ this.removeDeliverable } />
             );
           }) }
         </ul>

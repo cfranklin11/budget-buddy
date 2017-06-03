@@ -9,22 +9,22 @@ export default class DepartmentList extends Component {
       list: PropTypes.arrayOf(PropTypes.string),
       addedPrograms: PropTypes.arrayOf(PropTypes.object),
     }),
-    fetchDataIfNeeded: PropTypes.func,
+    fetchData: PropTypes.func,
   };
 
   static defaultProps = {
     departments: {},
-    fetchDataIfNeeded: () => { return 'Unable to check data'; },
+    fetchData: () => { return 'Unable to check data'; },
   };
 
   componentDidMount () {
-    this.props.fetchDataIfNeeded('departments');
+    this.props.fetchData('departments');
   }
 
   showDepartment = (name) => {
-    const { fetchDataIfNeeded } = this.props;
+    const { fetchData } = this.props;
     return () => {
-      fetchDataIfNeeded('department', name);
+      fetchData('department', name);
     };
   }
 

@@ -11,6 +11,7 @@ import lineChartData from '../utils/data-utils';
 
 export default class DeliverableWidget extends Component {
   static propTypes = {
+    removeDeliverable: PropTypes.func,
     deliverable: PropTypes.shape({
       name: PropTypes.string,
       percent_metric_changes: PropTypes.arrayOf(PropTypes.object),
@@ -20,6 +21,7 @@ export default class DeliverableWidget extends Component {
 
   static defaultProps = {
     budgetChanges: [],
+    removeDeliverable: () => { return null; },
   }
 
   percentMetricChange = (metrics) => {
@@ -38,6 +40,12 @@ export default class DeliverableWidget extends Component {
     return percentChanges;
   }
 
+  removeDeliverable = (name) => {
+    return () => {
+      this.props.removeDeliverable(name);
+    };
+  }
+
   render () {
     const { budgetChanges,
       deliverable: {
@@ -48,9 +56,19 @@ export default class DeliverableWidget extends Component {
 
     return (
       <div>
-        <span className="deliverable-chart-header__title">
-          { name } [ Delete deliverable ]
-        </span>
+
+        <div className="deliverable-chart-header">
+          <span className="deliverable-chart-header__title">
+            { name }
+          </span>
+          <button
+            className="button--remove-deliverable"
+            onClick={ this.removeDeliverable(name) }>
+            <i className="material-icons">remove_circle_outline</i>
+            Remove deliverable
+          </button>
+        </div>
+
         <div>
           { chartData && chartData.length > 0 && (
             <div className="deliverable-widget">
