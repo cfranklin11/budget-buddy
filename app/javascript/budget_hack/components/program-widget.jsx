@@ -12,6 +12,7 @@ import { BarChart,
   ResponsiveContainer,
   LineChart,
   Line } from 'recharts';
+import lineChartData from '../utils/data-utils';
 import DeliverableList from './deliverable-list';
 import DeliverableWidget from './deliverable-widget';
 
@@ -22,6 +23,10 @@ export default class ProgramWidget extends Component {
       budgets: PropTypes.arrayOf(PropTypes.object),
       name: PropTypes.string,
       deliverables: PropTypes.arrayOf(PropTypes.object),
+      percent_budget_change: PropTypes.number,
+      current_budget: PropTypes.number,
+      percent_budget_changes: PropTypes.arrayOf(PropTypes.object),
+      percent_metric_changes: PropTypes.arrayOf(PropTypes.object),
     }).isRequired,
   }
 
@@ -32,87 +37,6 @@ export default class ProgramWidget extends Component {
   state = {
     isDelListVisible: false,
     addedDeliverables: [],
-  }
-
-  percentBudgetChange = (budgets) => {
-    const firstBudget = parseFloat(budgets[0].budget);
-    const firstBudgetNumber = isNaN(firstBudget) ? 1 : firstBudget;
-
-    const percentChanges = budgets.map((budget) => {
-      const thisBudget = parseFloat(budget.budget);
-      const budgetNumber = isNaN(thisBudget) ? 0 : thisBudget;
-      const percentChange = Math.round(
-        ((budgetNumber / firstBudgetNumber) - 1) * 100);
-
-      return { year: budget.year, budget: percentChange };
-    });
-
-    return percentChanges;
-  }
-
-  percentMetricChange = (metrics) => {
-    const firstMetric = (metrics && metrics.length > 0 &&
-      parseFloat(metrics[0].metric)) || 0;
-    const firstMetricNumber = isNaN(firstMetric) ? 1 : firstMetric;
-
-    const percentChanges = metrics.map((metric) => {
-      const thisMetric = parseFloat(metric.metric);
-      const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-      const percentChange = Math.round(
-        ((metricNumber / firstMetricNumber) - 1) * 100);
-
-      return { year: metric.year, metric: percentChange };
-    });
-
-    return percentChanges;
-  }
-
-  lineChartData = (budgetChanges, metricChanges) => {
-    const chartData = budgetChanges.map((budget, index) => {
-      const metric = metricChanges.length > index ?
-      metricChanges[index].metric :
-      0;
-
-      return { year: budget.year, budget: budget.budget, metric };
-    });
-
-    return chartData;
-  }
-
-  metricsByYear = (deliverables) => {
-    const qtyDeliverables = deliverables.filter((deliverable) => {
-      return deliverable.metric_type === 'Quantity';
-    });
-    const qtyMetrics = qtyDeliverables.map((deliverable) => {
-      return deliverable.metrics;
-    }).reduce((acc, curr) => {
-      return acc.concat(curr);
-    }, []);
-    const metricObj = {};
-
-    for (let i = 0; i < qtyMetrics.length; i += 1) {
-      const metric = qtyMetrics[i];
-      const thisMetric = parseFloat(metric.metric);
-      const metricNumber = isNaN(thisMetric) ? 0 : thisMetric;
-
-      if (metricObj[metric.year]) {
-        metricObj[metric.year] += metricNumber;
-      } else {
-        metricObj[metric.year] = metricNumber;
-      }
-    }
-
-    const metricArray = [];
-    const keys = Object.keys(metricObj);
-
-    for (let i = 0; i < keys.length; i += 1) {
-      metricArray[metricArray.length] = {
-        year: keys[i],
-        metric: metricObj[keys[i]],
-      };
-    }
-
-    return metricArray;
   }
 
   showDeliverables = () => {
@@ -134,30 +58,15 @@ export default class ProgramWidget extends Component {
 
   render () {
     const { isDelListVisible, addedDeliverables } = this.state;
-    const { program: { budgets, name, deliverables } } = this.props;
-    const currentBudgets = budgets
-      .filter((budget) => {
-        return budget.year === 2017;
-      })
-      .map((budget) => { return budget.budget; });
-    const currentBudget = currentBudgets.length > 0 ?
-      currentBudgets.reduce((acc, curr) => { return acc + curr; }) :
-      0;
-    const prevBudgets = budgets
-      .filter((budget) => {
-        return budget.year === 2016;
-      })
-      .map((budget) => { return budget.budget; });
-    const prevBudget = prevBudgets.length > 0 ?
-      prevBudgets.reduce((acc, curr) => { return acc + curr; }) :
-      0;
-    const change = Math.round(
-      ((parseFloat(currentBudget) / parseFloat(prevBudget)) - 1) * 100);
-    const metrics = this.metricsByYear(deliverables);
-    const percentBudgetChanges = this.percentBudgetChange(budgets);
-    const chartData = this.lineChartData(
-      percentBudgetChanges,
-      this.percentMetricChange(metrics));
+    const { program: {
+      budgets,
+      name,
+      deliverables,
+      percent_budget_change,
+      percent_budget_changes,
+      percent_metric_changes,
+      current_budget } } = this.props;
+    const chartData = lineChartData(percent_budget_changes, percent_metric_changes);
 
     return (
       <div className="program-widget-area">
@@ -177,7 +86,7 @@ export default class ProgramWidget extends Component {
             <div className="chart-header">
               <div className="chart-header__budget-amount">
                 <span>
-                  {`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}
+                  {`Budget 2016 / 2017: $${parseInt(current_budget, 10)} million`}
                 </span>
               </div>
               <div className="chart-header__percentage-change">
@@ -185,7 +94,7 @@ export default class ProgramWidget extends Component {
                   Change from previous year
                   <span
                     className="chart-header__percentage-number">
-                    {`${change}%`}
+                    {`${percent_budget_change}%`}
                   </span>
                 </span>
               </div>
@@ -256,7 +165,7 @@ export default class ProgramWidget extends Component {
               <DeliverableWidget
                 key={ deliverable.id }
                 deliverable={ deliverable }
-                budgets={ percentBudgetChanges } />
+                budgetChanges={ percent_budget_changes } />
             );
           }) }
         </ul>
