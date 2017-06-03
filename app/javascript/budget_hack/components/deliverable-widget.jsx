@@ -11,6 +11,7 @@ import lineChartData from '../utils/data-utils';
 
 export default class DeliverableWidget extends Component {
   static propTypes = {
+    removeDeliverable: PropTypes.func,
     deliverable: PropTypes.shape({
       name: PropTypes.string,
       percent_metric_changes: PropTypes.arrayOf(PropTypes.object),
@@ -20,6 +21,7 @@ export default class DeliverableWidget extends Component {
 
   static defaultProps = {
     budgetChanges: [],
+    removeDeliverable: () => { return null; },
   }
 
   percentMetricChange = (metrics) => {
@@ -39,7 +41,9 @@ export default class DeliverableWidget extends Component {
   }
 
   removeDeliverable = (name) => {
-    console.log('removing this deliverable: ', name);
+    return () => {
+      this.props.removeDeliverable(name);
+    };
   }
 
   render () {
