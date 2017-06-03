@@ -2,7 +2,7 @@
   "name": "budget-hack-2017",
   "scripts": {
     "dev-start": "./bin/webpack-dev-server",
-    "precommit": "lint-staged"
+    "prepush": "lint-staged"
   },
   "lint-staged": {
     "app/**/*.{js,jsx}": ["./node_modules/.bin/eslint"],
