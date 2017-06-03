@@ -7,7 +7,7 @@ FactoryGirl.define do
     metric_unit 'number'
 
     transient do
-      metrics_count 1
+      metrics_count 5
     end
 
     after(:create) do |deliverable, evaluator|
