@@ -16,5 +16,8 @@ Metrics/LineLength:
 Metrics/MethodLength:
   Max: 20
 
+metrics/ClassLength:
+  Max: 150
+
 Style/MultilineMethodCallIndentation:
   EnforcedStyle: indented

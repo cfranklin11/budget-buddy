@@ -6,7 +6,7 @@ FactoryGirl.define do
     description 'A program to promote awesomeness'
 
     transient do
-      budgets_count 1
+      budgets_count 5
       deliverables_count 1
     end
 

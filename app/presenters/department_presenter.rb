@@ -16,40 +16,139 @@ class DepartmentPresenter
   private
 
   def department_data(department_record)
+    programs = program_data(department_record.programs)
     {
       name: department_record.name,
       current_budget: department_record.current_budget,
-      prev_budget: department_record.prev_budget,
+      percent_budget_change: percent_change(department_record.current_budget, department_record.prev_budget),
       id: department_record.id,
-      programs: program_data(department_record.programs)
+      programs: programs,
+      chart_data: current_program_budgets(programs)
     }
   end
 
-  def program_data(programs)
+  def current_program_budgets(programs = [])
     programs.map do |program|
+      { name: program[:name], budget: current_metric(program[:budgets], :budget) || 0 }
+    end
+  end
+
+  # For getting budget/metric from most-recent year
+  def current_metric(metrics = [], label = '')
+    current_year = selected_year(metrics, metrics.count - 1)
+
+    return nil unless current_year.present?
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == current_year }
+
+    return nil unless filtered_metrics.any?
+    filtered_metrics.first.fetch(label.to_sym)
+  end
+
+  def selected_year(metrics = [], index = 0)
+    years = metrics.map { |metric| metric[:year].to_i }
+
+    return nil unless years.any?
+    years.sort[index]
+  end
+
+  # For getting metric/budget from previous year
+  def prev_metric(metrics = [], label = '')
+    prev_year = selected_year(metrics, metrics.count - 2)
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == prev_year }
+
+    return nil unless filtered_metrics.any?
+    filtered_metrics.first.fetch(label.to_sym)
+  end
+
+  def percent_change(current_metric = NaN, prev_metric = NaN)
+    return 0 if current_metric.to_f.nan? || prev_metric.to_f.nan? || prev_metric.zero?
+    (((current_metric.to_f / prev_metric.to_f) - 1) * 100).round
+  end
+
+  def program_data(programs = [])
+    programs.map do |program|
+      budgets_array = budget_data(program.budgets)
+      current_budget = current_metric(budgets_array, :budget)
+
       {
         description: program.description,
         name: program.name,
         id: program.id,
-        budgets: budget_data(program.budgets),
-        deliverables: deliverable_data(program.deliverables)
+        current_budget: current_budget,
+        percent_budget_change: percent_change(current_budget, prev_metric(budgets_array, :budget)),
+        budgets: budgets_array,
+        deliverables: deliverable_data(program.deliverables),
+        percent_budget_changes: percent_changes(budgets_array, :budget),
+        percent_metric_changes: percent_changes(metrics_by_year(program), :metric)
       }
     end
   end
 
-  def deliverable_data(deliverables)
+  # Calculates percent-change per year from first year's budget/metric
+  def percent_changes(metrics = [], label = '')
+    oldest = oldest_metric(metrics, label)
+    metric_changes = metrics.map do |metric|
+      { year: metric[:year], percent_change: percent_change(metric.fetch(label.to_sym), oldest) }
+    end
+
+    metric_changes.sort { |a, b| a[:year] <=> b[:year] }
+  end
+
+  # Gets budget/metric from oldest available year
+  def oldest_metric(metrics = [], label = '')
+    min_year = selected_year(metrics, 0)
+    filtered_metrics = metrics.select { |metric| metric[:year].to_i == min_year }
+
+    return nil unless filtered_metrics.any?
+    filtered_metrics.first.fetch(label.to_sym)
+  end
+
+  # Organises all quantity metrics within a program by year to get data for percent_metric_changes
+  def metrics_by_year(program = {})
+    metrics = quantity_deliverables(program.deliverables)
+      .map(&:metrics)
+      .reduce([]) { |array, n| array.concat(n) }
+
+    return [] unless metrics.any?
+
+    metric_array = []
+    year_metrics(metrics).each_pair { |key, value| metric_array << { year: key, metric: value } }
+
+    metric_array
+  end
+
+  def quantity_deliverables(deliverables = [])
+    deliverables.select { |deliverable| deliverable[:metric_type] == 'Quantity' }
+  end
+
+  # Add up all metric values from a given year and return hash with totals by year
+  def year_metrics(metrics = [])
+    metric_hash = {}
+
+    metrics.each do |metric|
+      if metric_hash[metric[:year]].present?
+        metric_hash[metric[:year]] += metric[:metric]
+      else
+        metric_hash[metric[:year]] = metric[:metric]
+      end
+    end
+
+    metric_hash
+  end
+
+  def deliverable_data(deliverables = [])
     deliverables.map do |deliverable|
       {
         name: deliverable.name,
         metric_unit: deliverable.metric_unit,
         metric_type: deliverable.metric_type,
-        metrics: metric_data(deliverable.metrics),
+        percent_metric_changes: percent_changes(metric_data(deliverable.metrics), :metric),
         id: deliverable.id
       }
     end
   end
 
-  def budget_data(budgets)
+  def budget_data(budgets = [])
     budgets.map do |budget|
       {
         budget: budget.budget,
@@ -59,7 +158,7 @@ class DepartmentPresenter
     end
   end
 
-  def metric_data(metrics)
+  def metric_data(metrics = [])
     metrics.map do |metric|
       {
         metric: metric.metric,

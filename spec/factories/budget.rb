@@ -2,7 +2,12 @@
 
 FactoryGirl.define do
   factory :budget do
-    budget 1000
-    year 2017
+    sequence :budget do |n|
+      1000 + (n * 10)
+    end
+
+    sequence :year do |n|
+      2017 - n
+    end
   end
 end
