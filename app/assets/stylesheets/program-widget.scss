@@ -5,7 +5,7 @@
 .program-chart-header {
   background-color: #95ebd7;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
 }
 .program-chart-header__title {
@@ -19,4 +19,8 @@
 
 .program-percentage-change {
   margin: 0 20px;
+}
+.program-widget-list {
+  padding: 0;
+	margin: 0;
 }

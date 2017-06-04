@@ -34,53 +34,7 @@
 	padding: 0;
 	margin: 0;
 }
-
-.button--add-programs {
-	width: 200px;
-	margin: 16px auto;
-	color: #4a4a4a;
-	border: none;
-	outline: none;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 16px;
-	.material-icons {
-		margin-right: 8px;
-		font-size: 40px;
-	}
-}
-.button--remove-programs {
-	width: 120px;
-	margin: 16px auto;
-	color: red;
-	border: none;
-	outline: none;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 13px;
-	.material-icons {
-		margin-right: 4px;
-		font-size: 40px;
-		color: red;
-	}
-}
-.button--share {
-	width: 200px;
-	margin: 16px auto;
-	color: #fff;
-	height: 48px;
-	border-radius: 10px;
-	background-color: #4a90e2;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 18px;
-	span {
-		margin-right: 8px;
-	}
-}
+ 
 
 .select-program-area {
 	display: flex;
