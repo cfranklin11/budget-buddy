@@ -109,6 +109,19 @@ export default class DepartmentWidget extends Component {
                 <span> Add a Program</span>
               </button>
             </div>
+
+            <ul className="program-widget-list">
+              { addedPrograms.map((program) => {
+                return (
+                  <ProgramWidget
+                    removeProgram={ removeProgram }
+                    key={ program.id }
+                    program={ program }
+                    addDeliverable={ this.addDeliverable } />
+                );
+              })
+              }
+            </ul>
           </div>
         ) }
 
@@ -117,19 +130,6 @@ export default class DepartmentWidget extends Component {
             programs={ programs }
             addProgram={ this.addProgram } />
         }
-
-        <ul className="program-widget-list">
-          { addedPrograms.map((program) => {
-            return (
-              <ProgramWidget
-                removeProgram={ removeProgram }
-                key={ program.id }
-                program={ program }
-                addDeliverable={ this.addDeliverable } />
-            );
-          })
-          }
-        </ul>
       </div>
     );
   }

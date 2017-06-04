@@ -7,7 +7,7 @@ const ProgramList = ({ programs, addProgram }) => {
         <ul className="list">
           { programs.map((program) => {
             return (
-              <li className="list__item" key={ program.id }>
+              <li className="list__item" key={ program.name }>
                 <button
                   aria-label={ program.name }
                   onClick={ addProgram(program.name) }>
