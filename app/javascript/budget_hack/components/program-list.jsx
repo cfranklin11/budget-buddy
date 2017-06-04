@@ -2,7 +2,7 @@ import React from 'react';
 
 const ProgramList = ({ programs, addProgram }) => {
   return (
-    <div className="content-wrapper" style={ { outline: '2px solid pink' } } >
+    <div className="content-wrapper program-list-modal">
       <div className="list-wrapper is--programs" >
         <ul className="list">
           { programs.map((program) => {
