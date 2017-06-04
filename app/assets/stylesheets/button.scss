@@ -1,0 +1,46 @@
+
+/*
+  Buttons
+*/
+
+button,
+.button {
+	border: 2px solid #f2f2f2;
+	background: none;
+	display: inline-block;
+	line-height: 2;
+	text-decoration: none;
+	padding: 5px;
+	text-align: center;
+	font-size: 15px;
+	color: #2e4a6a;
+	transition: all 0.2s;
+	box-sizing: padding-box;
+	display: flex;
+	align-items: center;
+
+	&.button--action {
+		border-radius: 8px;
+		border: 2px solid #595f6f;
+		margin: 8px auto;
+	}
+
+	&.button--remove-item {
+		border: 0;
+	}
+}
+
+button:hover,
+.button:hover,
+button:focus,
+.button:focus {
+	border-color: #00f;
+	outline: 0;
+}
+
+.menu-button-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin: 16px auto;
+}

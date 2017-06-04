@@ -15,6 +15,7 @@ import { BarChart,
 import lineChartData from '../utils/data-utils';
 import DeliverableList from './deliverable-list';
 import DeliverableWidget from './deliverable-widget';
+import Button from './button';
 
 export default class ProgramWidget extends Component {
   static propTypes = {
@@ -86,10 +87,9 @@ export default class ProgramWidget extends Component {
             { name }
           </div>
           <button
-            className="button--remove-programs"
+            className="button--remove-item"
             onClick={ this.removeProgram(name) }>
-            <i className="material-icons">remove_circle_outline</i>
-            Remove program
+            <i className="material-icons">delete_forever</i>
           </button>
         </div>
         { !isDelListVisible && (
@@ -160,7 +160,7 @@ export default class ProgramWidget extends Component {
               addDeliverable={ this.addDeliverable } />
           </div>
         ) }
-        <div className="select-program-area">
+        {/* <div className="select-program-area">
           <button
             className="button--add-programs"
             type="button"
@@ -168,7 +168,18 @@ export default class ProgramWidget extends Component {
             <i className="material-icons">add_circle_outline</i>
             <span> Add a Deliverable</span>
           </button>
+        </div> */}
+
+        <div className="menu-button-actions">
+          <Button
+            label="Add a Deliverable"
+            icon="add_circle_outline"
+            onClick={ this.showDeliverables } />
+
+          <Button label="share" icon="share" />
         </div>
+
+
         <ul className="program-list">
           { addedDeliverables.map((deliverable) => {
             return (

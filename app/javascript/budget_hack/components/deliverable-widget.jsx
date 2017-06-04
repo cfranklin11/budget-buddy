@@ -56,16 +56,14 @@ export default class DeliverableWidget extends Component {
 
     return (
       <div>
-
         <div className="deliverable-chart-header">
           <span className="deliverable-chart-header__title">
             { name }
           </span>
           <button
-            className="button--remove-deliverable"
+            className="button--remove-item"
             onClick={ this.removeDeliverable(name) }>
-            <i className="material-icons">remove_circle_outline</i>
-            Remove deliverable
+            <i className="material-icons">delete_forever</i>
           </button>
         </div>
 

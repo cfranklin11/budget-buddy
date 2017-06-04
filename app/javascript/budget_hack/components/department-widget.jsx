@@ -8,8 +8,6 @@ import { BarChart,
   Legend,
   Bar,
   ResponsiveContainer } from 'recharts';
-import ProgramWidget from './program-widget';
-import ProgramList from './program-list';
 
 export default class DepartmentWidget extends Component {
   static propTypes = {
@@ -17,44 +15,18 @@ export default class DepartmentWidget extends Component {
       currentDepartment: PropTypes.string,
       department: PropTypes.object,
       list: PropTypes.arrayOf(PropTypes.string),
-      addedPrograms: PropTypes.arrayOf(PropTypes.object),
     }),
-    addProgram: PropTypes.func,
-    removeProgram: PropTypes.func,
   }
-
   static defaultProps = {
     departments: {},
-    addProgram: () => { return null; },
-    removeProgram: () => { return null; },
-  }
-
-  constructor () {
-    super();
-
-    this.state = {
-      isProgListVisible: false,
-    };
-  }
-
-  showPrograms = () => {
-    this.setState({ isProgListVisible: true });
-  }
-
-  addProgram = (name) => {
-    return () => {
-      this.props.addProgram(name);
-      this.setState({ isProgListVisible: false });
-    };
   }
 
   render () {
-    const { isProgListVisible } = this.state;
     const {
-      departments: { department, addedPrograms },
-      removeProgram,
+      departments: { department },
     } = this.props;
-    const { name, programs, chart_data } = department || {};
+
+    const { name, chart_data } = department || {};
     const currentBudget = (department && department.current_budget) || 0;
     const percentBudgetChange =
       (department && department.percent_budget_change) || 0;
@@ -67,69 +39,37 @@ export default class DepartmentWidget extends Component {
           </i>
           { name }
         </h1>
-        { !isProgListVisible && (
-          <div>
-            <div className="chart-area">
-              <div className="chart-header">
-                <div className="chart-header__budget-amount">
-                  <span>
-                    {`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}
-                  </span>
-                </div>
-                <div className="chart-header__percentage-change">
-                  <span>
-                    Change from previous year
-                    <span className="chart-header__percentage-number">
-                      {`${percentBudgetChange}%`}
-                    </span>
-                  </span>
-                </div>
-              </div>
-              { chart_data && (
-                <div className="chart-widget">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart width={ 400 } height={ 250 } data={ chart_data }>
-                      <XAxis dataKey="name" />
-                      <YAxis />
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <Tooltip />
-                      <Legend />
-                      <Bar dataKey="budget" fill="#8884d8" />
-                    </BarChart>
-                  </ResponsiveContainer>
-                </div>
-              ) }
+        <div className="chart-area">
+          <div className="chart-header">
+            <div className="chart-header__budget-amount">
+              <span>
+                {`Budget 2016 / 2017: $${parseInt(currentBudget, 10)} million`}
+              </span>
             </div>
-            <div className="select-program-area">
-              <button
-                className="button--add-programs"
-                type="button"
-                onClick={ this.showPrograms }>
-                <i className="material-icons">add_circle_outline</i>
-                <span> Add a Program</span>
-              </button>
+            <div className="chart-header__percentage-change">
+              <span>
+                Change from previous year
+                <span className="chart-header__percentage-number">
+                  {`${percentBudgetChange}%`}
+                </span>
+              </span>
             </div>
-
-            <ul className="program-widget-list">
-              { addedPrograms.map((program) => {
-                return (
-                  <ProgramWidget
-                    removeProgram={ removeProgram }
-                    key={ program.id }
-                    program={ program }
-                    addDeliverable={ this.addDeliverable } />
-                );
-              })
-              }
-            </ul>
           </div>
-        ) }
-
-        { isProgListVisible &&
-          <ProgramList
-            programs={ programs }
-            addProgram={ this.addProgram } />
-        }
+          { chart_data && (
+            <div className="chart-widget">
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart width={ 400 } height={ 250 } data={ chart_data }>
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <Tooltip />
+                  <Legend />
+                  <Bar dataKey="budget" fill="#8884d8" />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          ) }
+        </div>
       </div>
     );
   }
