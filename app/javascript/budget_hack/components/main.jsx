@@ -34,7 +34,7 @@ export default class Main extends PureComponent {
     const { currentDepartment } = departments || {};
 
     return (
-      <div>
+
         <div className="page-wrap">
           {!currentDepartment && (
             <DepartmentList
@@ -47,8 +47,15 @@ export default class Main extends PureComponent {
               departments={ departments }
               addProgram={ addProgram } />
           )}
+          <div className="select-program-area">
+            <button className="button--share" type="button">
+              <span>Share</span>
+              <i className="material-icons">share</i>
+            </button>
+          </div>
+
         </div>
-      </div>
+
     );
   }
 }

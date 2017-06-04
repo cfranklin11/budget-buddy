@@ -51,9 +51,13 @@ export default class ProgramWidget extends Component {
   }
 
   removeDeliverable = (deliverable) => {
-    console.log(deliverable);
-     this.setState({
-      addedDeliverables: this.state.addedDeliverables.filter((deliverableItem) => { return (deliverableItem.name !== deliverable); }),
+    this.setState({
+      addedDeliverables: this.state.addedDeliverables
+      .filter(
+        (deliverableItem) => {
+          return (deliverableItem.name !== deliverable);
+        },
+      ),
     });
   }
 
@@ -123,7 +127,6 @@ export default class ProgramWidget extends Component {
                 </div>
               ) }
             </div>
-
             <div>
               { chartData && chartData.length > 0 && (
                 <div className="chart-widget">

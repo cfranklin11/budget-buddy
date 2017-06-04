@@ -9,6 +9,7 @@ import { BarChart,
   Bar,
   ResponsiveContainer } from 'recharts';
 import ProgramWidget from './program-widget';
+import ProgramList from './program-list';
 
 export default class DepartmentWidget extends Component {
   static propTypes = {
@@ -110,26 +111,14 @@ export default class DepartmentWidget extends Component {
             </div>
           </div>
         ) }
-        { isProgListVisible && (
-          <div className="content-wrapper">
-            <div className="list-wrapper is--programs" >
-              <ul className="list">
-                { programs.map((program) => {
-                  return (
-                    <li className="list__item" key={ program.id }>
-                      <button
-                        aria-label={ program.name }
-                        onClick={ this.addProgram(program.name) }>
-                        { program.name }
-                      </button>
-                    </li>
-                  );
-                }) }
-              </ul>
-            </div>
-          </div>
-        ) }
-        <ul className="program-list">
+
+        { isProgListVisible &&
+          <ProgramList
+            programs={ programs }
+            addProgram={ this.addProgram } />
+        }
+
+        <ul className="program-widget-list">
           { addedPrograms.map((program) => {
             return (
               <ProgramWidget
@@ -141,12 +130,6 @@ export default class DepartmentWidget extends Component {
           })
           }
         </ul>
-        <div className="select-program-area">
-          <button className="button--share" type="button">
-            <span>Share</span>
-            <i className="material-icons">share</i>
-          </button>
-        </div>
       </div>
     );
   }
