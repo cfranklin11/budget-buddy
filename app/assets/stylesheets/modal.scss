@@ -1,0 +1,21 @@
+.modal__container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: -32px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  z-index: 999;
+
+  bottom: 0;
+  overflow: scroll;
+  background-color: white;
+}
+
+.modal {
+  border: 2px solid gray;
+  z-index: 9999;
+  padding: 0 14px;
+  margin-top: 100px;
+}

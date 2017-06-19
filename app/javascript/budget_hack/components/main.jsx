@@ -5,6 +5,7 @@ import DepartmentWidget from './department-widget';
 import ProgramWidget from './program-widget';
 import ProgramList from './program-list';
 import Button from './button';
+import Modal from './modal';
 
 export default class Main extends PureComponent {
   static propTypes = {
@@ -41,7 +42,6 @@ export default class Main extends PureComponent {
   }
 
   showPrograms = () => {
-    console.log("showPrograms");
     this.setState({ isProgListVisible: true });
   }
 
@@ -65,24 +65,21 @@ export default class Main extends PureComponent {
             fetchData={ fetchData } />
         }
 
-        {currentDepartment && (
+        {currentDepartment &&
           <div>
             <DepartmentWidget
               removeProgram={ removeProgram }
               departments={ departments }
               addProgram={ addProgram } />
-
             <div className="menu-button-actions">
               <Button
                 label="Add a Program"
                 icon="add_circle_outline"
                 onClick={ this.showPrograms } />
-
               <Button label="share" icon="share" />
             </div>
-
           </div>
-          )}
+        }
 
         { departments.addedPrograms.length > 0 &&
           <ul className="program-widget-list">
@@ -95,15 +92,16 @@ export default class Main extends PureComponent {
                   addDeliverable={ this.addDeliverable } />
               );
             })
-            }
+          }
           </ul>
         }
+
         { isProgListVisible &&
-          <div>
+          <Modal>
             <ProgramList
               programs={ departments.department.programs }
               addProgram={ this.addProgram } />
-          </div>
+          </Modal>
         }
       </div>
     );

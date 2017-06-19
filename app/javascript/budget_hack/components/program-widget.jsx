@@ -150,47 +150,35 @@ export default class ProgramWidget extends Component {
                 </div>
               ) }
             </div>
+            <div className="menu-button-actions">
+              <Button
+                label="Add a Deliverable"
+                icon="add_circle_outline"
+                onClick={ this.showDeliverables } />
+
+              <Button label="share" icon="share" />
+            </div>
+
+            <ul className="deliverable-widget-list">
+              { addedDeliverables.map((deliverable) => {
+                return (
+                  <DeliverableWidget
+                    key={ deliverable.id }
+                    deliverable={ deliverable }
+                    budgetChanges={ percent_budget_changes }
+                    removeDeliverable={ this.removeDeliverable } />
+                );
+              }) }
+            </ul>
           </div>
         ) }
+
         { isDelListVisible && (
-          <div className="content-wrapper">
-            <DeliverableList
-              items={ deliverables }
-              addedDeliverables={ addedDeliverables }
-              addDeliverable={ this.addDeliverable } />
-          </div>
+          <DeliverableList
+            items={ deliverables }
+            addedDeliverables={ addedDeliverables }
+            addDeliverable={ this.addDeliverable } />
         ) }
-        {/* <div className="select-program-area">
-          <button
-            className="button--add-programs"
-            type="button"
-            onClick={ this.showDeliverables }>
-            <i className="material-icons">add_circle_outline</i>
-            <span> Add a Deliverable</span>
-          </button>
-        </div> */}
-
-        <div className="menu-button-actions">
-          <Button
-            label="Add a Deliverable"
-            icon="add_circle_outline"
-            onClick={ this.showDeliverables } />
-
-          <Button label="share" icon="share" />
-        </div>
-
-
-        <ul className="program-list">
-          { addedDeliverables.map((deliverable) => {
-            return (
-              <DeliverableWidget
-                key={ deliverable.id }
-                deliverable={ deliverable }
-                budgetChanges={ percent_budget_changes }
-                removeDeliverable={ this.removeDeliverable } />
-            );
-          }) }
-        </ul>
       </div>
     );
   }
